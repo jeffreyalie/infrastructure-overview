@@ -9,7 +9,7 @@
 - [Secret Values](#secret-values)
 - [How to Get LXD_CLIENT_CERT and LXD_CLIENT_KEY](#how-to-get-lxd_client_cert-and-lxd_client_key)
 - [How to Get ANSIBLE_SSH_PUBLIC_KEY](#how-to-get-ansible_ssh_public_key)
-- [How to Get Seaweed variables](#how-to-get-seaweed-keys)
+- [How to Get Seaweed S3_ACCESS_KEY](#how-to-get-seaweed-keys)
 - [How Secrets Flow into Terraform](#how-secrets-flow-into-terraform)
 - [Important Points](#important-points)
 
@@ -51,7 +51,7 @@
 | `LXD_CLIENT_KEY` | `cat ~/lxd-certs/gitea-runner.key` | PEM key content |
 | `S3_ACCESS_KEY` | Seaweed TF_ACCESS=bafd89b41f6b0db671dd |
 | `S3_SECRET_KEY` | Seaweed TF_SECRET=19d118af5ee3420fb47c1463d3aa34b82b992e28 |
-| `S3_ENDPOINT` | MinIO API server address | `http://10.206.213.241:8333` |
+| `S3_ENDPOINT` | Seaweed API server address | `http://10.206.213.241:8333` |
 | `ANSIBLE_SSH_PRIVATE_KEY` | `cat ~/.ssh/ansible_id_ed25519` | Private key content |
 | `ANSIBLE_SSH_PUBLIC_KEY` | `cat ~/.ssh/ansible_id_ed25519.pub` | Public key content |
 | `LXD_TRUST_PASSWORD` | Via LXD web UI | Set during LXD init ** only used if not usinng LXD certificates authentication** |
