@@ -9,6 +9,7 @@
 - [Secret Values](#secret-values)
 - [How to Get LXD_CLIENT_CERT and LXD_CLIENT_KEY](#how-to-get-lxd_client_cert-and-lxd_client_key)
 - [How to Get ANSIBLE_SSH_PUBLIC_KEY](#how-to-get-ansible_ssh_public_key)
+- [How to Get Seaweed variables](#how-to-get-seaweed-keys)
 - [How Secrets Flow into Terraform](#how-secrets-flow-into-terraform)
 - [Important Points](#important-points)
 
@@ -165,21 +166,21 @@ Click **Add Secret**.
 After / during installation of Seaweed we get four credentials variables:
 
 ### For webui access only (not used in GHA)
+
 ```
   WEED_ADMIN_USER=admin
   WEED_ADMIN_PASSWORD=c5703879fcb973b727484ada
-
 ```
 
 ### Used in GHA
+
 ```
   TF_ACCESS=bafd89b41f6b0db671dd
   TF_SECRET=19d118af5ee3420fb47c1463d3aa34b82b992e28
 
-Used in repo secret as:
-S3_ACCESS_KEY = TF_ACCESS
-S3_SECRET_KEY = TF_SECRET
-
+  Used in repo secret as:
+  S3_ACCESS_KEY = TF_ACCESS
+  S3_SECRET_KEY = TF_SECRET
 ```
 
 ---
