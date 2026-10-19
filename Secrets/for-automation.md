@@ -32,9 +32,9 @@
 | `LXD_ADDRESS` | LXD host IP address |
 | `LXD_CLIENT_CERT` | LXD client certificate |
 | `LXD_CLIENT_KEY` | LXD client private key |
-| `MINIO_ACCESS_KEY` | MinIO admin username |
-| `MINIO_SECRET_KEY` | MinIO admin password |
-| `MINIO_ENDPOINT` | MinIO API server address |
+| `S3_ACCESS_KEY` | Seaweed TF_ACCESS=bafd89b41f6b0db671dd |
+| `S3_SECRET_KEY` | Seaweed TF_SECRET=19d118af5ee3420fb47c1463d3aa34b82b992e28 |
+| `S3_ENDPOINT` | Seaweed API server address |
 | `ANSIBLE_SSH_PRIVATE_KEY` | SSH private key for Ansible |
 | `ANSIBLE_SSH_PUBLIC_KEY` | SSH public key for Ansible |
 | `LXD_TRUST_PASSWORD` | LXD trust password |
@@ -48,12 +48,12 @@
 | `LXD_ADDRESS` | `ip -4 addr` | `10.0.0.162` |
 | `LXD_CLIENT_CERT` | `cat ~/lxd-certs/gitea-runner.crt` | PEM certificate content |
 | `LXD_CLIENT_KEY` | `cat ~/lxd-certs/gitea-runner.key` | PEM key content |
-| `MINIO_ACCESS_KEY` | MinIO admin username | `minioadmin` |
-| `MINIO_SECRET_KEY` | MinIO admin password | `minioadmin` |
-| `MINIO_ENDPOINT` | MinIO API server address | `http://10.248.42.22:9000` |
+| `S3_ACCESS_KEY` | Seaweed TF_ACCESS=bafd89b41f6b0db671dd |
+| `S3_SECRET_KEY` | Seaweed TF_SECRET=19d118af5ee3420fb47c1463d3aa34b82b992e28 |
+| `S3_ENDPOINT` | MinIO API server address | `http://10.206.213.241:8333` |
 | `ANSIBLE_SSH_PRIVATE_KEY` | `cat ~/.ssh/ansible_id_ed25519` | Private key content |
 | `ANSIBLE_SSH_PUBLIC_KEY` | `cat ~/.ssh/ansible_id_ed25519.pub` | Public key content |
-| `LXD_TRUST_PASSWORD` | Via LXD web UI | Set during LXD init |
+| `LXD_TRUST_PASSWORD` | Via LXD web UI | Set during LXD init ** only used if not usinng LXD certificates authentication** |
 
 ---
 
@@ -116,12 +116,23 @@ This creates two files:
 - `~/.ssh/ansible_id_ed25519` — **private key** (keep safe, never share)
 - `~/.ssh/ansible_id_ed25519.pub` — **public key** (this goes into Gitea)
 
-### Step 2 — Copy the Public Key Content
+### Step 2 — Copy the Public and private Keys Content
 
 ```bash
 cat ~/.ssh/ansible_id_ed25519.pub
 # Output looks like:
 # ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI... ansible
+
+cat ~/.ssh/ansible_id_ed25519
+# Output looks like:
+# -----BEGIN OPENSSH PRIVATE KEY-----
+# b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+# QyNTUxOQAAACDl5gGhp+SGauJBBrFceeeRNwsO2fvt/HknBabL2DWK6QAAAJA/ww5MP8MO
+# TAAAAAtzc2gtZWQyNTUxOQAAACDl5gGhp+SGauJBBrFceeeRNwsO2fvt/HknBabL2DWK6Q
+# AAAEBVgtiDH22m4ZJt7cGehwffxqSJjnwAXnM0fhnyBrLHqOXmAaGn5IZq4kEGsVx555E3
+# Cw7Z++38eScFpsvYNYrpAAAAB2Fuc2libGUBAgMEBQY=
+# -----END OPENSSH PRIVATE KEY-----
+
 ```
 
 Copy that entire line.
@@ -142,8 +153,34 @@ Settings → Secrets and Variables → Actions → New Secret
 |-------|-------|
 | Name | `ANSIBLE_SSH_PUBLIC_KEY` |
 | Value | Paste the full public key line |
+| Name | `ANSIBLE_SSH_PRIVATE_KEY` |
+| Value | Paste the full public key line |
 
 Click **Add Secret**.
+
+---
+
+## How to get Seaweed keys
+
+After / during installation of Seaweed we get four credentials variables:
+
+### For webui access only (not used in GHA)
+```
+  WEED_ADMIN_USER=admin
+  WEED_ADMIN_PASSWORD=c5703879fcb973b727484ada
+
+```
+
+### Used in GHA
+```
+  TF_ACCESS=bafd89b41f6b0db671dd
+  TF_SECRET=19d118af5ee3420fb47c1463d3aa34b82b992e28
+
+Used in repo secret as:
+S3_ACCESS_KEY = TF_ACCESS
+S3_SECRET_KEY = TF_SECRET
+
+```
 
 ---
 
@@ -154,6 +191,11 @@ In the workflow file (`.gitea/workflows/terraform.yml`), the secret is reference
 ```yaml
 env:
   TF_VAR_ansible_ssh_public_key: ${{ secrets.ANSIBLE_SSH_PUBLIC_KEY }}
+
+or
+
+Defined in env: after job:
+
 ```
 
 **Flow:**
