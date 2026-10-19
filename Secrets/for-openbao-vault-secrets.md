@@ -16,7 +16,7 @@ Gitea Org Secrets
 
 ```
 
-## Pre steps - Add variables and secrets to vault - After installation:
+## Pre steps - Add variables and secrets to vault:
 Go to Bao server terminal:
 
 ### Initialize and unseal
@@ -39,10 +39,6 @@ bao operator unseal
 # --- Login with the root token ---
 bao login
 bao status
-
-# --- Credentials for Gitea org secrets for gitea org level---
-bao read  -field=role_id   auth/approle/role/gitea-ci/role-id
-bao write -f -field=secret_id auth/approle/role/gitea-ci/secret-id
 ```
 
 ### Get the Role ID (static, goes into Gitea org secret)
@@ -50,11 +46,12 @@ bao write -f -field=secret_id auth/approle/role/gitea-ci/secret-id
 bao read auth/approle/role/gitea-runner/role-id
 ```
 
-# Generate a Secret ID (also goes into Gitea org secret)
+### Generate a Secret ID (also goes into Gitea org secret)
 ```
 bao write -f auth/approle/role/gitea-runner/secret-id
-This will generate VAULT_ROLE_ID, VAULT_SECRET_ID that runner need to connect to openbau to get other secrets.
 ```
+
+This will generate VAULT_ROLE_ID, VAULT_SECRET_ID that runner need to connect to openbau to get other secrets.
 
 ## Step 1 - Setup Approl
 
@@ -147,14 +144,22 @@ bao kv get homelab/ansible
 ```
 
 ## Step 3  — Update Gitea Org Secrets
-Replace your 9 secrets with just 2:
-Old Secrets (9)
-New Secrets (2)
-LXD_ADDRESS, LXD_CLIENT_CERT, LXD_CLIENT_KEY, LXD_TRUST_PASSWORD, MINIO_ACCESS_KEY, MINIO_SECRET_KEY, MINIO_ENDPOINT, ANSIBLE_SSH_PRIVATE_KEY, ANSIBLE_SSH_PUBLIC_KEY
-VAULT_ROLE_ID, VAULT_SECRET_ID
 
+### Replace your 9 secrets with just 2:
+
+```
++------------------------------------------------+----------------------------------------+
+|               Old Secrets (9)                  |               New Secrets (2)          |
++------------------------------------------------+----------------------------------------+
+| LXD_ADDRESS, LXD_CLIENT_CERT, LXD_CLIENT_KEY,  |      VAULT_ROLE_ID, VAULT_SECRET_ID    |
+| LXD_TRUST_PASSWORD, MINIO_ACCESS_KEY,          |                                        |
+| S3_SECRET_KEY, S3_ENDPOINT,                    |                                        |
+| ANSIBLE_SSH_PRIVATE_KEY, ANSIBLE_SSH_PUBLIC_KEY|                                        |
++------------------------------------------------+----------------------------------------+
+```
 ### In Gitea → Infra org → Settings → Secrets:
+```
 VAULT_ROLE_ID   = <role-id from above>
 VAULT_SECRET_ID = <secret-id from above>
 VAULT_ADDR      = http://vault01.lxd:8200   # or make this a 3rd secret
-—-----------------------------------------------
+```
