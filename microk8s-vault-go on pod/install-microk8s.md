@@ -23,27 +23,30 @@
 # Update system packages
 sudo apt update && sudo apt upgrade -y
 
-# Install MicroK8s via Snap
+# Install MicroK8s via Snap (latest stable channel)
 sudo snap install microk8s --classic
 
-# Add your user to the MicroK8s group (no sudo needed)
+# Add your user to the microk8s group
 sudo usermod -a -G microk8s $USER
+
+# Create ~/.kube if it doesn't exist, then fix ownership
+mkdir -p ~/.kube
 sudo chown -f -R $USER ~/.kube
-```
 
-> Log out and back in for group changes to take effect.
+# Apply the new group membership in the current shell (or log out/in)
+newgrp microk8s
 
-```bash
-# Check cluster status
+# Wait until it's ready
 microk8s status --wait-ready
 ```
 
 ---
 
 ## Step 2 — Enable Essential Add-ons
+Add each add-on one by one. Not all in same.
 
 ```bash
-microk8s enable dns storage dashboard
+microk8s enable dns hostpath-storage registry ingress helm3 dashboard
 ```
 
 | Add-on | Purpose |
