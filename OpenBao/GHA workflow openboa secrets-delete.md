@@ -1,6 +1,6 @@
 GHA workflow openboa secrets
 
-## Gite secretes flow
+## Gite secretes flow - delete
 
 ```
 Gitea Org Secrets  
