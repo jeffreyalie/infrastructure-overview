@@ -1,4 +1,4 @@
-# OpenBao — Installation and Configuration
+# OpenBao — Installation and Configuration - delete
 
 > See also: [openbao-full-setup.md](./openbao-full-setup.md) for the complete TLS + Raft + Web UI setup (Phase 5 onwards are covered there).
 
