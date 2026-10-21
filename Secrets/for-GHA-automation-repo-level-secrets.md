@@ -1,4 +1,4 @@
-# Secrets — Variables and Configuration for Automation
+# GHA workflow secrets for runner at gitea repo level
 
 ---
 

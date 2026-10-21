@@ -4,27 +4,12 @@
 
 ## Table of Contents
 
-- [1. Required Directories](#1-required-directories)
-- [2. Create CA (Self-Signed)](#2-create-ca-self-signed)
-- [3. Create SAN Config](#3-create-san-config)
-- [4. Generate Server Key](#4-generate-server-key)
-- [5. Create CSR](#5-create-csr)
-- [6. Sign Certificate](#6-sign-certificate)
-- [7. Verify Files](#7-verify-files)
-- [8. OpenBao Config](#8-openbao-config)
-- [9. Fix systemd](#9-fix-systemd)
-- [10. Start OpenBao](#10-start-openbao)
-- [11. Set Local Access on Client Machine](#11-set-local-access-on-client-machine)
-- [12. Initialize OpenBao](#12-initialize-openbao-only-once)
-- [13. Unseal](#13-unseal)
-- [14. Check Status](#14-check-status)
-- [15. Access Web UI](#15-access-web-ui)
-- [16. Fix Unknown Authority Error](#16-fix-unknown-authority-error-optional)
-- [Phase 5 — AppRole Auth for Gitea Runner](#phase-5--approle-auth-for-gitea-runner)
-- [Phase 6 — Update Gitea Org Secrets](#phase-6--update-gitea-org-secrets)
-- [Phase 7 — Update GHA Workflows](#phase-7--update-gha-workflows)
-- [Key Problems Fixed](#key-problems-fixed)
-- [Final Mental Model](#final-mental-model)
+- [1. Install the package](#1-install-the-package)
+- [2. TLS certificate with the IP in the SAN](#2-tls-certificate-with-the-ip-in-the-san)
+- [3. Server config](#3-server-config)
+- [4. Firewall (if ufw is active)](#4-firewall-if-ufw-is-active)
+- [5. Initialize and unseal](#5-initialize-and-unseal)
+- [6. GHA workflow secrets for runner at bao vault level](#next-steps-are-same-as-gha-secret-for-runner-at-bao-vault-level---repeated-here)
 
 ---
 Here's a complete single-node setup that matches existing workflow layout (Raft storage, self-signed TLS, AppRole, KV v2 at homelab/).
@@ -142,7 +127,7 @@ bao write -f auth/approle/role/gitea-runner/secret-id
 
 ----------------------------------------------------------------------------------------------------------------------
 
-# Next steps are same as GHA secret file - repeated here 
+# Next steps are same as GHA secret for runner at bao vault level - repeated here 
 
 
 ## Step 1
@@ -197,18 +182,25 @@ bao write auth/approle/role/gitea-runner \
 Write all your secrets into organised paths:
 First manually create cert files on Openbao server and manually copy paste from laptop
 
-bash
-# LXD credentials
+### LXD credentials
+
+```
 bao kv put homelab/lxd  address="10.0.0.250"   client_cert="$(cat /root/certs/lxd/lxd-client.crt)"   client_key="$(cat /root/certs/lxd/lxd-client.key)"
+```
 
-
-# Seaweed credentials
+### Seaweed credentials
+```
 bao kv put homelab/seaweed   access_key="bafd89b41f6b0db671dd"   secret_key="19d118af5ee3420fb47c1463d3aa34b82b992e28"   endpoint="http://10.206.213.241:8333"   bucket=".tfstate"
+```
 
-# Ansible SSH keys
+### Ansible SSH keys
+```
 bao kv put homelab/ansible   ssh_private_key="(cat/root/certs/ansible/idrsa)"  sshpublickey="(cat /root/certs/ansible/id_rsa.pub)"
+```
 
-#Microk8s (.kube/config)
+### Microk8s (.kube/config)
+
+```
 bao kv put homelab/microk8s kubeconfig=@/tmp/kube.yaml
 
 Before that:
@@ -219,24 +211,36 @@ On OpenBao VM
 Paste it into a file:
 vi /tmp/kube.yaml
 Store kubeconfig:
+```
 
-Verify:
+### Verify:
 bash
 bao kv get homelab/lxd
 bao kv get homelab/minio
 bao kv get homelab/ansible
 
 
-Step 3  — Update Gitea Org Secrets
-Replace your 9 secrets with just 2:
-Old Secrets (9)
-New Secrets (2)
-LXD_ADDRESS, LXD_CLIENT_CERT, LXD_CLIENT_KEY, LXD_TRUST_PASSWORD, MINIO_ACCESS_KEY, MINIO_SECRET_KEY, MINIO_ENDPOINT, ANSIBLE_SSH_PRIVATE_KEY, ANSIBLE_SSH_PUBLIC_KEY
-VAULT_ROLE_ID, VAULT_SECRET_ID
+## Step 3  — Update Gitea Org Secrets
 
-In Gitea → Infra org → Settings → Secrets:
+Replace your 9 secrets with just 2:
+
+### Replace your 9 secrets with just 2:
+
+```
++------------------------------------------------+----------------------------------------+
+|               Old Secrets (9)                  |               New Secrets (2)          |
++------------------------------------------------+----------------------------------------+
+| LXD_ADDRESS, LXD_CLIENT_CERT, LXD_CLIENT_KEY,  |      VAULT_ROLE_ID, VAULT_SECRET_ID    |
+| LXD_TRUST_PASSWORD, MINIO_ACCESS_KEY,          |                                        |
+| S3_SECRET_KEY, S3_ENDPOINT,                    |                                        |
+| ANSIBLE_SSH_PRIVATE_KEY, ANSIBLE_SSH_PUBLIC_KEY|                                        |
++------------------------------------------------+----------------------------------------+
+```
+### In Gitea → Infra org → Settings → Secrets:
+```
 VAULT_ROLE_ID   = <role-id from above>
 VAULT_SECRET_ID = <secret-id from above>
 VAULT_ADDR      = http://vault01.lxd:8200   # or make this a 3rd secret
-—-----------------------------------------------
+```
+--------------------------------------------------------------------------
 

@@ -1,4 +1,4 @@
-# GHA workflow openboa secrets
+# GHA workflow secrets for runner at bao vault level
 ```
 Gitea Org Secrets
 ├── VAULT_ADDR
