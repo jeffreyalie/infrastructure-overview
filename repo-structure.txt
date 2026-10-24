@@ -1,0 +1,15 @@
+local-workflows-ansible-roles-no-modules (full repo)
+local-workflows-ansible-roles-modules (full repo)
+
+reusable-workflows-galaxy-roles-modules-client (full repo)
+
+reusable-workflows (reusable repo)
+reusable-galaxy-roles (reusable repo)
+reusable-modules (reusable repo)
+
+
+
+monitoring                  (Prometheus)
+go-lxd-vm-dashboard-gha     (goapp with gha)
+go-lxd-vm-dashboard         (go app without gha / manual updates)
+
