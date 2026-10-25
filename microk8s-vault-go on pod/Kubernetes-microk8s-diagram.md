@@ -69,18 +69,18 @@ Developer / GitHub Actions Runner
 ---
 
 ### 🔍 Key Clarifications
-* Docker Build → Creates the container image.
-* Docker Push → Uploads image into MicroK8s’ internal registry.
-* Registry → Permanent storage for images.
-* Helm Install/Upgrade → Sends rendered manifests to MicroK8s.
-* Helm Metadata → Stored in cluster secrets/configmaps, keeps values/history.
-* Kubernetes Objects → Persisted in etcd, define deployments/services/ingress.
-* Pods → Ephemeral runtime containers, recreated automatically from Deployment spec.
+* **Docker Build** → Creates the container image.
+* **ocker Push →** Uploads image into MicroK8s’ internal registry.
+* **Registry →** Permanent storage for images.
+* **Helm Install/Upgrade →** Sends rendered manifests to MicroK8s.
+* **Helm Metadata →** Stored in cluster secrets/configmaps, keeps values/history.
+* **Kubernetes Objects →** Persisted in etcd, define deployments/services/ingress.
+* **Pods →** Ephemeral runtime containers, recreated automatically from Deployment spec.
 ### ⚡ Takeaway
-* Local chart folder → only used at install/upgrade time.
-* Registry → permanent image storage.
-* Cluster (etcd + Helm metadata) → permanent spec + release state.
-* Pods → runtime only, not the source of truth
+* **Local chart folder →** only used at install/upgrade time.
+* **Registry →** permanent image storage.
+* **Cluster (etcd + Helm metadata) →** permanent spec + release state.
+* **Pods →** runtime only, not the source of truth
 
 ---
 
@@ -123,7 +123,7 @@ helm-chart/
 * Registry keeps → container images built/pushed via Docker.
 
 So the flow is:
- **Docker build → push to registry → Helm install/upgrade (using chart manifests) → MicroK8s runs pods with images from registry.**
+**Docker build → push to registry → Helm install/upgrade (using chart manifests) → MicroK8s runs pods with images from registry.**
 -----
 
 ##                                          Kubernetes - Microk8s structure diagram
