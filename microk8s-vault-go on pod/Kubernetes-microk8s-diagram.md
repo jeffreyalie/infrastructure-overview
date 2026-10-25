@@ -77,15 +77,15 @@ helm-chart/
 ```
 ### 🔍 What Happens on microk8s helm install/upgrade
 * Local Chart Packaging
-When you run microk8s helm install ./helm-chart (or upgrade), Helm packages this folder into a chart archive (.tgz) and sends the manifests to the Kubernetes API server inside MicroK8s.
+    When you run microk8s helm install ./helm-chart (or upgrade), Helm packages this folder into a chart archive (.tgz) and sends the manifests to the Kubernetes API server inside MicroK8s.
 * What Gets Uploaded
-- The YAML manifests (deployment.yaml, service.yaml, ingress.yaml) are rendered using values.yaml.
-- Helm then applies those manifests to the MicroK8s cluster.
-- The chart folder itself (your local files) is not permanently uploaded into MicroK8s. It’s only used at install/upgrade time to generate Kubernetes resources.
+    - The YAML manifests (deployment.yaml, service.yaml, ingress.yaml) are rendered using values.yaml.
+    - Helm then applies those manifests to the MicroK8s cluster.
+    - The chart folder itself (your local files) is not permanently uploaded into MicroK8s. It’s only used at install/upgrade time to generate Kubernetes resources.
 * What MicroK8s Keeps
-- The resulting Kubernetes objects (Deployments, Services, Ingresses, ConfigMaps, etc.) created from your templates.
-- Helm metadata stored in the cluster (in a Secret or ConfigMap in the kube-system namespace) to track release history.
-- It does not keep your raw chart folder structure — only the rendered manifests and Helm release state.
+    - The resulting Kubernetes objects (Deployments, Services, Ingresses, ConfigMaps, etc.) created from your templates.
+    - Helm metadata stored in the cluster (in a Secret or ConfigMap in the kube-system namespace) to track release history.
+    - It does not keep your raw chart folder structure — only the rendered manifests and Helm release state.
 
 ### 🐳 Role of Registry
 
