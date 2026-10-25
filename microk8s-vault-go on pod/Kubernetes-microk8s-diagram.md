@@ -122,8 +122,7 @@ helm-chart/
 * MicroK8s keeps → Kubernetes objects + Helm release metadata.
 * Registry keeps → container images built/pushed via Docker.
 
-So the flow is
-**Docker build → push to registry → Helm install/upgrade (using chart manifests) → MicroK8s runs pods with images from registry.**
+So the flow is: **Docker build → push to registry → Helm install/upgrade (using chart manifests) → MicroK8s runs pods with images from registry.**
 -----
 
 ##                                          Kubernetes - Microk8s structure diagram
