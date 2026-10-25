@@ -1,7 +1,7 @@
 
 
 ##                              Kubernetes - Microk8s structure diagram
-
+---
 ```
 Developer / GitHub Actions Runner
 +-----------------------------------+
@@ -115,7 +115,7 @@ helm-chart/
 * The Helm chart references those images (via values.yaml → image.repository + image.tag).
 * MicroK8s pulls the image from its registry when creating pods.
 
------
+
 
 ### Summary
 * Helm chart folder → stays local, only manifests are sent during install/upgrade.
@@ -123,6 +123,7 @@ helm-chart/
 * Registry keeps → container images built/pushed via Docker.
 
 So the flow is: **Docker build → push to registry → Helm install/upgrade (using chart manifests) → MicroK8s runs pods with images from registry.**
+
 -----
 
 ##                                          Kubernetes - Microk8s structure diagram
