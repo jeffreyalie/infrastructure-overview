@@ -141,7 +141,7 @@ Open [https://localhost:8443](https://localhost:8443) in your browser and paste 
 
 ---
 
-## Multiple Users and RBAC
+## Option A - Multiple Users and RBAC
 
  Authentication Methods Comparison
 
@@ -204,9 +204,9 @@ contexts:
 current-context: qa-user-context
 ```
 
----
+------------------------------
 
-### Option A — Client Certificates (recommended for homelab)
+### Option B — Client Certificates (recommended for homelab)
 
 #### How it works
 
@@ -220,11 +220,14 @@ Jeffrey puts it in ~/.kube/config
 Kubernetes trusts it because it's signed by cluster CA
 ```
 
+#### Step 1: Generate Jeffrey’s private key
 ```
-Step 1: Generate Jeffrey’s private key
 bash
 openssl genrsa -out jeffrey.key 2048
-Step 2: Create Certificate Signing Request (CSR)
+```
+
+#### Step 2: Create Certificate Signing Request (CSR)
+```
 bash
 openssl req -new \
   -key jeffrey.key \
@@ -235,7 +238,6 @@ openssl req -new \
 ```
 
 #### Step 3: Sign it with the cluster CA (admin does this)
-
 ```
 bash
 # get cluster CA from microk8s
@@ -250,12 +252,49 @@ openssl x509 -req \
   -CAcreateserial \
   -out jeffrey.crt \
   -days 365
-
 ```
-### Step 4: Create RBAC for jeffrey (admin does this)
+
+#### Step 4: Create RBAC for jeffrey (admin does this)
+```
+bash
+# jeffrey is now a real User, no ServiceAccount needed
+microk8s kubectl create clusterrolebinding jeffrey-binding \
+  --clusterrole=view \
+  --user=jeffrey        # matches CN= in the certificate
+```
+
+#### Step 5: Jeffrey’s kubeconfig file
+```
+yaml
+apiVersion: v1
+kind: Config
+clusters:
+- name: microk8s-cluster
+  cluster:
+    server: https://<CLUSTER_IP>:16443
+    certificate-authority-data: <CA_CERT_BASE64>
+users:
+- name: jeffrey
+  user:
+    client-certificate-data: <jeffrey.crt in base64>  # not a token
+    client-key-data: <jeffrey.key in base64>           # private key
+contexts:
+- name: jeffrey-context
+  context:
+    cluster: microk8s-cluster
+    user: jeffrey
+    namespace: dev
+current-context: jeffrey-context
+Convert certs to base64 for kubeconfig
+bash
+cat jeffrey.crt | base64 -w 0    # paste into client-certificate-data
+cat jeffrey.key | base64 -w 0    # paste into client-key-data
+```
+----------------------------------
+
+### Option C — OIDC (proper enterprise way)
 
 #### How it works
-
 ```
 Human logs in → Google / Keycloak / GitHub
     ↓
@@ -285,7 +324,6 @@ sudo systemctl restart snap.microk8s.daemon-kubelite
 ```
 
 #### Step 2: Jeffrey logs in via OIDC (using kubelogin plugin)
-
 ```
 bash
 # install kubelogin
@@ -297,8 +335,7 @@ kubectl oidc-login setup \
   --oidc-client-id=my-kubectl-client
 ```
 
-### Step 3: Jeffrey’s kubeconfig
-
+#### Step 3: Jeffrey’s kubeconfig
 ```
 yaml
 apiVersion: v1
@@ -328,7 +365,11 @@ contexts:
 current-context: jeffrey-context
 ```
 
+-----------------------------------------
+
 > **Note:** `oidc-login setup` only tests + prints a snippet. You still build the kubeconfig manually.
+             For CI/CD create kube/config file and create a secret in vault
+----------------------------------------
 
 ### Key principle — Authentication vs Authorization
 
@@ -339,3 +380,4 @@ Step 1 → Authentication   "Who are you?"
 Step 2 → Authorization    "What can you do?"
          RBAC always required — regardless of auth method
 ```
+--------------------------------------
