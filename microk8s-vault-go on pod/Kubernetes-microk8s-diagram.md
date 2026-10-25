@@ -77,7 +77,7 @@ helm-chart/
 ```
 ### 🔍 What Happens on microk8s helm install/upgrade
 * Local Chart Packaging
-    When you run microk8s helm install ./helm-chart (or upgrade), Helm packages this folder into a chart archive (.tgz) and sends the manifests to the Kubernetes API server inside MicroK8s.
+    - When you run microk8s helm install ./helm-chart (or upgrade), Helm packages this folder into a chart archive (.tgz) and sends the manifests to the Kubernetes API server inside MicroK8s.
 * What Gets Uploaded
     - The YAML manifests (deployment.yaml, service.yaml, ingress.yaml) are rendered using values.yaml.
     - Helm then applies those manifests to the MicroK8s cluster.
