@@ -12,7 +12,7 @@
 - [Common Issues and Fixes](#common-issues-and-fixes)
 - [Fix Missing ~/.kube Directory](#fix-missing-kube-directory)
 - [Kubernetes Dashboard](#kubernetes-dashboard)
-- [Multiple Users and RBAC](#multiple-users-and-rbac)
+- [Multiple Users and RBAC](#option-a---multiple-users-and-rbac)
 
 ---
 
