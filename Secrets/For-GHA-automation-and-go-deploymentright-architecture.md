@@ -1,4 +1,4 @@
-# The Right Architecture — Go + MicroK8s + OpenBao + LXD
+# The Right Architecture — Go + MicroK8s + OpenBao + LXD and GHA runner  - gitea org level secrets
 
 > Secrets architecture for a Go app running in MicroK8s that connects to LXD using credentials fetched from OpenBao at runtime.
 
@@ -19,36 +19,52 @@
 ## Architecture Overview
 
 ```
-Kubernetes Secrets          OpenBao
-(bootstrap credentials)     (actual secrets)
-│                           │
-├── VAULT_ADDR              ├── LXD_CLIENT_CERT
-├── VAULT_ROLE_ID           └── LXD_CLIENT_KEY
-└── VAULT_SECRET_ID
+K8s Secret (openbao-creds)         ← created manually via kubectl  
+├── VAULT\_ADDR                         in each namespace (dev/staging/live)  
+├── VAULT\_ROLE\_ID  
+└── VAULT\_SECRET\_ID  
+         │  
+         │
+      Helm Charts  injected via envFrom in values.yaml ---injected---> deployment.yaml  
+         │  
+         ▼  
+      Go App (main.go)  
+      getSecrets() function  
+         │  
+         │  AppRole login on every HTTP request  
+         ▼  
+      OpenBao  
+         │  
+         └── homelab/data/lxd  
+                  │  
+                  ├── client\_cert    → LXD TLS auth  
+                  └── client\_key     → LXD TLS auth  
+                           │  
+                           ▼  
+                        LXD API  
+                  https://10.0.0.162:8443  
+                           │  
+                           ▼  
+                    Instance list  
+                    (name, type, status, IPs)  
+                           │  
+                           ▼  
+                      index.html  
+                      rendered to browser
 
-        │
-        ↓
-    Go Pod starts
-        │
-        ↓
-    Go app reads K8s env vars
-        │
-        ↓
-    Go app authenticates to OpenBao
-        │
-        ↓
-    OpenBao returns LXD_CLIENT_CERT + LXD_CLIENT_KEY
-        │
-        ↓
-    Go app connects to LXD
 ```
 
-### Simple Rule
+## Where Gite org secrets fit in
 
+### The runner (GHA)
+
+Correct. The three Gitea org secrets are for the runner’s bootstrap credentials only:
 ```
-K8s Secrets   →  bootstrap credentials only (how to reach OpenBao)
-OpenBao       →  all actual secrets (LXD certs, API keys, passwords)
-Go code       →  no secrets ever, only reads from env/OpenBao at runtime
+Gitea org secrets (VAULT_ADDR, VAULT_ROLE_ID, VAULT_SECRET_ID)
+        │  AppRole login
+        ▼
+OpenBao  →  homelab/data/microk8s   (kubeconfig)
+         →  homelab/data/registry   (registry address)  ← new
 ```
 
 ---
@@ -163,7 +179,7 @@ bao kv put secret/lxd \
 
 ```
 Git / Helm chart
-└── No secrets ever ✅
+└── No secrets ever (Only reads from Kubernetes Secrets (microk8s)) ✅
 
 Kubernetes Secrets (microk8s)
 └── VAULT_ADDR, VAULT_ROLE_ID, VAULT_SECRET_ID  (bootstrap only)
@@ -181,7 +197,7 @@ This matches exactly how your Gitea Actions pipeline works — org-level vars fo
 
 ---
 
-## Build and Deploy to MicroK8s
+## Build and Deploy to MicroK8s (manual)
 
 ```bash
 # Build the Docker image
@@ -205,4 +221,15 @@ microk8s helm upgrade --install go-lxd-vm-dashboard ./helm-chart --namespace dev
 
 # Force restart to refresh environment variables
 microk8s kubectl rollout restart deployment go-lxd-vm-dashboard -n dev
+```
+
+If want to recreate delete first:
+```
+microk8s kubectl delete secret openbao-creds \-n dev  
+microk8s kubectl delete secret openbao-creds \-n staging  
+microk8s kubectl delete secret openbao-creds \-n live
+
+Restart microk8s pods:  
+microk8s kubectl rollout restart deployment/go-lxd-vm-dashboard \-n dev  
+microk8s kubectl rollout restart deployment/go-lxd-vm-dashboard \-n staging  
 ```
