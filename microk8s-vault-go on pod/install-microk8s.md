@@ -121,8 +121,25 @@ kubectl get nodes --kubeconfig ~/.kube/config
 ```
 
 ---
+## Fix - Docker request https
 
-## Kubernetes Dashboard
+On the host running the Gitea runner:
+``` 
+bash
+sudo mkdir -p /etc/docker
+sudo vi /etc/docker/daemon.json
+json
+{
+  "insecure-registries": ["10.206.213.243:32000"]
+}
+```
+If the file already has other settings, add the key alongside them rather than replacing the file. Then restart Docker:
+```
+bash
+sudo systemctl restart docker
+```
+---
+## Kubernetes Dashboard - deprecated -
 
 After enabling the dashboard add-on:
 
