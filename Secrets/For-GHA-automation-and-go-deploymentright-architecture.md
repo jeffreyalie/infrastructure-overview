@@ -53,8 +53,30 @@ K8s Secret (openbao-creds)         ← created manually via kubectl
                       rendered to browser
 
 ```
+---
+## Full Picture
 
-## Where Gite org secrets fit in
+```
+Git / Helm chart
+└── No secrets ever (Only reads from Kubernetes Secrets (microk8s)) ✅
+
+Kubernetes Secrets (microk8s)
+└── VAULT_ADDR, VAULT_ROLE_ID, VAULT_SECRET_ID  (bootstrap only)
+
+OpenBao
+└── LXD_CLIENT_CERT, LXD_CLIENT_KEY  (actual sensitive secrets)
+
+Go Pod
+├── Reads VAULT_ vars from K8s env
+├── Authenticates to OpenBao
+└── Gets LXD certs at runtime → connects to LXD
+```
+
+This matches exactly how your Gitea Actions pipeline works — org-level vars for bootstrap, OpenBao for the real secrets.
+
+---
+
+## Where Gitea org secrets fit in
 
 ### The runner (GHA)
 
@@ -172,28 +194,6 @@ bao kv put secret/lxd \
   LXD_CLIENT_CERT=@/path/to/client.crt \
   LXD_CLIENT_KEY=@/path/to/client.key
 ```
-
----
-
-## Full Picture
-
-```
-Git / Helm chart
-└── No secrets ever (Only reads from Kubernetes Secrets (microk8s)) ✅
-
-Kubernetes Secrets (microk8s)
-└── VAULT_ADDR, VAULT_ROLE_ID, VAULT_SECRET_ID  (bootstrap only)
-
-OpenBao
-└── LXD_CLIENT_CERT, LXD_CLIENT_KEY  (actual sensitive secrets)
-
-Go Pod
-├── Reads VAULT_ vars from K8s env
-├── Authenticates to OpenBao
-└── Gets LXD certs at runtime → connects to LXD
-```
-
-This matches exactly how your Gitea Actions pipeline works — org-level vars for bootstrap, OpenBao for the real secrets.
 
 ---
 
