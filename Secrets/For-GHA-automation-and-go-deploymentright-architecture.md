@@ -85,7 +85,7 @@ Gitea org secrets (VAULT_ADDR, VAULT_ROLE_ID, VAULT_SECRET_ID)
         │  AppRole login
         ▼
 OpenBao  →  homelab/data/microk8s   (kubeconfig)
-         →  homelab/data/registry   (registry address)  ← new
+         →  homelab/data/registry   (registry address)  ← new (maybe later. still hardcoded in GHA workflow 10.206.213.243:3200)
 ```
 
 ---
