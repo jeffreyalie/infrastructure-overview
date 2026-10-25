@@ -143,7 +143,7 @@ Open [https://localhost:8443](https://localhost:8443) in your browser and paste 
 
 ## Multiple Users and RBAC
 
-### Authentication Methods Comparison
+ Authentication Methods Comparison
 
 | Method | For | Expires | Revokable | Auditable | Setup |
 |--------|-----|---------|-----------|-----------|-------|
@@ -158,7 +158,7 @@ microk8s kubectl create namespace dev
 microk8s kubectl -n dev create serviceaccount qa-user
 ```
 
-### Binding to a ClusterRole (cluster-wide)
+#### Binding to a ClusterRole (cluster-wide)
 
 ```bash
 microk8s kubectl create clusterrolebinding qa-user-binding \
@@ -166,7 +166,7 @@ microk8s kubectl create clusterrolebinding qa-user-binding \
   --serviceaccount=dev:qa-user
 ```
 
-### Binding to a Namespace only
+#### Binding to a Namespace only
 
 ```bash
 microk8s kubectl create rolebinding qa-user-binding \
@@ -175,13 +175,13 @@ microk8s kubectl create rolebinding qa-user-binding \
   --namespace=dev
 ```
 
-### Generating a Token for the ServiceAccount
+#### Generating a Token for the ServiceAccount
 
 ```bash
 microk8s kubectl -n dev create token qa-user
 ```
 
-### Example User Kubeconfig
+#### Example User Kubeconfig
 
 ```yaml
 apiVersion: v1
