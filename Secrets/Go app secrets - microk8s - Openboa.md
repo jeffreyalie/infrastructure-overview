@@ -133,28 +133,20 @@ bao kv get homelab/ansible
 
 ### Store OpenBao credentials in K8s Secrets
 
-bash  
-microk8s kubectl create namespace dev  
-microk8s kubectl create namespace staging  
+```
+microk8s kubectl create namespace dev
+microk8s kubectl create namespace staging
 microk8s kubectl create namespace live
 
-microk8s kubectl create secret generic openbao-creds \\  
-  \--from-literal=VAULT\_ADDR=https://10.248.42.125:8200 \\  
-\--from-literal=VAULT\_ROLE\_ID=99f070cb-f0cc-cd3d-bc55-2ac2a23b90bc \\  
-\--from-literal=VAULT\_SECRET\_ID=4e17b858-475e-cfa8-d03a-bbd2337c8450 \\  
-  \--namespace=dev
-
-microk8s kubectl create secret generic openbao-creds \\  
-  \--from-literal=VAULT\_ADDR=https://10.248.42.125:8200 \\  
-\--from-literal=VAULT\_ROLE\_ID=99f070cb-f0cc-cd3d-bc55-2ac2a23b90bc \\  
-\--from-literal=VAULT\_SECRET\_ID=4e17b858-475e-cfa8-d03a-bbd2337c8450 \\  
-  \--namespace=staging
-
-microk8s kubectl create secret generic openbao-creds \\  
-  \--from-literal=VAULT\_ADDR=https://10.248.42.125:8200 \\  
-\--from-literal=VAULT\_ROLE\_ID=99f070cb-f0cc-cd3d-bc55-2ac2a23b90bc \\  
-\--from-literal=VAULT\_SECRET\_ID=4e17b858-475e-cfa8-d03a-bbd2337c8450 \\  
-  \--namespace=live
+for NS in dev staging live; do
+  microk8s kubectl create secret generic openbao-creds \
+    --from-literal=VAULT_ADDR=https://<openbao-ip>:8200 \
+    --from-literal=VAULT_ROLE_ID=<role-id> \
+    --from-literal=VAULT_SECRET_ID=<secret-id> \
+    --namespace=$NS \
+    --dry-run=client -o yaml | microk8s kubectl apply -f -
+done
+```
 
 If want to recreate delete first:
 
