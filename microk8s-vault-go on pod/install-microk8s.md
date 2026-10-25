@@ -13,7 +13,6 @@
 - [Fix Missing ~/.kube Directory](#fix-missing-kube-directory)
 - [Kubernetes Dashboard](#kubernetes-dashboard)
 - [Multiple Users and RBAC](#multiple-users-and-rbac)
-- [Authentication Methods Comparison](#authentication-methods-comparison)
 
 ---
 
@@ -144,6 +143,14 @@ Open [https://localhost:8443](https://localhost:8443) in your browser and paste 
 
 ## Multiple Users and RBAC
 
+### Authentication Methods Comparison
+
+| Method | For | Expires | Revokable | Auditable | Setup |
+|--------|-----|---------|-----------|-----------|-------|
+| ServiceAccount token | Machines / CI-CD | Yes (short JWT) | Delete SA | ❌ No | Easy |
+| Client Certificate | Humans | No (you set days) | Revoke cert | ✅ Yes (CN=name) | Medium |
+| OIDC | Humans | Yes (auto-refreshes) | Revoke in provider | ✅ Yes (email) | Complex |
+
 ### Creating a Namespace and ServiceAccount
 
 ```bash
@@ -199,27 +206,43 @@ current-context: qa-user-context
 
 ---
 
-## Authentication Methods Comparison
-
-| Method | For | Expires | Revokable | Auditable | Setup |
-|--------|-----|---------|-----------|-----------|-------|
-| ServiceAccount token | Machines / CI-CD | Yes (short JWT) | Delete SA | ❌ No | Easy |
-| Client Certificate | Humans | No (you set days) | Revoke cert | ✅ Yes (CN=name) | Medium |
-| OIDC | Humans | Yes (auto-refreshes) | Revoke in provider | ✅ Yes (email) | Complex |
-
 ### Option A — Client Certificates (recommended for homelab)
 
-```bash
-# Step 1 — Generate private key
-openssl genrsa -out jeffrey.key 2048
+#### How it works
 
-# Step 2 — Create CSR
+```
+Admin generates certificate for Jeffrey
+    ↓
+Certificate signed by cluster's CA
+    ↓
+Jeffrey puts it in ~/.kube/config
+    ↓
+Kubernetes trusts it because it's signed by cluster CA
+```
+
+```
+Step 1: Generate Jeffrey’s private key
+bash
+openssl genrsa -out jeffrey.key 2048
+Step 2: Create Certificate Signing Request (CSR)
+bash
 openssl req -new \
   -key jeffrey.key \
   -out jeffrey.csr \
   -subj "/CN=jeffrey/O=dev-team"
+# CN = username Kubernetes will see
+# O  = group (optional, used for group-based RBAC)
+```
 
-# Step 3 — Sign with cluster CA
+#### Step 3: Sign it with the cluster CA (admin does this)
+
+```
+bash
+# get cluster CA from microk8s
+sudo cat /var/snap/microk8s/current/certs/ca.crt
+sudo cat /var/snap/microk8s/current/certs/ca.key
+
+# sign jeffrey's certificate
 openssl x509 -req \
   -in jeffrey.csr \
   -CA /var/snap/microk8s/current/certs/ca.crt \
@@ -228,40 +251,81 @@ openssl x509 -req \
   -out jeffrey.crt \
   -days 365
 
-# Step 4 — Create RBAC
-microk8s kubectl create clusterrolebinding jeffrey-binding \
-  --clusterrole=view \
-  --user=jeffrey
+```
+### Step 4: Create RBAC for jeffrey (admin does this)
 
-# Step 5 — Encode certs for kubeconfig
-cat jeffrey.crt | base64 -w 0
-cat jeffrey.key | base64 -w 0
+#### How it works
+
+```
+Human logs in → Google / Keycloak / GitHub
+    ↓
+Gets OIDC token (JWT) from identity provider
+    ↓
+Passes token to Kubernetes API
+    ↓
+Kubernetes verifies token with identity provider
+    ↓
+RBAC checks permissions
 ```
 
-### Option B — OIDC (enterprise)
-
-```bash
-# Configure API server
+#### Step 1: Configure microk8s API server to trust OIDC provider
+```
+bash
+# edit API server config
 sudo nano /var/snap/microk8s/current/args/kube-apiserver
-# Add:
-# --oidc-issuer-url=https://accounts.google.com
-# --oidc-client-id=my-kubectl-client
-# --oidc-username-claim=email
 
+# add these lines
+--oidc-issuer-url=https://accounts.google.com
+--oidc-client-id=my-kubectl-client
+--oidc-username-claim=email
+--oidc-groups-claim=groups
+
+# restart
 sudo systemctl restart snap.microk8s.daemon-kubelite
+```
 
-# Install kubelogin
+#### Step 2: Jeffrey logs in via OIDC (using kubelogin plugin)
+
+```
+bash
+# install kubelogin
 kubectl krew install oidc-login
 
-# Test OIDC connection (opens browser, prints kubeconfig snippet)
+# jeffrey runs this once — opens browser login
 kubectl oidc-login setup \
   --oidc-issuer-url=https://accounts.google.com \
   --oidc-client-id=my-kubectl-client
+```
 
-# Create RBAC (--user matches email claim)
-microk8s kubectl create clusterrolebinding jeffrey-binding \
-  --clusterrole=view \
-  --user=jeffrey@gmail.com
+### Step 3: Jeffrey’s kubeconfig
+
+```
+yaml
+apiVersion: v1
+kind: Config
+clusters:
+- name: microk8s-cluster
+  cluster:
+    server: https://<CLUSTER_IP>:16443
+    certificate-authority-data: <CA_CERT_BASE64>
+users:
+- name: jeffrey
+  user:
+    exec:                                      # runs kubelogin to get token
+      apiVersion: client.authentication.k8s.io/v1beta1
+      command: kubectl
+      args:
+      - oidc-login
+      - get-token
+      - --oidc-issuer-url=https://accounts.google.com
+      - --oidc-client-id=my-kubectl-client
+contexts:
+- name: jeffrey-context
+  context:
+    cluster: microk8s-cluster
+    user: jeffrey
+    namespace: dev
+current-context: jeffrey-context
 ```
 
 > **Note:** `oidc-login setup` only tests + prints a snippet. You still build the kubeconfig manually.
