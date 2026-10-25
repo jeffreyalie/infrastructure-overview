@@ -1,6 +1,6 @@
 
 
-## Kubernetes diagram
+##                              Kubernetes - Microk8s structure diagram
 
 ```
 Developer / GitHub Actions Runner
@@ -57,49 +57,16 @@ Developer / GitHub Actions Runner
                       +----------------------+
 
 ```
+---
+
+#### My Key ppints:
 
 1. **Docker build:** compiles the golang. Don't need seperate go compile. Docekr builder has built-in go compiler 
 2. **Docekr push:** Pushes built to registry (either harbor or buit-in microk8s) 
 3. **Helm Charts:** Docker compose and helm charts are more or less the same
 4. **Helm intall/upgrade:** uploads or update the helm values and to microk8s internal databas and kublets pull the respective built from registry and makes a pod.
 
-#### 📂 Helm Chart Folder Structure
-```
-Your local folder:
-helm-chart/
-├── Chart.yaml
-├── templates/
-│   ├── deployment.yaml
-│   ├── ingress.yaml.txt
-│   └── service.yaml
-├── values.yaml
-└── README.md
-```
-### 🔍 What Happens on microk8s helm install/upgrade
-* Local Chart Packaging
-    - When you run microk8s helm install ./helm-chart (or upgrade), Helm packages this folder into a chart archive (.tgz) and sends the manifests to the Kubernetes API server inside MicroK8s.
-* What Gets Uploaded
-    - The YAML manifests (deployment.yaml, service.yaml, ingress.yaml) are rendered using values.yaml.
-    - Helm then applies those manifests to the MicroK8s cluster.
-    - The chart folder itself (your local files) is not permanently uploaded into MicroK8s. It’s only used at install/upgrade time to generate Kubernetes resources.
-* What MicroK8s Keeps
-    - The resulting Kubernetes objects (Deployments, Services, Ingresses, ConfigMaps, etc.) created from your templates.
-    - Helm metadata stored in the cluster (in a Secret or ConfigMap in the kube-system namespace) to track release history.
-    - It does not keep your raw chart folder structure — only the rendered manifests and Helm release state.
-
-### 🐳 Role of Registry
-
-* Your Docker build/push workflow pushes container images into the MicroK8s internal registry.
-* The Helm chart references those images (via values.yaml → image.repository + image.tag).
-* MicroK8s pulls the image from its registry when creating pods.
-
-### Summary
-* Helm chart folder → stays local, only manifests are sent during install/upgrade.
-* MicroK8s keeps → Kubernetes objects + Helm release metadata.
-* Registry keeps → container images built/pushed via Docker.
-
-So the flow is:
- **Docker build → push to registry → Helm install/upgrade (using chart manifests) → MicroK8s runs pods with images from registry.**
+---
 
 ### 🔍 Key Clarifications
 * Docker Build → Creates the container image.
@@ -116,6 +83,49 @@ So the flow is:
 * Pods → runtime only, not the source of truth
 
 ---
+
+#### 📂 Helm Chart Folder Structure
+
+```
+Your local folder:
+helm-chart/
+├── Chart.yaml
+├── templates/
+│   ├── deployment.yaml
+│   ├── ingress.yaml.txt
+│   └── service.yaml
+├── values.yaml
+└── README.md
+``` 
+### 🔍 What Happens on microk8s helm install/upgrade
+* **Local Chart Packaging**
+    - When you run microk8s helm install ./helm-chart (or upgrade), Helm packages this folder into a chart archive (.tgz) and sends the manifests to the Kubernetes API server inside MicroK8s.
+* **What Gets Uploaded**
+    - The YAML manifests (deployment.yaml, service.yaml, ingress.yaml) are rendered using values.yaml.
+    - Helm then applies those manifests to the MicroK8s cluster.
+    - The chart folder itself (your local files) is not permanently uploaded into MicroK8s. It’s only used at install/upgrade time to generate Kubernetes resources.
+* **What MicroK8s Keeps**
+    - The resulting Kubernetes objects (Deployments, Services, Ingresses, ConfigMaps, etc.) created from your templates.
+    - Helm metadata stored in the cluster (in a Secret or ConfigMap in the kube-system namespace) to track release history.
+    - It does not keep your raw chart folder structure — only the rendered manifests and Helm release state.
+
+### 🐳 Role of Registry
+
+* Your Docker build/push workflow pushes container images into the MicroK8s internal registry.
+* The Helm chart references those images (via values.yaml → image.repository + image.tag).
+* MicroK8s pulls the image from its registry when creating pods.
+
+-----
+
+### Summary
+* Helm chart folder → stays local, only manifests are sent during install/upgrade.
+* MicroK8s keeps → Kubernetes objects + Helm release metadata.
+* Registry keeps → container images built/pushed via Docker.
+
+So the flow is:
+ **Docker build → push to registry → Helm install/upgrade (using chart manifests) → MicroK8s runs pods with images from registry.**
+-----
+
 ##                                          Kubernetes - Microk8s structure diagram
 
 ---
