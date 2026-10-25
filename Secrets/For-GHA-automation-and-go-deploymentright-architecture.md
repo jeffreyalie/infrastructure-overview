@@ -7,12 +7,12 @@
 ## Table of Contents
 
 - [Architecture Overview](#architecture-overview)
+- [Full Picture](#full-picture)
 - [Step 1 — Store OpenBao Credentials in K8s Secrets](#step-1--store-openbao-credentials-in-k8s-secrets)
 - [Step 2 — Inject into Pod via Helm values.yaml](#step-2--inject-into-pod-via-helm-valuesyaml)
 - [Step 3 — Go App Authenticates to OpenBao and Fetches LXD Secrets](#step-3--go-app-authenticates-to-openbao-and-fetches-lxd-secrets)
 - [Step 4 — Store LXD Secrets in OpenBao](#step-4--store-lxd-secrets-in-openbao)
-- [Full Picture](#full-picture)
-- [Build and Deploy to MicroK8s](#build-and-deploy-to-microk8s)
+- [Build and Deploy to MicroK8s](#build-and-deploy-to-microk8s-manual)
 
 ---
 
@@ -53,7 +53,7 @@ K8s Secret (openbao-creds)         ← created manually via kubectl
                       rendered to browser
 
 ```
----
+
 ## Full Picture
 
 ```
@@ -74,7 +74,6 @@ Go Pod
 
 This matches exactly how your Gitea Actions pipeline works — org-level vars for bootstrap, OpenBao for the real secrets.
 
----
 
 ## Where Gitea org secrets fit in
 
