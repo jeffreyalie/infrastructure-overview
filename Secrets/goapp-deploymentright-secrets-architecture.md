@@ -1,4 +1,4 @@
-# Go app secrets deployment architecture - Microk8s - terraform - GHA runner - openbao (vault)
+# Go app deployment architecture - Microk8s - terraform - GHA runner - openbao (vault) - secrets
 
 > Secrets architecture for a Go app running in MicroK8s that connects to LXD using credentials fetched from OpenBao at runtime.
 
@@ -54,7 +54,7 @@ K8s Secret (openbao-creds)         ← created manually via kubectl
 
 ```
 
-## Go app (secrets) deployment architecture - Microk8s - terraform - GHA runner - openbao (vault)
+## Go app deployment architecture - Microk8s - terraform - GHA runner - openbao (vault) - secrets
 
 Correct. The three Gitea org secrets are for the runner’s bootstrap credentials only:
 ```
