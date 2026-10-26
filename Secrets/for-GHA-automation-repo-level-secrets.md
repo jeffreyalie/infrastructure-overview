@@ -1,5 +1,70 @@
-# GHA workflow secrets for runner at gitea repo level
+# VM deployment architecture - terraform - ansible - GHA runner - seaweed (S3) - Org level secrets
 
+---
+```
+ Developer / GitHub Actions Runner
+ ----main commands----
+ terraform plan / apply
+ ansible-playbook
+ ---------------------
+
+
+ Gitea / Developer
+ ┌─────────────────────────────────────────┐
+ │  Terraform, ansible                     │ ----------------------------(Org level secrets for rubber)
+ |  GHA workflows, roles                   │                                    ANSIBLE_SSH_PRIVATE_KEY 
+ |                                         |                                    ANSIBLE_SSH_PUBLIC_KEY
+ |                                         |                                    LXD_ADDRESS
+ |                                         |                                    LXD_CLIENT_CERT
+ |                                         |                                    LXD_CLIENT_KEY
+ |                                         |                                    S3_ACCESS_KEY
+ |                                         |                                    S3_BUCKET
+ |                                         |                                    S3_ENDPOINT
+ |                                         |                                    S3_SECRET_KEY 
+ |                                         |     
+ └─────────────────┬───────────────────────┘
+                   │
+                   |
+                   |
+                   ▼
+ ┌───────────────────────────────────────────┐
+ │        Runner / Developer                 │  ----------------------- (Runner picks secrets from Openbao )
+ |                                           |                          (Developer picks from env variables)
+ |       (Docker-based, LXD VM)              |  
+ |                                           |                             
+ |                                           |                           
+ |                                           |
+ └───────┬───────────────────────────┬───────┘
+         │                           │
+         |                           |
+         |                           |
+Terraform│ plan / apply              │Ansible-playbook
+         |                           |
+         |                           |       
+         ▼                           |
+ ┌─────────────────┐                 |               
+ │      MinIO      │                 |
+ │    backend s3   │                 |
+ │    (TF state)   │                 |
+ └─────────────────┘                 |
+         │                           |      
+         │                           |
+         │                           |
+ ┌─────────────────┐                 |               
+ │   LXD / KVM     │                 |
+ │  (localhost:    │                 |       
+ │    8443)        │                 |      
+ └─────────────────┘                 |
+         |                           |
+         |                           |
+         |                           |
+ ┌─────────────────┐                 |       
+ │  Target VM      │                 |      
+ │  Ubuntu 26.04   │ +---------------+                   
+ │With ansible user|
+ └─────────────────┘
+
+```
 ---
 
 ## Table of Contents

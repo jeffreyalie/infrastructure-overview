@@ -11,7 +11,7 @@
  Gitea / Developer
  ┌─────────────────────────────────────────┐
  │  Terraform, ansible                     │ ----------------------------(Org level secrets for openbao only)
- |  GHA workflows, roles                   │                         (VAULT_ADDR, VAULT_ROLE_ID, VAULT_SECRET_ID)
+ |  GHA workflows, roles                   │                      (VAULT_ADDR, VAULT_ROLE_ID, VAULT_SECRET_ID)
  └─────────────────┬───────────────────────┘
                    │
                    |
@@ -20,7 +20,7 @@
  ┌───────────────────────────────────────────┐
  │        Runner / Developer                 │  ----------------------- (Runner picks secrets from Openbao )
  |                                           |                                  homelab/data/lxd
- |       (Docker-based, LXD VM)               |                                  homelab/data/seaweed	
+ |       (Docker-based, LXD VM)              |                                  homelab/data/seaweed	
  |                                           |                                  homelab/data/ansible
  |                                           |                             
  |                                           |                            (Developer picks from env variables)
