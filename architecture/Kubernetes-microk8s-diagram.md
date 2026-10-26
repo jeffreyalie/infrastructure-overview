@@ -4,6 +4,11 @@
 ---
 ```
 Developer / GitHub Actions Runner
+----main command----
+docker build
+docker push
+helm install/upgrade
+---------------------
 +-----------------------------------+
 | Source Code + Helm Chart Folder   |
 | Chart.yaml, values.yaml, templates|
@@ -126,7 +131,7 @@ So the flow is: **Docker build → push to registry → Helm install/upgrade (us
 
 -----
 
-##                                          Kubernetes - Microk8s structure diagram
+##                                          Kubernetes - Microk8s structure diagram - old
 
 ---
 
