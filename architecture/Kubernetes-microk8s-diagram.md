@@ -1,21 +1,26 @@
 
 
-##                              Kubernetes - Microk8s structure diagram
+# Go app deployment architecture - Microk8s - terraform - GHA runner - openbao (vault)
+
 ---
 ```
 Developer / GitHub Actions Runner
-----main command----
+----main commands----
 docker build
 docker push
 helm install/upgrade
 ---------------------
+
+Gitea / Developer
 +-----------------------------------+
 | Source Code + Helm Chart Folder   |
 | Chart.yaml, values.yaml, templates|
 +-----------------------------------+
         │
-        ├───────────────────────────────────────────────────────────► docker build
-        │                                                                 │
+        |
++------------------+
+|Runner / Developer├──────────────────────────────────────────────────────► docker build
++------------------+                                                      │
         │                                                                 ▼
         │                                                        +------------------+
         │                                                        | Docker Image     |
