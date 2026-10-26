@@ -1,4 +1,4 @@
-# The Right Architecture — Go + MicroK8s + OpenBao + LXD and GHA runner  - gitea org level secrets
+# Go app secrets deployment architecture - Microk8s - terraform - GHA runner - openbao (vault)
 
 > Secrets architecture for a Go app running in MicroK8s that connects to LXD using credentials fetched from OpenBao at runtime.
 

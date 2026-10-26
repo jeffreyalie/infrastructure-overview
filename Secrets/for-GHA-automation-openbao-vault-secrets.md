@@ -1,4 +1,4 @@
-# VM deployment architecture - terraform - ansible - GHA runner - seaweed (S3) - openbao (vault)
+# VM deployment secrets architecture - terraform - ansible - GHA runner - seaweed (S3) - openbao (vault)
 ---
 ```
  Developer / GitHub Actions Runner

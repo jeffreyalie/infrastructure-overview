@@ -1,4 +1,4 @@
-# VM deployment architecture - terraform - ansible - GHA runner - seaweed (S3) - Org level secrets
+# VM deployment secrets architecture - terraform - ansible - GHA runner - seaweed (S3) - Org level secrets
 
 ---
 ```

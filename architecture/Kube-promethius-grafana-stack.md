@@ -1,4 +1,3 @@
-
 ## Kube promethius stack diagram
 
 ---
