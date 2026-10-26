@@ -16,7 +16,7 @@
 
 ---
 
-## Secrets Architecture Overview
+## Go app (secrets) deployment architecture - Microk8s - terraform - GHA runner - openbao (vault)
 
 ```
 K8s Secret (openbao-creds)         ← created manually via kubectl  
@@ -54,9 +54,7 @@ K8s Secret (openbao-creds)         ← created manually via kubectl
 
 ```
 
-## Where Gitea org secrets fit in
-
-### The runner (GHA)
+## Go app (secrets) deployment architecture - Microk8s - terraform - GHA runner - openbao (vault)
 
 Correct. The three Gitea org secrets are for the runner’s bootstrap credentials only:
 ```
