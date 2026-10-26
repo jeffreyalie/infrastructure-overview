@@ -16,7 +16,7 @@
 
 ---
 
-## Architecture Overview
+## Secrets Architecture Overview
 
 ```
 K8s Secret (openbao-creds)         ← created manually via kubectl  
@@ -54,27 +54,6 @@ K8s Secret (openbao-creds)         ← created manually via kubectl
 
 ```
 
-## Full Picture
-
-```
-Git / Helm chart
-└── No secrets ever (Only reads from Kubernetes Secrets (microk8s)) ✅
-
-Kubernetes Secrets (microk8s)
-└── VAULT_ADDR, VAULT_ROLE_ID, VAULT_SECRET_ID  (bootstrap only)
-
-OpenBao
-└── LXD_CLIENT_CERT, LXD_CLIENT_KEY  (actual sensitive secrets)
-
-Go Pod
-├── Reads VAULT_ vars from K8s env
-├── Authenticates to OpenBao
-└── Gets LXD certs at runtime → connects to LXD
-```
-
-This matches exactly how your Gitea Actions pipeline works — org-level vars for bootstrap, OpenBao for the real secrets.
-
-
 ## Where Gitea org secrets fit in
 
 ### The runner (GHA)
@@ -87,7 +66,43 @@ Gitea org secrets (VAULT_ADDR, VAULT_ROLE_ID, VAULT_SECRET_ID)
 OpenBao  →  homelab/data/microk8s   (kubeconfig)
          →  homelab/data/registry   (registry address)  ← new (maybe later. still hardcoded in GHA workflow 10.206.213.243:3200)
 ```
+-------
+```
+┌──────────────────────────────────────────────────┐
+│              Gitea Org Secrets                   │
+│  ├── VAULT_ADDR                                  │
+│  ├── VAULT_ROLE_ID      → same for ALL workflows │
+│  └── VAULT_SECRET_ID                             │
+└──────────────────────────┬───────────────────────┘
+                           │
+                           ▼
+┌──────────────────────────────────────────────────┐
+│                   OpenBao                        │
+│               AppRole login                      │
+└──────────────────────────┬───────────────────────┘
+                           │
+                           ▼
+┌──────────────────────────────────────────────────┐
+│         homelab/data/microk8s                    │
+│              kubeconfig                          │
+│   (server: https://10.206.213.243:16443)         │
+└──────────────────────────┬───────────────────────┘
+                           │
+                           ▼
+┌──────────────────────────────────────────────────┐
+│           GHA Runner (LXD VM)                    │
+│     export KUBECONFIG=/tmp/kubeconfig            │
+└──────────┬───────────────┬───────────────┬───────┘
+           │               │               │
+           ▼               ▼               ▼
+    ┌────────────┐  ┌────────────┐  ┌────────────┐
+    │helm deploy │  │helm deploy │  │helm deploy │
+    │   dev      │  │  staging   │  │   live     │
+    └────────────┘  └────────────┘  └────────────┘
 
+PR Pipeline:   build-pr → deploy-dev-pr → deploy-staging-pr
+Push Pipeline: build    → deploy-live
+```
 ---
 
 ## Step 1 — Store OpenBao Credentials in K8s Secrets
