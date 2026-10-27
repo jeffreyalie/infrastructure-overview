@@ -12,7 +12,7 @@
 
 --- 
 
-## VM deployment architecture - terraform - ansible - GHA runner - seaweed (S3) - Org level secrets
+## VM deployment architecture - GHA - terraform - ansible - seaweed (S3) - Org level secrets
 
 ```
  Developer / GitHub Actions Runner
@@ -78,7 +78,7 @@ Terraform│ plan / apply              │Ansible-playbook
  └─────────────────┘
 
 ```
-### VM deployment architecture - terraform - ansible - GHA runner - seaweed (S3) - openbao (vault)
+### VM deployment architecture - GHA - terraform - ansible - seaweed (S3) - openbao (vault)
 
 ```
  Developer / GitHub Actions Runner
@@ -138,7 +138,7 @@ Terraform│ plan / apply              │Ansible-playbook
 ```
 ---
 
-## Go app deployment architecture - Microk8s - terraform - GHA runner - openbao (vault)
+## Go app deployment architecture - GHA - kubernetes - openbao (vault)
 
 ---
 ```
@@ -206,7 +206,7 @@ Gitea / Developer
 
 ```
 ---
-## Go app secrets deployment architecture - Microk8s - terraform - GHA runner - openbao (vault)
+## Go app secrets deployment architecture - Go app - kubernetes - openbao (vault)
 
 ```
 K8s Secret (openbao-creds)         ← created manually via kubectl  
@@ -244,7 +244,7 @@ K8s Secret (openbao-creds)         ← created manually via kubectl
 
 ```
 
-## Go app secrets deployment architecture - Gitea org secrets and runner
+## Go app secrets deployment architecture - GHA - kubernetes - openbao (vault)
 
 Correct. The three Gitea org secrets are for the runner’s bootstrap credentials only:
 ```
