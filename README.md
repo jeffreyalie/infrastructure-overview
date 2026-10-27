@@ -299,8 +299,6 @@ Push Pipeline: build    → deploy-live
 
 ## Promethius architecture
 
----
-
 ```
                                 [ USER / ADMIN ]
                                         |
