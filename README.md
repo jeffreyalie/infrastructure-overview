@@ -2,11 +2,10 @@
 #                   Architecture Diagram (VM deployment - Go app deployment)
 ---
 
-VM Deployment
+#### VM Deployment
 * [Infrastructure Archtecture - GHA - terraform - ansible - LXD - seaweed (S3) - Org level secrets](#infrastructure-archtecture---gha---terraform---ansible---lxd---seaweed-s3---org-level-secrets)
 * [Infrastructure Archtecture - GHA - terraform - ansible - LXD - seaweed (S3) - openbao (vault)](#infrastructure-archtecture---gha---terraform---ansible---lxd---seaweed-s3---openbao-vault)
-
-Go app deployment
+#### Go app deployment
 * [Infrastructure Archtecture - GHA - kubernetes - openbao (vault)](#infrastructure-archtecture---gha---kubernetes---openbao-vault)
 * [Secrets Architecture - Go app - kubernetes - openbao (vault)](#secrets-architecture---go-app---kubernetes---openbao-vault)
 * [Secrets architecture - GHA - kubernetes - openbao (vault)](#secrets-architecture---gha---kubernetes---openbao-vault)
