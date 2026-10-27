@@ -5,6 +5,7 @@
 VM Deployment
 * [Infrastructure Archtecture - GHA - terraform - ansible - LXD - seaweed (S3) - Org level secrets](#infrastructure-archtecture---gha---terraform---ansible---lxd---seaweed-s3---org-level-secrets)
 * [Infrastructure Archtecture - GHA - terraform - ansible - LXD - seaweed (S3) - openbao (vault)](#infrastructure-archtecture---gha---terraform---ansible---lxd---seaweed-s3---openbao-vault)
+* [Infrastructure Archtecture - GHA - terraform - ansible](#infrastructure-archtecture---gha---terraform---ansible)
 
 Go app deployment
 * [Infrastructure Archtecture - GHA - kubernetes - openbao (vault)](#infrastructure-archtecture---gha---kubernetes---openbao-vault)
@@ -140,6 +141,21 @@ Terraform│ plan / apply              │Ansible-playbook
  │With ansible user|
  └─────────────────┘
 
+```
+---
+## Infrastructure Archtecture - GHA - terraform - ansible
+
+Two scearios
+```
+One:
+1. Local GHA workflows (.gitea/workflows)
+2. Local terraform modules (terraform/modules)
+3. Local ansible roles (ansible/roles)
+
+Two
+1. Reusable workflows (http://gitea.local/admin/reusable-workflows)
+2. Reusable terraform modules (http://gitea.local/admin/reusable-modules)
+3. Reusable ansiible roles (http://gitea.local/admin/reusable-galaxy-roles-curl)
 ```
 ---
 # Go app deployment
