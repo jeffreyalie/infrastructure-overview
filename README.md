@@ -1,5 +1,5 @@
 
-#                   Architecture Diagram for VM deployment and Go app deployment
+#                   Architecture Diagram (VM deployment - Go app deployment)
 ---
 
 VM Deployment
@@ -11,6 +11,7 @@ Go app deployment
 * [Secrets Architecture - Go app - kubernetes - openbao (vault)](#secrets-architecture---go-app---kubernetes---openbao-vault)
 * [Secrets architecture - GHA - kubernetes - openbao (vault)](#secrets-architecture---gha---kubernetes---openbao-vault)
 
+Promethius 
 * [Promethius architecture](#promethius-architecture)
 
 --- 
