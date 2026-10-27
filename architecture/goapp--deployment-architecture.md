@@ -26,7 +26,7 @@ Gitea / Developer
         │                                                        +------------------+
         │                                                                 │
         │                                                                 ▼
-        │                                                              docker push
+        │                                                             docker push
         │                                                                 │
         │                                                                 ▼
         │                                                       +------------------+

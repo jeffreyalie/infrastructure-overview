@@ -216,7 +216,7 @@ Store kubeconfig:
 ### Verify:
 bash
 bao kv get homelab/lxd
-bao kv get homelab/minio
+bao kv get homelab/Seaweed
 bao kv get homelab/ansible
 
 
@@ -231,7 +231,7 @@ Replace your 9 secrets with just 2:
 |               Old Secrets (9)                  |               New Secrets (2)          |
 +------------------------------------------------+----------------------------------------+
 | LXD_ADDRESS, LXD_CLIENT_CERT, LXD_CLIENT_KEY,  |      VAULT_ROLE_ID, VAULT_SECRET_ID    |
-| LXD_TRUST_PASSWORD, MINIO_ACCESS_KEY,          |                                        |
+| LXD_TRUST_PASSWORD,                            |                                        |
 | S3_SECRET_KEY, S3_ENDPOINT,                    |                                        |
 | ANSIBLE_SSH_PRIVATE_KEY, ANSIBLE_SSH_PUBLIC_KEY|                                        |
 +------------------------------------------------+----------------------------------------+

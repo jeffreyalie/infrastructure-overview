@@ -43,7 +43,7 @@ Terraform│ plan / apply              │Ansible-playbook
          |                           |       
          ▼                           |
  ┌─────────────────┐                 |               
- │      MinIO      │                 |
+ │     Seaweed     │                 |
  │    backend s3   │                 |
  │    (TF state)   │                 |
  └─────────────────┘                 |

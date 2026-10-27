@@ -34,7 +34,7 @@ Terraform│ plan / apply              │Ansible-playbook
          |                           |       
          ▼                           |
  ┌─────────────────┐                 |               
- │      MinIO      │                 |
+ │     Seaweed     │                 |
  │    backend s3   │                 |
  │    (TF state)   │                 |
  └─────────────────┘                 |
@@ -67,7 +67,7 @@ Gitea Org Secrets
       (AppRole login)
          │
          ├── homelab/data/lxd        → LXD TLS cert/key    → go app talks to LXD
-         ├── homelab/data/minio      → MinIO creds          → Terraform state backend
+         ├── homelab/data/Seaweed    → Seaweed creds          → Terraform state backend
          ├── homelab/data/ansible    → Ansible secrets      → Ansible playbooks
          └── homelab/data/microk8s   → kubeconfig          → helm deploy to MicroK8s
 
@@ -136,7 +136,7 @@ openbao policy write gitea-runner - <<'EOF'
 path "homelab/data/lxd" {
   capabilities = ["read"]
 }
-path "homelab/data/minio" {
+path "homelab/data/Seaweed" {
   capabilities = ["read"]
 }
 path "homelab/data/ansible" {
@@ -196,7 +196,7 @@ Store kubeconfig:
 ```
 bash
 bao kv get homelab/lxd
-bao kv get homelab/minio
+bao kv get homelab/Seaweed
 bao kv get homelab/ansible
 ```
 
@@ -209,7 +209,7 @@ bao kv get homelab/ansible
 |               Old Secrets (9)                  |               New Secrets (2)          |
 +------------------------------------------------+----------------------------------------+
 | LXD_ADDRESS, LXD_CLIENT_CERT, LXD_CLIENT_KEY,  |      VAULT_ROLE_ID, VAULT_SECRET_ID    |
-| LXD_TRUST_PASSWORD, MINIO_ACCESS_KEY,          |                                        |
+| LXD_TRUST_PASSWORD,                            |                                        |
 | S3_SECRET_KEY, S3_ENDPOINT,                    |                                        |
 | ANSIBLE_SSH_PRIVATE_KEY, ANSIBLE_SSH_PUBLIC_KEY|                                        |
 +------------------------------------------------+----------------------------------------+
