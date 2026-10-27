@@ -1,5 +1,5 @@
 
-#                   Architecture Diagrame
+#                   Architecture Diagram for VM deployment and Go app deployment
 ---
 
 * [Infrastructure Archtecture - GHA - terraform - ansible](#vm-deployment-architecture---terraform---ansible---gha-runner---seaweed-s3---org-level-secrets)
@@ -11,8 +11,9 @@
 * [Promethius architecture](#promethius-architecture)
 
 --- 
-
-## VM deployment architecture - GHA - terraform - ansible - seaweed (S3) - Org level secrets
+# VM Deployment
+---
+## Infrastructure Archtecture - GHA - terraform - ansible - LXD - seaweed (S3) - Org level secrets
 
 ```
  Developer / GitHub Actions Runner
@@ -56,7 +57,7 @@ Terraform│ plan / apply              │Ansible-playbook
          |                           |       
          ▼                           |
  ┌─────────────────┐                 |               
- │      MinIO      │                 |
+ │      Seaweed    │                 |
  │    backend s3   │                 |
  │    (TF state)   │                 |
  └─────────────────┘                 |
@@ -78,7 +79,7 @@ Terraform│ plan / apply              │Ansible-playbook
  └─────────────────┘
 
 ```
-### VM deployment architecture - GHA - terraform - ansible - seaweed (S3) - openbao (vault)
+### Infrastructure Archtecture - GHA - terraform - ansible - LXD - seaweed (S3) - openbao (vault)
 
 ```
  Developer / GitHub Actions Runner
@@ -114,7 +115,7 @@ Terraform│ plan / apply              │Ansible-playbook
          |                           |       
          ▼                           |
  ┌─────────────────┐                 |               
- │      MinIO      │                 |
+ │      Seaweed    │                 |
  │    backend s3   │                 |
  │    (TF state)   │                 |
  └─────────────────┘                 |
@@ -137,10 +138,10 @@ Terraform│ plan / apply              │Ansible-playbook
 
 ```
 ---
-
-## Go app deployment architecture - GHA - kubernetes - openbao (vault)
-
+# Go app deployment
 ---
+## Infrastructure Archtecture - GHA - kubernetes - openbao (vault)
+
 ```
 Developer / GitHub Actions Runner
 ----main commands----
@@ -205,8 +206,7 @@ Gitea / Developer
                       +----------------------+
 
 ```
----
-## Go app secrets deployment architecture - Go app - kubernetes - openbao (vault)
+## Secrets Architecture - Go app - kubernetes - openbao (vault)
 
 ```
 K8s Secret (openbao-creds)         ← created manually via kubectl  
@@ -244,7 +244,7 @@ K8s Secret (openbao-creds)         ← created manually via kubectl
 
 ```
 
-## Go app secrets deployment architecture - GHA - kubernetes - openbao (vault)
+## Secrets architecture - GHA - kubernetes - openbao (vault)
 
 Correct. The three Gitea org secrets are for the runner’s bootstrap credentials only:
 ```
