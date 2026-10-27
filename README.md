@@ -149,8 +149,9 @@ Two scearios
 ```
 One:
 1. Local GHA workflows (.gitea/workflows)
-2. Local terraform modules (terraform/modules)
+2. Local terraform modules (terraform/modules/*.tf)
 3. Local ansible roles (ansible/roles)
+4. Local terraform no modules (terraform/*.tf)
 
 Two
 1. Reusable workflows (http://gitea.local/admin/reusable-workflows)
