@@ -2,75 +2,15 @@
 #                   Architecture Diagrame
 ---
 
-* [Infrastructure Archtecture - GHA - terraform - ansible](#infrastructure-archtecture---gha---terraform---ansible)
-* [Infrastructure Archtecture  - GHA - kubernetes](#infrastructure-archtecture----gha---kubernetes)
+* [Infrastructure Archtecture - GHA - terraform - ansible](#vm-deployment-architecture---terraform---ansible---gha-runner---seaweed-s3---org-level-secrets)
+* [Infrastructure Archtecture  - GHA - kubernetes](#go-app-deployment-architecture---microk8s---terraform---gha-runner---openbao-vault)
 
-* [Secrets Architecture - gha - org secrets - vault](#secrets-architecture---gha---org-secrets---vault)
-* [Secrets Architecture - Go app - kubernetes - vault](#secrets-architecture---go-app---kubernetes---vault)
+* [Secrets Architecture - GHA - kubernetes - vault](#go-app-secrets-deployment-architecture---gitea-org-secrets-and-runner)
+* [Secrets Architecture - Go app - kubernetes - vault](#go-app-deployment-architecture---microk8s---terraform---gha-runner---openbao-vault)
 
 * [Promethius architecture](#promethius-architecture)
 
 --- 
-
-# VM deployment architecture - terraform - ansible - GHA runner - seaweed (S3) - openbao (vault)
----
-```
- Developer / GitHub Actions Runner
- ----main commands----
- terraform plan / apply
- ansible-playbook
- ---------------------
-
-
- Gitea / Developer
- ┌─────────────────────────────────────────┐
- │  Terraform, ansible                     │ ----------------------------(Org level secrets for openbao only)
- |  GHA workflows, roles                   │                      (VAULT_ADDR, VAULT_ROLE_ID, VAULT_SECRET_ID)
- └─────────────────┬───────────────────────┘
-                   │
-                   |
-                   |
-                   ▼
- ┌───────────────────────────────────────────┐
- │        Runner / Developer                 │  ----------------------- (Runner picks secrets from Openbao )
- |                                           |                                  homelab/data/lxd
- |       (Docker-based, LXD VM)              |                                  homelab/data/seaweed	
- |                                           |                                  homelab/data/ansible
- |                                           |                             
- |                                           |                            (Developer picks from env variables)
- |                                           |
- └───────┬───────────────────────────┬───────┘
-         │                           │
-         |                           |
-         |                           |
-Terraform│ plan / apply              │Ansible-playbook
-         |                           |
-         |                           |       
-         ▼                           |
- ┌─────────────────┐                 |               
- │      MinIO      │                 |
- │    backend s3   │                 |
- │    (TF state)   │                 |
- └─────────────────┘                 |
-         │                           |      
-         │                           |
-         │                           |
- ┌─────────────────┐                 |               
- │   LXD / KVM     │                 |
- │  (localhost:    │                 |       
- │    8443)        │                 |      
- └─────────────────┘                 |
-         |                           |
-         |                           |
-         |                           |
- ┌─────────────────┐                 |       
- │  Target VM      │                 |      
- │  Ubuntu 26.04   │ +---------------+                   
- │With ansible user|
- └─────────────────┘
-
-```
----
 
 ## VM deployment architecture - terraform - ansible - GHA runner - seaweed (S3) - Org level secrets
 
@@ -106,6 +46,64 @@ Terraform│ plan / apply              │Ansible-playbook
  |       (Docker-based, LXD VM)              |  
  |                                           |                             
  |                                           |                           
+ |                                           |
+ └───────┬───────────────────────────┬───────┘
+         │                           │
+         |                           |
+         |                           |
+Terraform│ plan / apply              │Ansible-playbook
+         |                           |
+         |                           |       
+         ▼                           |
+ ┌─────────────────┐                 |               
+ │      MinIO      │                 |
+ │    backend s3   │                 |
+ │    (TF state)   │                 |
+ └─────────────────┘                 |
+         │                           |      
+         │                           |
+         │                           |
+ ┌─────────────────┐                 |               
+ │   LXD / KVM     │                 |
+ │  (localhost:    │                 |       
+ │    8443)        │                 |      
+ └─────────────────┘                 |
+         |                           |
+         |                           |
+         |                           |
+ ┌─────────────────┐                 |       
+ │  Target VM      │                 |      
+ │  Ubuntu 26.04   │ +---------------+                   
+ │With ansible user|
+ └─────────────────┘
+
+```
+### VM deployment architecture - terraform - ansible - GHA runner - seaweed (S3) - openbao (vault)
+
+```
+ Developer / GitHub Actions Runner
+ ----main commands----
+ terraform plan / apply
+ ansible-playbook
+ ---------------------
+
+
+ Gitea / Developer
+ ┌─────────────────────────────────────────┐
+ │  Terraform, ansible                     │ ----------------------------(Org level secrets for openbao only)
+ |  GHA workflows, roles                   │                      (VAULT_ADDR, VAULT_ROLE_ID, VAULT_SECRET_ID)
+ └─────────────────┬───────────────────────┘
+                   │
+                   |
+                   |
+                   ▼
+ ┌───────────────────────────────────────────┐
+ │        Runner / Developer                 │  ----------------------- (Runner picks secrets from Openbao )
+ |                                           |                                  homelab/data/lxd
+ |       (Docker-based, LXD VM)              |                                  homelab/data/seaweed	
+ |                                           |                                  homelab/data/ansible
+ |                                           |                             
+ |                                           |                            (Developer picks from env variables)
  |                                           |
  └───────┬───────────────────────────┬───────┘
          │                           │
