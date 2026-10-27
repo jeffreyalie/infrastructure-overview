@@ -1,4 +1,4 @@
-Block 1: install the binary and create the user (skips what already exists)
+# Block 1: install the binary and create the user (skips what already exists)
 bash
 if ! command -v weed >/dev/null; then
   cd /tmp
