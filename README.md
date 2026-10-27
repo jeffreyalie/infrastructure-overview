@@ -2,17 +2,20 @@
 #                   Architecture Diagram for VM deployment and Go app deployment
 ---
 
-* [Infrastructure Archtecture - GHA - terraform - ansible](#vm-deployment-architecture---terraform---ansible---gha-runner---seaweed-s3---org-level-secrets)
-* [Infrastructure Archtecture  - GHA - kubernetes](#go-app-deployment-architecture---microk8s---terraform---gha-runner---openbao-vault)
+VM Deployment
+* [Infrastructure Archtecture - GHA - terraform - ansible - LXD - seaweed (S3) - Org level secrets](#infrastructure-archtecture---gha---terraform---ansible---lxd---seaweed-s3---org-level-secrets)
+* [Infrastructure Archtecture - GHA - terraform - ansible - LXD - seaweed (S3) - openbao (vault)](#infrastructure-archtecture---gha---terraform---ansible---lxd---seaweed-s3---openbao-vault)
 
-* [Secrets Architecture - GHA - kubernetes - vault](#go-app-secrets-deployment-architecture---gitea-org-secrets-and-runner)
-* [Secrets Architecture - Go app - kubernetes - vault](#go-app-deployment-architecture---microk8s---terraform---gha-runner---openbao-vault)
+Go app deployment
+* [Infrastructure Archtecture - GHA - kubernetes - openbao (vault)](#infrastructure-archtecture---gha---kubernetes---openbao-vault)
+* [Secrets Architecture - Go app - kubernetes - openbao (vault)](#secrets-architecture---go-app---kubernetes---openbao-vault)
+* [Secrets architecture - GHA - kubernetes - openbao (vault)](#secrets-architecture---gha---kubernetes---openbao-vault)
 
 * [Promethius architecture](#promethius-architecture)
 
 --- 
 # VM Deployment
----
+
 ## Infrastructure Archtecture - GHA - terraform - ansible - LXD - seaweed (S3) - Org level secrets
 
 ```
@@ -139,7 +142,7 @@ Terraform│ plan / apply              │Ansible-playbook
 ```
 ---
 # Go app deployment
----
+
 ## Infrastructure Archtecture - GHA - kubernetes - openbao (vault)
 
 ```
@@ -254,7 +257,7 @@ Gitea org secrets (VAULT_ADDR, VAULT_ROLE_ID, VAULT_SECRET_ID)
 OpenBao  →  homelab/data/microk8s   (kubeconfig)
          →  homelab/data/registry   (registry address)  ← new (maybe later. still hardcoded in GHA workflow 10.206.213.243:3200)
 ```
--------
+
 ```
 ┌──────────────────────────────────────────────────┐
 │              Gitea Org Secrets                   │
