@@ -140,7 +140,6 @@ Terraform│ plan / apply              │Ansible-playbook
 * ansible
   - local roles / reusasble galaxy
 
-
 Two scearios
 ```
 One:
