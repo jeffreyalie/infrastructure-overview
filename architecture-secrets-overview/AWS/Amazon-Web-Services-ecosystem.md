@@ -2,7 +2,7 @@
 Amazon Web Services (AWS) is a massive ecosystem, but it is best understood when broken down into functional "building blocks." Here is an overview of the core services and how they integrate into modern containerized workflows and CI/CD pipelines.
 
 ---
-## 1. Core AWS Infrastructure Services
+1. Core AWS Infrastructure Services
 
 These are the foundational services that provide compute, storage, networking, and security.
 
@@ -13,17 +13,17 @@ These are the foundational services that provide compute, storage, networking, a
 * **RDS (Relational Database Service):** A managed service for databases like MySQL, PostgreSQL, and SQL Server, handling backups, patching, and scaling.  
 * **Lambda:** A serverless compute service that runs code in response to triggers (like an S3 upload or an API call) without you managing any underlying servers.
 
-## 2. Containerized Services & Orchestration
+2. Containerized Services & Orchestration
 
 AWS provides several ways to run Docker containers, ranging from "do-it-yourself" to fully managed serverless options.
 
-### AWS Container Services
+AWS Container Services
 
 * **ECS (Elastic Container Service):** A highly scalable, high-performance container orchestration service. It is "AWS-native" and integrates deeply with other AWS services.  
 * **EKS (Elastic Kubernetes Service):** A managed Kubernetes service. It allows you to run K8s on AWS without needing to install or operate your own Kubernetes control plane.  
 * **Fargate:** A serverless compute engine for both ECS and EKS. With Fargate, you don't manage EC2 instances; you simply define the CPU and memory requirements for your containers, and AWS handles the rest.
 
-### Containerization Tools
+Containerization Tools
 
 * **Docker:** The industry-standard platform for packaging applications into containers.  
 * **Helm:** Often called the "package manager for Kubernetes." It uses "charts" to define, install, and upgrade even the most complex Kubernetes applications.  
