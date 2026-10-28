@@ -72,8 +72,6 @@ These are all core **vSphere / vCenter hierarchy components** that define how VM
 **Example:**  
  `Datacenter > Datastore Cluster (e.g., Tier1-StorageCluster)`
 
----
-
 ### **🧭 Hierarchy Summary**
 
 `vCenter`  
@@ -86,22 +84,6 @@ These are all core **vSphere / vCenter hierarchy components** that define how VM
 
 ---
 
-Would you like me to include **a visual diagram** of this hierarchy (like a tree or chart) to make it clearer?
-
-##### **You said:**
-
-so vcenter is the first esxi server that host the web access?
-
-###### **ChatGPT said:**
-
-That’s a **very common question**, and it’s a key concept to understand —  
- ✅ **No, vCenter is not an ESXi host.**  
- Let’s break this down clearly 👇
-
----
-
-### 
-
 ### **🧠 vCenter Server vs ESXi Host**
 
 | Component | Description |
@@ -109,7 +91,6 @@ That’s a **very common question**, and it’s a key concept to understand —
 | **ESXi Host** | A **physical server** that runs the **VMware ESXi hypervisor** — it’s what actually runs the **virtual machines (VMs)**. Each ESXi host has its own local web interface (`https://<host-ip>/ui`) for basic management. |
 | **vCenter Server** | A **management platform (software)** that centrally manages **multiple ESXi hosts** and their VMs. It provides **a single web interface** (the **vSphere Client**) for the entire environment. |
 
----
 
 ### **🏗️ How They Work Together**
 
