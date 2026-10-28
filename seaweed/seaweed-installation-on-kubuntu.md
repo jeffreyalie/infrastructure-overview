@@ -1,6 +1,15 @@
 # Seaweed Installation and secrets
 
-## Block 1: install the binary and create the user (skips what already exists)
+Table of Contents
+
+* [Installation steps](#installation-setps)
+* [Ports used](#how-many-ports-are-used-by-seaweedfs-and-how-can-we-access-via-web-is-there-any-admin-webui-also)
+* [Webui setup](#web-access)
+* [Secrets used for Webui and GHA](#secrets-for-gha-in-gitea-secret-variables)
+---
+## Installation setps
+
+### Block 1: install the binary and create the user (skips what already exists)
 ```bash
 if ! command -v weed >/dev/null; then
   cd /tmp
@@ -14,7 +23,7 @@ id seaweedfs >/dev/null 2>&1 || sudo useradd --system --home /var/lib/seaweedfs 
 sudo mkdir -p /var/lib/seaweedfs /etc/seaweedfs
 sudo chown seaweedfs:seaweedfs /var/lib/seaweedfs
 ```
-## Block 2: save the keys and write the identity file
+### Block 2: save the keys and write the identity file
 This stores the keys in /root/seaweedfs-keys.env (readable only by root) so later blocks work even in a new terminal.
 ```
 echo "ADMIN_ACCESS=$(openssl rand -hex 10)"
@@ -67,7 +76,7 @@ sudo cat /etc/seaweedfs/s3.json
 ```
 The last command prints the file. Check that all four key fields are filled in, because an empty key is what crashed the service earlier.
 
-## Block 3: systemd service and start
+### Block 3: systemd service and start
 
 ```bash
 sudo tee /etc/systemd/system/seaweedfs.service > /dev/null <<'EOF'
@@ -103,11 +112,11 @@ sudo systemctl show seaweedfs -p NRestarts
 You should see ports 8333 and 8888 listening, and NRestarts=0.
 #----------
 ```
-## Block 4: firewall
+### Block 4: firewall
 ```bash
 sudo ufw allow from 10.206.213.0/24 to any port 8333 proto tcp
 ```
-## Block 5: create the bucket (admin keys)
+### Block 5: create the bucket (admin keys)
 ```bash
 sudo snap install aws-cli --classic 2>/dev/null || true
 source /root/seaweedfs-keys.env
@@ -124,7 +133,7 @@ aws --endpoint-url $EP s3api get-bucket-versioning --bucket tfstate
 ```
 If you see BucketAlreadyOwnedByYou, that's fine, since the bucket already exists.
 
-## Block 6: verify locking and permissions
+### Block 6: verify locking and permissions
 This uses a fresh key name each time, so a leftover object can't cause a false failure:
 ```bash
 source /root/seaweedfs-keys.env
@@ -158,12 +167,12 @@ For your Terraform machine, use these credentials (read the TF values from the f
 bash
 sudo grep TF_ /root/seaweedfs-keys.env
 ```
-### Two things to keep in mind:
+#### Two things to keep in mind:
 The admin keys and TF_ACCESS are in this chat. They're on a private LAN, so the risk is low, but I'd rotate all four later by re-running Block 2 with fresh openssl rand values and restarting the service.
 The earlier InternalError when writing to a brand-new bucket is still unexplained. If block 6 or a later bucket creation hits it again, run the df -h and journalctl checks from my previous message and send me the output.
 
 ---
-# How many ports are used by seaweedfs and how can we access via web? is there any admin webui also?
+## How many ports are used by seaweedfs and how can we access via web? is there any admin webui also?
 
 A single-node setup like yours uses 7 ports for the core services, plus 2 more if you add the admin UI.
 
@@ -197,7 +206,7 @@ Since everything runs on one machine, only 8333 needs to be reachable by Terrafo
 The rest are internal, and on a single node the gRPC ports only talk to each other locally. 
 You can confirm what's listening with sudo ss -tlnp | grep weed.
 ---
-# Web access
+## Web access
 Master UI at http://10.206.213.241:9333 shows cluster status, topology and volumes.
 Filer UI at http://10.206.213.241:8888 is a file browser. Your S3 buckets show up under /buckets/, which is handy for checking tfstate.
 Volume server UI at http://10.206.213.241:8080/ui/index.html shows volume statistics.
@@ -210,7 +219,7 @@ The ufw rule from earlier only opens 8333, so to view the UIs from your desktop,
 ```bash
 sudo ufw allow from 10.206.213.50 to any port 9333,8888,23646 proto tcp
 ```
-## Setting up the admin UI (run on the server):
+### Setting up the admin UI (run on the server):
 ```bash
 sudo mkdir -p /var/lib/seaweedfs-admin
 sudo chown seaweedfs:seaweedfs /var/lib/seaweedfs-admin
@@ -252,7 +261,7 @@ The last command prints the generated password. Then open http://10.206.213.241:
 I used the server's IP for -master instead of localhost because your master is listening on that address.
 ---
 
-# Secrets for GHA in gitea secret variables
+## Secrets for GHA in gitea secret variables
 
 What secrets and variable should I use for GHA and terraform tf files. and what secrets to add in repo Settings → Secrets and Variables level. and how backend block to use?
 Setting up Gitea Actions secrets and variables configuration.
