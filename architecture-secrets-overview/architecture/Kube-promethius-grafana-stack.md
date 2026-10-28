@@ -1,6 +1,5 @@
 ## Kube promethius stack diagram
 
----
 ```
                                 [ USER / ADMIN ]
                                         |
