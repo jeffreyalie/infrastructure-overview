@@ -72,6 +72,8 @@ These are all core **vSphere / vCenter hierarchy components** that define how VM
 **Example:**  
  `Datacenter > Datastore Cluster (e.g., Tier1-StorageCluster)`
 
+---
+
 ### **🧭 Hierarchy Summary**
 
 `vCenter`  
