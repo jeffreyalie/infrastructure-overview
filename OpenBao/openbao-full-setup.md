@@ -164,6 +164,8 @@ path "homelab/data/ansible" {
 }
 path "homelab/data/microk8s" {
   capabilities = ["read"]
+path "homelab/data/grafana"  { 
+  capabilities = ["read"] }
 }
 EOF
 ```
@@ -196,6 +198,10 @@ bao kv put homelab/seaweed   access_key="bafd89b41f6b0db671dd"   secret_key="19d
 ### Ansible SSH keys
 ```
 bao kv put homelab/ansible   ssh_private_key="(cat/root/certs/ansible/idrsa)"  sshpublickey="(cat /root/certs/ansible/id_rsa.pub)"
+```
+### Grafana admin password
+```
+bao kv put homelab/grafana admin_password="<your-password>"
 ```
 
 ### Microk8s (.kube/config)
