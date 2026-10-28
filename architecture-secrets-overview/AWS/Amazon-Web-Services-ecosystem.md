@@ -51,7 +51,7 @@ You mentioned it’s like an API to access S3—and you’re exactly right\! Whi
 * **The "API" feel:** You don't manage an OS or a web server. You just upload your code (Go, Python, Node, etc.), and AWS handles the execution. You only pay for the milliseconds the code is actually running.
 
 
-#### 2.EC2 vs. LXD Virtual Machines
+#### 2. EC2 vs. LXD Virtual Machines
 
 Your comparison to **LXD VMs** is spot on.
 
