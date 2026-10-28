@@ -31,10 +31,6 @@ AWS provides several ways to run Docker containers, ranging from "do-it-yourself
 * **Helm:** Often called the "package manager for Kubernetes." It uses "charts" to define, install, and upgrade even the most complex Kubernetes applications.  
 * **ArgoCD:** A declarative, GitOps continuous delivery tool for Kubernetes. It automatically synchronizes your live cluster state with the configuration stored in a Git repository.
 
----
-
-### 
-
 ## Summary Table
 
 | AWS Service | LXD / Linux Equivalent | Key Difference |
