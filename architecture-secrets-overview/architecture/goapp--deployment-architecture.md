@@ -1,4 +1,6 @@
-# Go app deployment architecture - Microk8s - terraform - GHA runner - openbao (vault)
+# Go app deployment
+
+## Infrastructure Archtecture - GHA - kubernetes - openbao (vault)
 
 ```
 Developer / GitHub Actions Runner
