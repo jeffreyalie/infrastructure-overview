@@ -13,7 +13,6 @@ These are the foundational services that provide compute, storage, networking, a
 * **RDS (Relational Database Service):** A managed service for databases like MySQL, PostgreSQL, and SQL Server, handling backups, patching, and scaling.  
 * **Lambda:** A serverless compute service that runs code in response to triggers (like an S3 upload or an API call) without you managing any underlying servers.
 
----
 
 ## **2\. Containerized Services & Orchestration**
 
