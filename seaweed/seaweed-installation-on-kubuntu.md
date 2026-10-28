@@ -198,12 +198,15 @@ A single-node setup like yours uses 7 ports for the core services, plus 2 more i
 |   23646     |    Admin UI       |       Web admin console           |
 |             |   (optional)      |                                   |
 +-------------------------------------------------------------------- +
-|   33646     |   Admin gRPC         |       Worker connections        |           |
-|             |   (optional)         |     (HTTP port + 10000)        |        |
+|   33646     |   Admin gRPC         |       Worker connections       |
+|             |   (optional)         |     (HTTP port + 10000)        |
 +-------------------------------------------------------------------- +
 ```
 
-Since everything runs on one machine, only 8333 needs to be reachable by Terraform and the Gitea runner. The rest are internal, and on a single node the gRPC ports only talk to each other locally. You can confirm what's listening with sudo ss -tlnp | grep weed.
+Since everything runs on one machine, only 8333 needs to be reachable by Terraform and the Gitea runner.
+The rest are internal, and on a single node the gRPC ports only talk to each other locally.
+You can confirm what's listening with sudo ss -tlnp | grep weed.
+
 ---
 ## Web access
 Master UI at http://10.206.213.241:9333 shows cluster status, topology and volumes.
@@ -258,6 +261,7 @@ sudo cat /etc/seaweedfs/admin.env
 ```
 The last command prints the generated password. Then open http://10.206.213.241:23646 and log in as admin with that password. 
 I used the server's IP for -master instead of localhost because your master is listening on that address.
+
 ---
 
 ## Secrets for GHA in gitea secret variables
