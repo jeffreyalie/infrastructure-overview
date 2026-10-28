@@ -1,7 +1,6 @@
+# AWS details and LXD comparison
 Amazon Web Services (AWS) is a massive ecosystem, but it is best understood when broken down into functional "building blocks." Here is an overview of the core services and how they integrate into modern containerized workflows and CI/CD pipelines.
-
 ---
-
 ## 1. Core AWS Infrastructure Services
 
 These are the foundational services that provide compute, storage, networking, and security.
@@ -12,8 +11,6 @@ These are the foundational services that provide compute, storage, networking, a
 * **VPC (Virtual Private Cloud):** A logically isolated section of the AWS Cloud where you launch resources in a virtual network you define (subnets, IP ranges, and routing).  
 * **RDS (Relational Database Service):** A managed service for databases like MySQL, PostgreSQL, and SQL Server, handling backups, patching, and scaling.  
 * **Lambda:** A serverless compute service that runs code in response to triggers (like an S3 upload or an API call) without you managing any underlying servers.
-
----
 
 ## 2. Containerized Services & Orchestration
 
@@ -31,17 +28,15 @@ AWS provides several ways to run Docker containers, ranging from "do-it-yourself
 * **Helm:** Often called the "package manager for Kubernetes." It uses "charts" to define, install, and upgrade even the most complex Kubernetes applications.  
 * **ArgoCD:** A declarative, GitOps continuous delivery tool for Kubernetes. It automatically synchronizes your live cluster state with the configuration stored in a Git repository.
 
----
-
-## Summary Table
-
+### Summary Table
+```
 | AWS Service | LXD / Linux Equivalent | Key Difference |
 | :---- | :---- | :---- |
 | **EC2** | lxc launch ... \--vm | You manage the virtualized hardware and OS. |
 | **Fargate** | lxc launch ... (Container) | Serverless; you don't manage the host OS/Kernel at all. |
 | **IAM** | sudo / chmod / chown | Cloud-native; works via JSON policies and API calls. |
 | **S3** | A massive, networked /var/www/html | It's an object store (key-value), not a traditional block filesystem. |
-
+```
 ---
 
 ## Explanation of above:
@@ -53,16 +48,12 @@ You mentioned it’s like an API to access S3—and you’re exactly right\! Whi
 * **How it works with S3:** You can configure S3 to "trigger" a Lambda function the millisecond a file is uploaded. The Lambda wakes up, processes that specific file (like resizing an image or scanning for viruses), and then disappears.  
 * **The "API" feel:** You don't manage an OS or a web server. You just upload your code (Go, Python, Node, etc.), and AWS handles the execution. You only pay for the milliseconds the code is actually running.
 
----
-
 ### EC2 vs. LXD Virtual Machines
 
 Your comparison to **LXD VMs** is spot on.
 
 * **The Parallel:** Just as you might use lxc launch images:ubuntu/24.04 my-vm \--vm, AWS uses **AMIs (Amazon Machine Images)**. These are pre-made snapshots of an OS (Ubuntu, Amazon Linux, Windows) that include the root volume template.  
 * **The Hardware:** In LXD, you define limits on your local host. In EC2, you choose an **Instance Type** (e.g., t3.medium, c5.large) which dictates the fixed amount of CPU, RAM, and EBS (virtual disk) performance you get from AWS’s physical data center.
-
----
 
 ### Fargate \+ ECS vs. LXD Containers
 
@@ -79,20 +70,15 @@ This is where the abstraction gets interesting. If EC2 is like managing the "Hos
 ### The "All-in-One" LXD vs. "Decoupled" AWS
 
 You are correct: **LXD** is a single tool that provides a unified management experience for both system containers (LXC) and virtual machines (KVM). In your Ubuntu setup, lxc launch can spin up a container or a VM from the same CLI.
-
 **AWS** takes the opposite approach. It breaks these functions into separate, specialized services that you "connect" together.
 
----
-
 #### 1. EC2 vs. LXD VMs
-
 These are the closest equivalents.
 
 * **LXD VMs:** Use the KVM hypervisor. You manage the kernel and the "virtual hardware" limits yourself.  
 * **AWS EC2:** This is the "Virtual Machine Service." When you need a full OS with its own kernel, you go here. You choose an **AMI** (the "image") and an **Instance Type** (the "hardware").
 
 #### 2. Fargate/ECS vs. LXD Containers
-
 This is where the comparison gets more nuanced.
 
 * **LXD Containers:** These are **System Containers**. They feel like a lightweight VM, often running an entire OS init system (like systemd) inside.  
