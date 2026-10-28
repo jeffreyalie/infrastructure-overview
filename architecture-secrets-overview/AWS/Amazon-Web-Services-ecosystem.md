@@ -2,7 +2,7 @@ Amazon Web Services (AWS) is a massive ecosystem, but it is best understood when
 
 ---
 
-## **1\. Core AWS Infrastructure Services**
+## 1. Core AWS Infrastructure Services
 
 These are the foundational services that provide compute, storage, networking, and security.
 
@@ -15,25 +15,23 @@ These are the foundational services that provide compute, storage, networking, a
 
 ---
 
-## **2\. Containerized Services & Orchestration**
+## 2. Containerized Services & Orchestration
 
 AWS provides several ways to run Docker containers, ranging from "do-it-yourself" to fully managed serverless options.
 
-### **AWS Container Services**
+### AWS Container Services
 
 * **ECS (Elastic Container Service):** A highly scalable, high-performance container orchestration service. It is "AWS-native" and integrates deeply with other AWS services.  
 * **EKS (Elastic Kubernetes Service):** A managed Kubernetes service. It allows you to run K8s on AWS without needing to install or operate your own Kubernetes control plane.  
 * **Fargate:** A serverless compute engine for both ECS and EKS. With Fargate, you don't manage EC2 instances; you simply define the CPU and memory requirements for your containers, and AWS handles the rest.
 
-### **Containerization Tools**
+### Containerization Tools
 
 * **Docker:** The industry-standard platform for packaging applications into containers.  
 * **Helm:** Often called the "package manager for Kubernetes." It uses "charts" to define, install, and upgrade even the most complex Kubernetes applications.  
 * **ArgoCD:** A declarative, GitOps continuous delivery tool for Kubernetes. It automatically synchronizes your live cluster state with the configuration stored in a Git repository.
 
 ---
-
-### 
 
 ## Summary Table
 
@@ -48,7 +46,7 @@ AWS provides several ways to run Docker containers, ranging from "do-it-yourself
 
 ## Explanation of above:
 
-### **Lambda: The "Serverless" Function**
+### Lambda: The "Serverless" Function
 
 You mentioned it’s like an API to access S3—and you’re exactly right\! While Lambda can be a full API backend (via API Gateway), it is most powerful as an **Event-Driven Runner**.
 
@@ -57,7 +55,7 @@ You mentioned it’s like an API to access S3—and you’re exactly right\! Whi
 
 ---
 
-### **EC2 vs. LXD Virtual Machines**
+### EC2 vs. LXD Virtual Machines
 
 Your comparison to **LXD VMs** is spot on.
 
@@ -66,7 +64,7 @@ Your comparison to **LXD VMs** is spot on.
 
 ---
 
-### **Fargate \+ ECS vs. LXD Containers**
+### Fargate \+ ECS vs. LXD Containers
 
 This is where the abstraction gets interesting. If EC2 is like managing the "Host," Fargate is like having the "Container" without ever seeing the host.
 
@@ -78,7 +76,7 @@ This is where the abstraction gets interesting. If EC2 is like managing the "Hos
 
 ---
 
-### **The "All-in-One" LXD vs. "Decoupled" AWS**
+### The "All-in-One" LXD vs. "Decoupled" AWS
 
 You are correct: **LXD** is a single tool that provides a unified management experience for both system containers (LXC) and virtual machines (KVM). In your Ubuntu setup, lxc launch can spin up a container or a VM from the same CLI.
 
@@ -86,14 +84,14 @@ You are correct: **LXD** is a single tool that provides a unified management exp
 
 ---
 
-#### 1\. EC2 vs. LXD VMs
+#### 1. EC2 vs. LXD VMs
 
 These are the closest equivalents.
 
 * **LXD VMs:** Use the KVM hypervisor. You manage the kernel and the "virtual hardware" limits yourself.  
 * **AWS EC2:** This is the "Virtual Machine Service." When you need a full OS with its own kernel, you go here. You choose an **AMI** (the "image") and an **Instance Type** (the "hardware").
 
-#### 2\. Fargate/ECS vs. LXD Containers
+#### 2. Fargate/ECS vs. LXD Containers
 
 This is where the comparison gets more nuanced.
 
@@ -105,14 +103,14 @@ This is where the comparison gets more nuanced.
 
 ### AWS IAM
 
-#### **1\. AWS IAM vs. Okta (Identity Provider)**
+#### 1. AWS IAM vs. Okta (Identity Provider)
 
 Standard **AWS IAM** is built specifically for AWS resources. It doesn't naturally handle logging into your email, Slack, or Zoom like Okta does.
 
 * **The AWS equivalent to Okta** is called **AWS IAM Identity Center** (formerly AWS SSO).  
 * It allows you to manage "Workforce Identities." You can create users there or—crucially—**connect it to Okta**. Most companies use Okta as the "Source of Truth" and then use IAM Identity Center to pass those users into AWS.
 
-#### **2\. AWS IAM vs. SailPoint (Identity Governance)**
+#### 2. AWS IAM vs. SailPoint (Identity Governance)
 
 **SailPoint** is famous for "Governance"—answering questions like *"Does this person still need access?"* or *"Did we remove their access when they changed departments?"*
 
