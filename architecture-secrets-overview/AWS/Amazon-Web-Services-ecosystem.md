@@ -1,5 +1,6 @@
 # AWS details and LXD comparison
 Amazon Web Services (AWS) is a massive ecosystem, but it is best understood when broken down into functional "building blocks." Here is an overview of the core services and how they integrate into modern containerized workflows and CI/CD pipelines.
+
 ---
 ## 1. Core AWS Infrastructure Services
 
