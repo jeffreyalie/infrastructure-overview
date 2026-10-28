@@ -50,7 +50,7 @@ You mentioned it’s like an API to access S3—and you’re exactly right\! Whi
 * **How it works with S3:** You can configure S3 to "trigger" a Lambda function the millisecond a file is uploaded. The Lambda wakes up, processes that specific file (like resizing an image or scanning for viruses), and then disappears.  
 * **The "API" feel:** You don't manage an OS or a web server. You just upload your code (Go, Python, Node, etc.), and AWS handles the execution. You only pay for the milliseconds the code is actually running.
 
----
+-----
 
 #### **EC2 vs. LXD Virtual Machines**
 
@@ -59,7 +59,7 @@ Your comparison to **LXD VMs** is spot on.
 * **The Parallel:** Just as you might use lxc launch images:ubuntu/24.04 my-vm \--vm, AWS uses **AMIs (Amazon Machine Images)**. These are pre-made snapshots of an OS (Ubuntu, Amazon Linux, Windows) that include the root volume template.  
 * **The Hardware:** In LXD, you define limits on your local host. In EC2, you choose an **Instance Type** (e.g., t3.medium, c5.large) which dictates the fixed amount of CPU, RAM, and EBS (virtual disk) performance you get from AWS’s physical data center.
 
----
+-----
 
 #### **Fargate \+ ECS vs. LXD Containers**
 
@@ -78,8 +78,6 @@ This is where the abstraction gets interesting. If EC2 is like managing the "Hos
 You are correct: **LXD** is a single tool that provides a unified management experience for both system containers (LXC) and virtual machines (KVM). In your Ubuntu setup, lxc launch can spin up a container or a VM from the same CLI.
 
 **AWS** takes the opposite approach. It breaks these functions into separate, specialized services that you "connect" together.
-
----
 
 #### 1\. EC2 vs. LXD VMs
 
