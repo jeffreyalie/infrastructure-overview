@@ -131,7 +131,7 @@ Terraform│ plan / apply              │Ansible-playbook
 
 ```
 ---
-## Infrastructure Archtecture - GHA - terraform - ansible
+## Infrastructure Archtecture - GHA (workflows)- terraform (modiles) - ansible (roles/galaxy)
 
 Two scearios
 ```
