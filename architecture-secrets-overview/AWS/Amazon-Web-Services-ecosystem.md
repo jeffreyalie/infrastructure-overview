@@ -48,7 +48,7 @@ AWS provides several ways to run Docker containers, ranging from "do-it-yourself
 
 ## Explanation of above:
 
-### **Lambda: The "Serverless" Function**
+#### **Lambda: The "Serverless" Function**
 
 You mentioned it’s like an API to access S3—and you’re exactly right\! While Lambda can be a full API backend (via API Gateway), it is most powerful as an **Event-Driven Runner**.
 
@@ -57,7 +57,7 @@ You mentioned it’s like an API to access S3—and you’re exactly right\! Whi
 
 ---
 
-### **EC2 vs. LXD Virtual Machines**
+#### **EC2 vs. LXD Virtual Machines**
 
 Your comparison to **LXD VMs** is spot on.
 
@@ -66,7 +66,7 @@ Your comparison to **LXD VMs** is spot on.
 
 ---
 
-### **Fargate \+ ECS vs. LXD Containers**
+#### **Fargate \+ ECS vs. LXD Containers**
 
 This is where the abstraction gets interesting. If EC2 is like managing the "Host," Fargate is like having the "Container" without ever seeing the host.
 
@@ -78,7 +78,7 @@ This is where the abstraction gets interesting. If EC2 is like managing the "Hos
 
 ---
 
-### **The "All-in-One" LXD vs. "Decoupled" AWS**
+## **The "All-in-One" LXD vs. "Decoupled" AWS**
 
 You are correct: **LXD** is a single tool that provides a unified management experience for both system containers (LXC) and virtual machines (KVM). In your Ubuntu setup, lxc launch can spin up a container or a VM from the same CLI.
 
@@ -103,7 +103,7 @@ This is where the comparison gets more nuanced.
 
 ---
 
-### AWS IAM
+## AWS IAM
 
 #### **1\. AWS IAM vs. Okta (Identity Provider)**
 
