@@ -11,7 +11,7 @@
 - [Step 5 — Connect Lens to MicroK8s](#step-5--connect-lens-to-microk8s)
 - [Common Issues and Fixes](#common-issues-and-fixes)
 - [Fix Missing ~/.kube Directory](#fix-missing-kube-directory)
-- [Kubernetes Dashboard](#kubernetes-dashboard)
+- [Kubernetes Dashboard (Deprecated)](#kubernetes-dashboard---deprecated--)
 - [Multiple Users and RBAC](#option-a---multiple-users-and-rbac)
 
 ---
