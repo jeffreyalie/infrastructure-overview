@@ -19,13 +19,13 @@ These are the foundational services that provide compute, storage, networking, a
 
 AWS provides several ways to run Docker containers, ranging from "do-it-yourself" to fully managed serverless options.
 
-### **AWS Container Services**
+#### **AWS Container Services**
 
 * **ECS (Elastic Container Service):** A highly scalable, high-performance container orchestration service. It is "AWS-native" and integrates deeply with other AWS services.  
 * **EKS (Elastic Kubernetes Service):** A managed Kubernetes service. It allows you to run K8s on AWS without needing to install or operate your own Kubernetes control plane.  
 * **Fargate:** A serverless compute engine for both ECS and EKS. With Fargate, you don't manage EC2 instances; you simply define the CPU and memory requirements for your containers, and AWS handles the rest.
 
-### **Containerization Tools**
+#### **Containerization Tools**
 
 * **Docker:** The industry-standard platform for packaging applications into containers.  
 * **Helm:** Often called the "package manager for Kubernetes." It uses "charts" to define, install, and upgrade even the most complex Kubernetes applications.  
