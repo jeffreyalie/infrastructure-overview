@@ -134,11 +134,11 @@ Terraform│ plan / apply              │Ansible-playbook
 ## Infrastructure Archtecture - GHA - terraform - ansible
 
 * GHA workflows
-        - Local / reusable
+  - Local / reusable
 * Terraform modules
-        - local / reusable
+  - local / reusable
 * ansible
-        - local roles / reusasble galaxy
+  - local roles / reusasble galaxy
 
 
 Two scearios
