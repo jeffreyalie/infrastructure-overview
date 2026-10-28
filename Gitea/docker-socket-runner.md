@@ -111,3 +111,4 @@ Create multiple folders with separate tokens from Gitea for each:
 ```
 
 Get a different registration token from Gitea for each runner instance.
+---
