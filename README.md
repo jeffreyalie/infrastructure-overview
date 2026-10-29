@@ -1,12 +1,12 @@
 
-* Servers used
+* **Servers used**
   - LXD
   - Gitea
   - Gitea runner
   - Openbao (Vault)
   - Seaweed (S3)
   - Developer laptop - Kubuntu
-* OS
+* **OS**
   - Kubuntu - **The Great**
   ---
 * **Infradtructure Architecture**
