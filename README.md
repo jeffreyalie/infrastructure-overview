@@ -1,4 +1,14 @@
 
+* Servers used
+  - LXD
+  - Gitea
+  - Gitea runner
+  - Openbao (Vault)
+  - Seaweed (S3)
+  - Developer laptop - Kubuntu
+* OS
+  - Kubuntu - **The Great**
+  ---
 * **Infradtructure Architecture**
   - Infrastructure Archtecture VM Deployment - Gitea - Gitea runner - terraform - ansible - LXD - seaweed (S3)
   - Infrastructure Archtecture VM Deployment - Gitea - Gitea runner - terraform - ansible - LXD - seaweed (S3) - openbao (vault)
