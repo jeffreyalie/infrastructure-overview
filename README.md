@@ -8,7 +8,7 @@
 
 * Infrastrucure Secrets Architecture
   - Infrastructure Secrets Archtecture VM Deployment - Gitea - Gitea runner - terraform - ansible - LXD - seaweed (S3) - openbao (vault) - **Vault level secreats**
-  - Infrastructure Secrets Archtecture VM Deployment - Gitea - Gitea runner - terraform - ansible - LXD - seaweed (S3) **Org/Repo level secrets**
+  - Infrastructure Secrets Archtecture VM Deployment - Gitea - Gitea runner - terraform - ansible - LXD - seaweed (S3) - **Org/Repo level secrets**
   - Infrastructure Secrets Archtecture Go app deployment - Microk8s - openbao (vault)
   - Infrastructure Secrets Archtecture Go app deployment - GHA runner - Microk8s - openbao (vault)
 

@@ -1,6 +1,6 @@
 # Infrastructure Secrets Archtecture
 
-## Infrastructure Secrets Archtecture VM Deployment - Gitea - Gitea runner - terraform - ansible - LXD - seaweed (S3) - openbao (vault) - Vault level secreats
+## Infrastructure Secrets Archtecture VM Deployment - Gitea - Gitea runner - terraform - ansible - LXD - seaweed (S3) - openbao (vault) <br> Vault level secreats
 ```
  Developer / GitHub Actions Runner
  ----main commands----
