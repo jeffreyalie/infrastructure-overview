@@ -1,7 +1,7 @@
 # Infrastructure Secrets Archtecture
 
-## Infrastructure Secrets Archtecture Go app deployment - Microk8s - openbao (vault)
-## Infrastructure Secrets Archtecture Go app deployment - GHA runner - Microk8s - openbao (vault)
+**Infrastructure Secrets Archtecture Go app deployment - Microk8s - openbao (vault)**<br>
+**Infrastructure Secrets Archtecture Go app deployment - GHA runner - Microk8s - openbao (vault)**
 
 > Secrets architecture for a Go app running in MicroK8s that connects to LXD using credentials fetched from OpenBao at runtime.
 
