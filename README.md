@@ -13,8 +13,8 @@ Go app deployment
 * [Secrets architecture - GHA - kubernetes - openbao (vault)](#secrets-architecture---gha---kubernetes---openbao-vault)
 
 Kubernetes
-* [Kubernetes Internal Architecture](#kubernetes-internal-architecture)
-* [Kube promethius stack Interal Architecture](#kube-promethius-stack-interal-architecture)
+* [System Architecture - Kubernetes](#system-architecture---kubernetes)
+* [System Architecture - Kube promethius stack](#system-architecture---kube-promethius-stack)
 
 --- 
 # VM Deployment

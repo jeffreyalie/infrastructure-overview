@@ -1,5 +1,6 @@
-# VM deployment architecture - terraform - ansible - GHA runner - seaweed (S3) - openbao (vault) - Vault level secrets
----
+# Infrastructure Secrets Archtecture VM Deployment
+
+## Infrastructure Secrets Archtecture VM Deployment - GHA - terraform - ansible - LXD - seaweed (S3) - openbao (vault)
 ```
  Developer / GitHub Actions Runner
  ----main commands----

@@ -1,7 +1,6 @@
-# Go app deployment
+# Infrastructure Archtecture Kebernetes Go app deployment
 
-## Infrastructure Archtecture - GHA - kubernetes - openbao (vault)
-
+## Infrastructure Archtecture Go app deployment - GHA - kubernetes - openbao (vault)
 ```
 Developer / GitHub Actions Runner
 ----main commands----

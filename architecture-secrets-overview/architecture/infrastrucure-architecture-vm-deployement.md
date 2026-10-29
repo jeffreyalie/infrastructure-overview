@@ -1,12 +1,12 @@
-# VM Deployment
+# Infrastructure Archtecture VM Deployment
 
-* [Infrastructure Archtecture - GHA - terraform - ansible - LXD - seaweed (S3) - Org level secrets](#infrastructure-archtecture---gha---terraform---ansible---lxd---seaweed-s3---org-level-secrets)
-* [Infrastructure Archtecture - GHA - terraform - ansible - LXD - seaweed (S3) - openbao (vault)](#infrastructure-archtecture---gha---terraform---ansible---lxd---seaweed-s3---openbao-vault)
-* [Infrastructure Archtecture - GHA - terraform - ansible](#infrastructure-archtecture---gha---terraform---ansible)
+## Infrastructure Archtecture VM Deployment - GHA - terraform - ansible - LXD - seaweed (S3) - Org level secrets
+## Infrastructure Archtecture VM Deployment - GHA - terraform - ansible - LXD - seaweed (S3) - openbao (vault)
+## Infrastructure Archtecture VM Deployment - GHA workfloes - terraform modules - ansible roles / galaxy
 
 --- 
 
-## Infrastructure Archtecture - GHA - terraform - ansible - LXD - seaweed (S3) - Org level secrets
+## Infrastructure Archtecture VM Deployment - GHA - terraform - ansible - LXD - seaweed (S3) - Org level secrets
 
 ```
  Developer / GitHub Actions Runner
@@ -72,7 +72,7 @@ Terraform│ plan / apply              │Ansible-playbook
  └─────────────────┘
 
 ```
-### Infrastructure Archtecture - GHA - terraform - ansible - LXD - seaweed (S3) - openbao (vault)
+## Infrastructure Archtecture VM Deployment - GHA - terraform - ansible - LXD - seaweed (S3) - openbao (vault)
 
 ```
  Developer / GitHub Actions Runner
@@ -131,7 +131,7 @@ Terraform│ plan / apply              │Ansible-playbook
 
 ```
 ---
-## Infrastructure Archtecture - GHA - terraform - ansible
+## Infrastructure Archtecture VM Deployment - GHA workfloes - terraform modules - ansible roles / galaxy
 
 * GHA workflows
   - Local / reusable
