@@ -72,7 +72,7 @@ A label search only finds objects that have that label. In your current chart:
 | Ingress	        | No	                 | ingress.yaml has no labels               |
 +-------------------+------------------------+------------------------------------------+
 ```
-So get all -l app=go-lxd-vm-dashboard will not list the Deployment or the Ingress. (all also excludes Ingresses anyway.) 
+So get all -l app=go-lxd-vm-dashboard will not list the Deployment or the Ingress. (all also excludes Ingresses anyway.)<br>
 To make them searchable by label, add labels: under each one’s metadata. Until then, find them by name or by kind.
 
 **Quick summary**
