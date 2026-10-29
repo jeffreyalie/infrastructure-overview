@@ -12,8 +12,9 @@ Go app deployment
 * [Secrets Architecture - Go app - kubernetes - openbao (vault)](#secrets-architecture---go-app---kubernetes---openbao-vault)
 * [Secrets architecture - GHA - kubernetes - openbao (vault)](#secrets-architecture---gha---kubernetes---openbao-vault)
 
-Promethius 
-* [Promethius architecture](#promethius-architecture)
+Kubernetes
+* [Kubernetes Internal Architecture](#kubernetes-internal-architecture)
+* [Kube promethius stack Interal Architecture](#kube-promethius-stack-interal-architecture)
 
 --- 
 # VM Deployment
@@ -321,7 +322,21 @@ Push Pipeline: build    → deploy-live
 ```
 ---
 
-## Promethius architecture
+## Kubernetes Internal Architecture
+
+The namespace is the outer container, and everything else lives inside it.
+```
+Cluster (MicroK8s)
+└── Namespace: dev                          ← you provide (--namespace dev)
+    ├── Deployment: go-lxd-vm-dashboard     ← you provide (chart: {{ .Release.Name }})
+    │   └── ReplicaSet: go-lxd-vm-dashboard-7d9f8b6c5   ← auto (Deployment name + hash)
+    │       └── Pod: go-lxd-vm-dashboard-7d9f8b6c5-x2k4p ← auto (ReplicaSet name + random)
+    ├── Service: go-lxd-vm-dashboard        ← you provide (chart: {{ .Release.Name }})
+    └── Ingress: go-lxd-vm-dashboard-ingress ← you provide (chart: {{ .Release.Name }}-ingress)
+```
+---
+
+## Kube promethius stack Interal Architecture
 
 ```
                                 [ USER / ADMIN ]
