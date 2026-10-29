@@ -7,10 +7,12 @@
   - Infrastructure Architecture Kube-promethius-stack Goap and other devices Deployment
 
 * Infrastrucure Secrets Architecture
-  - System Architecture Kubernetes
-  - System Architecture Kube-promethius-stack
+  - Infrastructure Secrets Archtecture Go app deployment - Microk8s - openbao (vault)
+  - Infrastructure Secrets Archtecture Go app deployment - GHA runner - Microk8s - openbao (vault)
 
 * Systems Architecture
+  - System Architecture Kubernetes
+  - System Architecture Kube-promethius-stack
 ---
 
 VM Deployment
