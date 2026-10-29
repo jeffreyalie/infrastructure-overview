@@ -1,6 +1,6 @@
 # Infrastructure Archtecture
 
-## Infrastructure Archtecture Go app deployment - GHA - kubernetes - openbao (vault)
+## Infrastructure Archtecture Go app deployment - Gitea - Gitea runner - kubernetes - openbao (vault)
 ```
 Developer / GitHub Actions Runner
 ----main commands----
@@ -11,7 +11,8 @@ helm install/upgrade
 
 Gitea / Developer
 +-----------------------------------+
-| Source Code + Helm Chart Folder   |
+| Source Code + GHA workflows +     |
+| Helm Chart Folder +               |
 | Chart.yaml, values.yaml, templates|
 +-----------------------------------+
         │
