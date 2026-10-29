@@ -1,6 +1,6 @@
 # Kubernetes Internal Architecture
 
-#### The namespace is the outer container, and everything else lives inside it.
+### The namespace is the outer container, and everything else lives inside it.
 ```
 Cluster (MicroK8s)
 └── Namespace: dev                          ← you provide (--namespace dev)
@@ -11,9 +11,9 @@ Cluster (MicroK8s)
     └── Ingress: go-lxd-vm-dashboard-ingress ← you provide (chart: {{ .Release.Name }}-ingress)
 ```
 
-#### Each object kind has its own kubectl get command, and you search by name or by label. The two commands you pasted are identical (both get svc), so here is the full set.
+### Each object kind has its own kubectl get command, and you search by name or by label. The two commands you pasted are identical (both get svc), so here is the full set.
 
-Search by object kind
+#### Search by object kind
 ```bash
 microk8s kubectl get deploy  -n dev      # Deployments
 microk8s kubectl get rs      -n dev      # ReplicaSets
@@ -24,10 +24,11 @@ microk8s kubectl get ingress -n dev      # Ingresses
 Short names: deploy, rs, po, svc, ing. You can combine several kinds in one command:
 ```bash
 microk8s kubectl get deploy,rs,pods,svc,ingress -n dev
-Search by name
 ```
-Add the object’s name to get just that one:
 
+#### Search by name
+
+Add the object’s name to get just that one:
 ```bash
 microk8s kubectl get deploy go-lxd-vm-dashboard -n dev
 microk8s kubectl get svc go-lxd-vm-dashboard -n dev
@@ -54,7 +55,7 @@ microk8s kubectl get all  -n dev -l app=go-lxd-vm-dashboard
 microk8s kubectl get svc -n dev --show-labels
 microk8s kubectl get pods -n dev --show-labels
 ```
-Which objects appear with -l app=...
+#### Which objects appear with -l app=...
 A label search only finds objects that have that label. In your current chart:
 ```
 +---------------------------------------------------------------------------------------+
