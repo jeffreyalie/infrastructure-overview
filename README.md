@@ -6,9 +6,10 @@
   - Infrastructure Archtecture Go app deployment - Gitea - Gitea runner - kubernetes - openbao (vault)
   - Infrastructure Architecture Kube-promethius-stack Goap and other devices
 
-
-
 * Infrastrucure Secrets Architecture
+ - System Architecture Kubernetes
+ - System Architecture Kube-promethius-stack
+
 * Systems Architecture
 ---
 
