@@ -1,4 +1,4 @@
-## Kube promethius stack diagram
+## Kube promethius stack Interal Architecture
 
 ```
                                 [ USER / ADMIN ]
