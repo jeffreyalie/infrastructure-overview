@@ -1,4 +1,4 @@
-# Infrastructure Archtecture VM Deployment
+# Infrastructure Archtecture
 
 ## Infrastructure Archtecture VM Deployment - GHA - terraform - ansible - LXD - seaweed (S3) - Org level secrets
 ## Infrastructure Archtecture VM Deployment - GHA - terraform - ansible - LXD - seaweed (S3) - openbao (vault)

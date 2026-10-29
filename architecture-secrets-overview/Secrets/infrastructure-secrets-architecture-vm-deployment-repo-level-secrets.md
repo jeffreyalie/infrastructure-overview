@@ -1,4 +1,4 @@
-# Infrastructure Secrets Archtecture VM Deployment
+# Infrastructure Secrets Archtecture
 
 ## Infrastructure Secrets Archtecture VM Deployment - GHA - terraform - ansible - LXD - seaweed (S3) - Org level secrets
 ```

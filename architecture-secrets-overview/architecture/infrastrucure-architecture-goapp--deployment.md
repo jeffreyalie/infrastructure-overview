@@ -1,4 +1,4 @@
-# Infrastructure Archtecture Kebernetes Go app deployment
+# Infrastructure Archtecture
 
 ## Infrastructure Archtecture Go app deployment - GHA - kubernetes - openbao (vault)
 ```

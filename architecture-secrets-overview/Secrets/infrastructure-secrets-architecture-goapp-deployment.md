@@ -1,4 +1,4 @@
-# Infrastructure Secrets Archtecture Go app deployment
+# Infrastructure Secrets Archtecture
 
 ## Infrastructure Secrets Archtecture Go app deployment - GHA runner - Microk8s - openbao (vault)
 ## Infrastructure Secrets Archtecture Go app deployment - Microk8s - terraform - GHA runner - openbao (vault)
