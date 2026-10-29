@@ -1,4 +1,4 @@
-# Kubernetes Internal Architecture
+# System Architecture - Kubernetes
 
 ### The namespace is the outer container, and everything else lives inside it.
 ```

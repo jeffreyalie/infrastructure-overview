@@ -322,7 +322,7 @@ Push Pipeline: build    → deploy-live
 ```
 ---
 
-## Kubernetes Internal Architecture
+## System Architecture - Kubernetes
 
 The namespace is the outer container, and everything else lives inside it.
 ```
@@ -336,7 +336,7 @@ Cluster (MicroK8s)
 ```
 ---
 
-## Kube promethius stack Interal Architecture
+## System Architecture - Kube promethius stack
 
 ```
                                 [ USER / ADMIN ]
