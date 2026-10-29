@@ -1,6 +1,6 @@
 # Infrastructure Architecture
 
-## Infrastructure Architecture Kube-promethius-stack Goap and other devices
+## Infrastructure Architecture Kube-promethius-stack Goap and other devices Deployment
 
 Terminology
 
