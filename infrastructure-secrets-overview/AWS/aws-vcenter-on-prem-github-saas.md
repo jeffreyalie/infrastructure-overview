@@ -1,4 +1,4 @@
-# AWD - Vcenter (On-prem) - Github (Saas)
+# AWS - Vcenter (On-premises) - Github (Saas)
 ```
 On-Prem (vCenter / VMs)
       10.20.0.0/16
