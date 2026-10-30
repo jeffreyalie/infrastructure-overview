@@ -1,9 +1,33 @@
 # Infrastructure Archtecture
 
+* Infrastructure Archtecture VM Deployment - GHA workflows - terraform modules - ansible roles / galaxy
 * Infrastructure Archtecture VM Deployment - Gitea - Gitea runner - terraform - ansible - LXD - seaweed (S3)
 * Infrastructure Archtecture VM Deployment - Gitea - Gitea runner - terraform - ansible - LXD - seaweed (S3) - openbao (vault)
-* Infrastructure Archtecture VM Deployment - GHA workflows - terraform modules - ansible roles / galaxy
 
+---
+
+## Infrastructure Archtecture VM Deployment - GHA workflows - terraform modules - ansible roles / galaxy
+
+* GHA workflows
+  - Local / reusable
+* Terraform modules
+  - local / reusable
+* ansible
+  - local roles / reusasble galaxy
+
+Two scearios
+```
+One:
+1. Local GHA workflows (.gitea/workflows)
+2. Local terraform modules (terraform/modules/*.tf)
+3. Local ansible roles (ansible/roles)
+4. Local terraform no modules (terraform/*.tf)
+
+Two
+1. Reusable workflows (http://gitea.local/admin/reusable-workflows)
+2. Reusable terraform modules (http://gitea.local/admin/reusable-modules)
+3. Reusable ansiible roles (http://gitea.local/admin/reusable-galaxy-roles-curl)
+```
 ---
 
 ## Infrastructure Archtecture VM Deployment - GHA workflows - terraform - ansible - LXD - seaweed (S3) - Org level secrets
@@ -129,28 +153,5 @@ Terraform│ plan / apply              │Ansible-playbook
  │With ansible user|
  └─────────────────┘
 
-```
----
-## Infrastructure Archtecture VM Deployment - GHA workflows - terraform modules - ansible roles / galaxy
-
-* GHA workflows
-  - Local / reusable
-* Terraform modules
-  - local / reusable
-* ansible
-  - local roles / reusasble galaxy
-
-Two scearios
-```
-One:
-1. Local GHA workflows (.gitea/workflows)
-2. Local terraform modules (terraform/modules/*.tf)
-3. Local ansible roles (ansible/roles)
-4. Local terraform no modules (terraform/*.tf)
-
-Two
-1. Reusable workflows (http://gitea.local/admin/reusable-workflows)
-2. Reusable terraform modules (http://gitea.local/admin/reusable-modules)
-3. Reusable ansiible roles (http://gitea.local/admin/reusable-galaxy-roles-curl)
 ```
 ---
