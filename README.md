@@ -12,11 +12,9 @@
 * **Infradtructure Architecture**
   - Infrastructure Archtecture VM Deployment - GHA workflows - terraform modules - ansible roles / galaxy
     - Infrastructure Archtecture VM Deployment - Gitea - Gitea runner - terraform - ansible - LXD - seaweed (S3)
-    - Infrastructure Archtecture VM Deployment - Gitea - Gitea runner - terraform - ansible - LXD - seaweed (S3) - openbao (vault)
-  - 
+    - Infrastructure Archtecture VM Deployment - Gitea - Gitea runner - terraform - ansible - LXD - seaweed (S3) - openbao (vault)<br>
   - Infrastructure Archtecture Go app deployment - Gitea - Gitea runner - kubernetes - openbao (vault)
   - Infrastructure Archtecture Go app deployment - Gitea - Developer - kubernetes - openbao (vault)
-  - 
   - Infrastructure Architecture Kube-promethius-stack Goap and other devices Deployment
 
 * **Infrastrucure Secrets Architecture**
