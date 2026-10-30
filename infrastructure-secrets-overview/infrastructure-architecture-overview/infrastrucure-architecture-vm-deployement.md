@@ -1,8 +1,8 @@
 # Infrastructure Archtecture
 
 * Infrastructure Archtecture VM Deployment - GHA workflows - terraform modules - ansible roles / galaxy
-* Infrastructure Archtecture VM Deployment - Gitea - Gitea runner - terraform - ansible - LXD - seaweed (S3)
-* Infrastructure Archtecture VM Deployment - Gitea - Gitea runner - terraform - ansible - LXD - seaweed (S3) - openbao (vault)
+  - Infrastructure Archtecture VM Deployment - Gitea - Gitea runner - terraform - ansible - LXD - seaweed (S3)
+  - Infrastructure Archtecture VM Deployment - Gitea - Gitea runner - terraform - ansible - LXD - seaweed (S3) - openbao (vault)
 
 ---
 
