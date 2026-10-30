@@ -1,6 +1,7 @@
 # Infrastructure Archtecture
 
 ## Infrastructure Archtecture Go app deployment - Gitea - Gitea runner - kubernetes - openbao (vault)
+## Infrastructure Archtecture Go app deployment - Gitea - Developer - kubernetes - openbao (vault)
 ```
 Developer / GitHub Actions Runner
 ----main commands----
