@@ -95,7 +95,7 @@ check:
 	$(GO) sh -c "gofmt -l . ; go vet ./... && go build -o /tmp/test ."
 ```
 
-Then use make tidy after changing libraries and make check before every push. (Makefile recipe lines must start with a tab, not spaces.)
+Then use **make tidy** after changing libraries and **make check** before every push. (Makefile recipe lines must start with a tab, not spaces.)
 
 ## Quick summary
 What you did	                    Run	                                Commit
@@ -103,4 +103,4 @@ New app	                            go mod init + go mod tidy	        all files 
 Changed code only	                optional check	                    the changed files
 Added or removed a library	        go mod tidy, then check	            code + go.mod + go.sum
 
-Rule of thumb: if git status shows a new import in your code but go.mod hasn’t changed, run
+Rule of thumb: if <git status> shows a new import in your code but go.mod hasn’t changed, run
