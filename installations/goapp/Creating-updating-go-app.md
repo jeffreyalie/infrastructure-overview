@@ -2,7 +2,7 @@
 
 ## First time: creating a new Go app
 
-Run these once in the app folder "(app/)", with your '.go' files already written.
+Run these once in the app folder ```(app/)``` with your ```.go``` files already written.
 
 ```bash
 cd app
@@ -14,8 +14,8 @@ docker run --rm --user $(id -u):$(id -g) \
   sh -c "go mod init go-lxd-vm-dashboard && go mod tidy"
 ```
 
-* ```go mod init <name>``` creates go.mod.
-* go mod tidy reads your imports, downloads every dependency, and creates go.sum.
+* ```go mod init <name>``` creates ```go.mod```.
+* ```go mod tidy``` reads your imports, downloads every dependency, and creates ```go.sum```.
 
 Then check it compiles and commit:
 
@@ -33,7 +33,7 @@ git commit -m "feat: initial go app"
 git push
 ```
 
-The Dockerfile, index.html, and Helm chart go in the same commit. The pipeline’s docker build does the real compile after that.
+The Dockerfile, ```index.html```, and Helm chart go in the same commit. The pipeline’s ```docker build``` does the real compile after that.
 
 ## Later: changing the source files
 
@@ -53,10 +53,10 @@ git add app/
 git commit -m "fix: describe change"
 git push
 ```
-No go mod tidy needed.
+No ```go mod tidy``` needed.
 
 **Case B:** you added, removed, or upgraded an outside library
-(anything imported from github.com/... or golang.org/x/...)
+(anything imported from ```github.com/...``` or ```golang.org/x/...```)
 
 Save your code changes first, then:
 
@@ -67,7 +67,7 @@ docker run --rm --user $(id -u):$(id -g) \
   -v "$PWD":/app -w /app golang:1.26.2-alpine \
   sh -c "go mod tidy"
 ```
-Use go get **<package>@latest && go mod tidy** only if **tidy** alone can’t find a new package. Usually go mod tidy is enough, because it detects the new import by itself.
+Use go get ```<package>@latest && go mod tidy``` only if ```tidy``` alone can’t find a new package. Usually ```go mod tidy``` is enough, because it detects the new import by itself.
 
 Then:
 
@@ -80,7 +80,7 @@ git push
 ```
 **Shortcut: make it one reusable command**
 
-Put this in a Makefile at the repo root so you don’t retype the Docker line:
+Put this in a ```Makefile``` at the repo root so you don’t retype the Docker line:
 
 ``` 
 makefile
@@ -95,12 +95,13 @@ check:
 	$(GO) sh -c "gofmt -l . ; go vet ./... && go build -o /tmp/test ."
 ```
 
-Then use **make tidy** after changing libraries and **make check** before every push. (Makefile recipe lines must start with a tab, not spaces.)
+Then use ```make tidy``` after changing libraries and ```make check``` before every push. (Makefile recipe lines must start with a tab, not spaces.)
 
 ## Quick summary
+
 What you did	                    Run	                                Commit
 New app	                            go mod init + go mod tidy	        all files including go.mod, go.sum
 Changed code only	                optional check	                    the changed files
 Added or removed a library	        go mod tidy, then check	            code + go.mod + go.sum
 
-**Rule of thumb:** if **git status** shows a new import in your code but **go.mod** hasn’t changed, run
+**Rule of thumb:** if ```git status``` shows a new import in your code but ```go.mod``` hasn’t changed, run
