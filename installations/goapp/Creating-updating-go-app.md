@@ -2,7 +2,7 @@
 
 ## First time: creating a new Go app
 
-Run these once in the app folder (app/), with your .go files already written.
+Run these once in the app folder "(app/)", with your '.go' files already written.
 
 ```bash
 cd app
@@ -14,7 +14,7 @@ docker run --rm --user $(id -u):$(id -g) \
   sh -c "go mod init go-lxd-vm-dashboard && go mod tidy"
 ```
 
-* go mod init <name> creates go.mod.
+* ``go mod init <name>``` creates go.mod.
 * go mod tidy reads your imports, downloads every dependency, and creates go.sum.
 
 Then check it compiles and commit:
