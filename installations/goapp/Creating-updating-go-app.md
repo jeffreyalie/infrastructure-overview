@@ -99,9 +99,9 @@ Then use ```make tidy``` after changing libraries and ```make check``` before ev
 
 ## Quick summary
 ```
-What you did	                 Run	                            Commit
-New app	                       go mod init + go mod tidy	      all files including go.mod, go.sum
-Changed code only	             optional check	                  the changed files
-Added or removed a library	   go mod tidy, then check	        code + go.mod + go.sum
+What you did                    Run                               Commit
+New app                         go mod init + go mod tidy         all files including go.mod, go.sum
+Changed code only               optional check                    the changed files
+Added or removed a library      go mod tidy, then check           code + go.mod + go.sum
 ```
 **Rule of thumb:** if ```git status``` shows a new import in your code but ```go.mod``` hasn’t changed, run
