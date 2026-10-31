@@ -1,4 +1,4 @@
-# Creating - updating goapp
+# Creating - updating - goapp
 
 ## First time: creating a new Go app
 
@@ -37,7 +37,7 @@ The Dockerfile, index.html, and Helm chart go in the same commit. The pipeline�
 
 ## Later: changing the source files
 
-Case A: you only changed code, no new outside libraries
+**Case A:** you only changed code, no new outside libraries
 (edited functions, HTML, handlers, or used only the standard library)
 
 ``` bash
@@ -55,7 +55,7 @@ git push
 ```
 No go mod tidy needed.
 
-## Case B: you added, removed, or upgraded an outside library
+**Case B:** you added, removed, or upgraded an outside library
 (anything imported from github.com/... or golang.org/x/...)
 
 Save your code changes first, then:
@@ -67,7 +67,7 @@ docker run --rm --user $(id -u):$(id -g) \
   -v "$PWD":/app -w /app golang:1.26.2-alpine \
   sh -c "go mod tidy"
 ```
-Use go get <package>@latest && go mod tidy only if tidy alone can’t find a new package. Usually go mod tidy is enough, because it detects the new import by itself.
+Use go get **<package>@latest && go mod tidy** only if **tidy** alone can’t find a new package. Usually go mod tidy is enough, because it detects the new import by itself.
 
 Then:
 
@@ -78,7 +78,7 @@ git add app/
 git commit -m "feat: add <library>"
 git push
 ```
-*Shortcut: make it one reusable command
+**Shortcut: make it one reusable command**
 
 Put this in a Makefile at the repo root so you don’t retype the Docker line:
 
