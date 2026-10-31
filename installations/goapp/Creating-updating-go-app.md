@@ -14,7 +14,7 @@ docker run --rm --user $(id -u):$(id -g) \
   sh -c "go mod init go-lxd-vm-dashboard && go mod tidy"
 ```
 
-* ``go mod init <name>``` creates go.mod.
+* ```go mod init <name>``` creates go.mod.
 * go mod tidy reads your imports, downloads every dependency, and creates go.sum.
 
 Then check it compiles and commit:
