@@ -67,7 +67,7 @@ docker run --rm --user $(id -u):$(id -g) \
   -v "$PWD":/app -w /app golang:1.26.2-alpine \
   sh -c "go mod tidy"
 ```
-Use go get ```<package>@latest && go mod tidy``` only if ```tidy``` alone can’t find a new package. Usually ```go mod tidy``` is enough, because it detects the new import by itself.
+Use ```go get <package>@latest && go mod tidy``` only if ```tidy``` alone can’t find a new package. Usually ```go mod tidy``` is enough, because it detects the new import by itself.
 
 Then:
 
