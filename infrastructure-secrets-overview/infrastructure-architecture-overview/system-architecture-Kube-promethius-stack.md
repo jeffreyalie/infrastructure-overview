@@ -2,78 +2,149 @@
 
 ## System Architecture Kube-promethius-stack
 
-Overall  objects created in kubernetes API server - etdc
+Mental model for a typical **kube-prometheus-stack** installation based on your values, it would look more like this:
 ```
-Namespace: monitoring (or whatever namespace you install into)
+Namespace: monitoring
+│
+├── Deployment
+│ ├── kube-prometheus-stack-operator
+│ │ └── Pod
+│ │
+│ ├── kube-prometheus-stack-grafana
+│ │ └── Pod
+│ │
+│ └── kube-state-metrics
+│ └── Pod
+│
+├── StatefulSet
+│ ├── prometheus-kube-prometheus-stack-prometheus
+│ │ └── Pod
+│ │
+│ └── alertmanager-kube-prometheus-stack-alertmanager
+│ └── Pod
+│
+├── DaemonSet
+│ └── prometheus-node-exporter
+│ └── Pod (one per node)
+│
+├── Service
+│ ├── kube-prometheus-stack-grafana
+│ ├── kube-prometheus-stack-prometheus
+│ ├── kube-prometheus-stack-alertmanager
+│ ├── kube-prometheus-stack-operator
+│ ├── kube-state-metrics
+│ └── prometheus-node-exporter
+│
+├── ServiceMonitor
+│ ├── kube-apiserver
+│ ├── kubelet
+│ ├── coredns
+│ ├── kube-state-metrics
+│ ├── prometheus-node-exporter
+│ ├── prometheus
+│ ├── alertmanager
+│ └── grafana (optional depending on chart version)
+│
+├── PodMonitor
+│ └── (chart/version dependent)
+│
+├── PrometheusRule
+│ ├── alertmanager.rules
+│ ├── kubernetes-apps.rules
+│ ├── kubernetes-storage.rules
+│ ├── kubernetes-system.rules
+│ ├── kube-apiserver.rules
+│ ├── kubelet.rules
+│ ├── node.rules
+│ ├── prometheus.rules
+│ └── many more default rule groups
+│
+├── Prometheus (CRD object)
+│ └── kube-prometheus-stack-prometheus
+│
+├── Alertmanager (CRD object)
+│ └── kube-prometheus-stack-alertmanager
+│
+├── PVC
+│ ├── prometheus-db-prometheus-kube-prometheus-stack-prometheus-0
+│ ├── alertmanager-db-alertmanager-kube-prometheus-stack-alertmanager-0
+│ └── grafana-storage
+│
+├── ConfigMap
+│ ├── grafana-dashboards
+│ ├── grafana-datasources
+│ ├── alertmanager-config
+│ ├── prometheus-rules
+│ └── operator-generated configs
+│
+├── Secret
+│ ├── grafana-admin-credentials
+│ ├── alertmanager-config
+│ ├── prometheus-tls-assets
+│ └── operator-generated secrets
+│
+├── ServiceAccount
+│ ├── kube-prometheus-stack-operator
+│ ├── prometheus
+│ ├── alertmanager
+│ ├── grafana
+│ ├── kube-state-metrics
+│ └── node-exporter
+│
+├── Role
+│ ├── grafana
+│ ├── operator
+│ └── various component roles
+│
+├── RoleBinding
+│ ├── grafana
+│ ├── operator
+│ └── various component bindings
+│
+├── ClusterRole
+│ ├── kube-prometheus-stack-operator
+│ ├── prometheus
+│ ├── kube-state-metrics
+│ └── node-exporter
+│
+├── ClusterRoleBinding
+│ ├── kube-prometheus-stack-operator
+│ ├── prometheus
+│ ├── kube-state-metrics
+│ └── node-exporter
+│
+└── Endpoints / EndpointSlices
+├── prometheus
+├── alertmanager
+├── grafana
+├── kube-state-metrics
+└── node-exporter
+```
+The most important thing to remember is:
+
+```
+Pods (running code)
 │
 ├── Prometheus Operator
-│   ├── Deployment
-│   │   └── Pod(s)
-│   ├── Service
-│   ├── ServiceAccount
-│   ├── ClusterRole
-│   └── ClusterRoleBinding
-│
 ├── Prometheus
-│   ├── Prometheus (CRD object)
-│   ├── StatefulSet
-│   │   └── Pod: prometheus-kube-prometheus-stack-prometheus-0
-│   ├── Service
-│   ├── PVC (10Gi)
-│   ├── ServiceMonitor(s)
-│   ├── PodMonitor(s)
-│   └── PrometheusRule(s)
-│
 ├── Alertmanager
-│   ├── Alertmanager (CRD object)
-│   ├── StatefulSet
-│   │   └── Pod: alertmanager-kube-prometheus-stack-alertmanager-0
-│   ├── Service
-│   ├── PVC (2Gi)
-│   └── Secret(s)
-│
 ├── Grafana
-│   ├── Deployment
-│   │   └── Pod
-│   ├── Service
-│   ├── PVC (5Gi)
-│   ├── Secret
-│   ├── ConfigMap(s)
-│   └── Dashboard ConfigMaps
-│
 ├── kube-state-metrics
-│   ├── Deployment
-│   │   └── Pod
-│   └── Service
-│
-├── prometheus-node-exporter
-│   ├── DaemonSet
-│   │   └── Pod on each node
-│   └── Service
-│
-├── ServiceMonitor(s)
-│   ├── kube-apiserver
-│   ├── kubelet
-│   ├── coredns
-│   ├── node-exporter
-│   ├── kube-state-metrics
-│   └── your application ServiceMonitors
-│
-├── PrometheusRule(s)
-│   ├── Kubernetes alerts
-│   ├── Node alerts
-│   ├── Prometheus alerts
-│   └── Recording rules
-│
-├── ConfigMaps
-├── Secrets
-├── ServiceAccounts
-├── Roles
-├── RoleBindings
-├── ClusterRoles
-└── ClusterRoleBindings
+└── node-exporter
 ```
-Relations
+Everything else is mostly:
+
+```
+Configuration objects
+Security objects
+Networking objects
+Storage objects
+Monitoring objects
+```
+stored in Kubernetes (etcd/dqlite) and watched by ```controllers/operators``` that run inside those Pods. The ```rometheus Operator Pod``` is what makes many of the monitoring CRDs such as **ServiceMonitor, PrometheusRule, Prometheus, and Alertmanager** actually do something
+
+```
+Above line diagram
 
 ```
                                 [ USER / ADMIN ]
