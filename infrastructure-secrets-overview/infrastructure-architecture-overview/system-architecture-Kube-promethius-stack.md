@@ -2,6 +2,79 @@
 
 ## System Architecture Kube-promethius-stack
 
+Overall  objects created in kubernetes API server - etdc
+```
+Namespace: monitoring (or whatever namespace you install into)
+│
+├── Prometheus Operator
+│   ├── Deployment
+│   │   └── Pod(s)
+│   ├── Service
+│   ├── ServiceAccount
+│   ├── ClusterRole
+│   └── ClusterRoleBinding
+│
+├── Prometheus
+│   ├── Prometheus (CRD object)
+│   ├── StatefulSet
+│   │   └── Pod: prometheus-kube-prometheus-stack-prometheus-0
+│   ├── Service
+│   ├── PVC (10Gi)
+│   ├── ServiceMonitor(s)
+│   ├── PodMonitor(s)
+│   └── PrometheusRule(s)
+│
+├── Alertmanager
+│   ├── Alertmanager (CRD object)
+│   ├── StatefulSet
+│   │   └── Pod: alertmanager-kube-prometheus-stack-alertmanager-0
+│   ├── Service
+│   ├── PVC (2Gi)
+│   └── Secret(s)
+│
+├── Grafana
+│   ├── Deployment
+│   │   └── Pod
+│   ├── Service
+│   ├── PVC (5Gi)
+│   ├── Secret
+│   ├── ConfigMap(s)
+│   └── Dashboard ConfigMaps
+│
+├── kube-state-metrics
+│   ├── Deployment
+│   │   └── Pod
+│   └── Service
+│
+├── prometheus-node-exporter
+│   ├── DaemonSet
+│   │   └── Pod on each node
+│   └── Service
+│
+├── ServiceMonitor(s)
+│   ├── kube-apiserver
+│   ├── kubelet
+│   ├── coredns
+│   ├── node-exporter
+│   ├── kube-state-metrics
+│   └── your application ServiceMonitors
+│
+├── PrometheusRule(s)
+│   ├── Kubernetes alerts
+│   ├── Node alerts
+│   ├── Prometheus alerts
+│   └── Recording rules
+│
+├── ConfigMaps
+├── Secrets
+├── ServiceAccounts
+├── Roles
+├── RoleBindings
+├── ClusterRoles
+└── ClusterRoleBindings
+```
+Relations
+
 ```
                                 [ USER / ADMIN ]
                                         |
