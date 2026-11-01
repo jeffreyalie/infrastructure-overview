@@ -3,14 +3,52 @@
 ## System Architecture Kubernetes
 
 ### The namespace is the outer container, and everything else lives inside it.
+Each item in your list is a **Kubernetes API resource (object)**. In a Helm chart, you define these resources with a ```kind: ``` field, and Kubernetes stores and manages them via its API server.
+```
+Helm Chart
+    ↓ renders
+YAML Manifests
+    ↓ submitted to
+Kubernetes API Server
+    ↓ creates/stores
+Objects
+    ├── Deployment
+    ├── Service
+    ├── Ingress
+    ├── ServiceMonitor
+    ├── ConfigMap
+    └── ...
+             ↓
+Controllers reconcile state
+             ↓
+ReplicaSets, Pods, Endpoints, etc.
+```
+Kubernetes objects:
+
 ```
 Cluster (MicroK8s)
 └── Namespace: dev                          ← you provide (--namespace dev)
     ├── Deployment: go-lxd-vm-dashboard     ← you provide (chart: {{ .Release.Name }})
     │   └── ReplicaSet: go-lxd-vm-dashboard-7d9f8b6c5   ← auto (Deployment name + hash)
     │       └── Pod: go-lxd-vm-dashboard-7d9f8b6c5-x2k4p ← auto (ReplicaSet name + random)
+    |
     ├── Service: go-lxd-vm-dashboard        ← you provide (chart: {{ .Release.Name }})
+    |
     └── Ingress: go-lxd-vm-dashboard-ingress ← you provide (chart: {{ .Release.Name }}-ingress)
+    │
+    ├── ServiceMonitor: go-lxd-vm-dashboard
+    │
+    ├── ConfigMap(s)
+    │
+    ├── Secret(s)
+    │
+    ├── ServiceAccount
+    │
+    ├── HorizontalPodAutoscaler
+    │
+    ├── PersistentVolumeClaim
+    │
+    └── NetworkPolicy
 ```
 
 ### Each object kind has its own kubectl get command, and you search by name or by label. The two commands you pasted are identical (both get svc), so here is the full set.
