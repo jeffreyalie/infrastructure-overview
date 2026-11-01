@@ -26,11 +26,16 @@ ReplicaSets, Pods, Endpoints, etc.
 Kubernetes objects:
 
 ```
-Cluster (MicroK8s)
+Kubernetes API server - etdc - Cluster (MicroK8s)
 └── Namespace: dev                          ← you provide (--namespace dev)
     ├── Deployment: go-lxd-vm-dashboard     ← you provide (chart: {{ .Release.Name }})
     │   └── ReplicaSet: go-lxd-vm-dashboard-7d9f8b6c5   ← auto (Deployment name + hash)
     │       └── Pod: go-lxd-vm-dashboard-7d9f8b6c5-x2k4p ← auto (ReplicaSet name + random)
+    │                │
+    │                ├── Container(s)
+    │                ├── Volumes
+    │                ├── Pod IP
+    │                └── Metadata
     |
     ├── Service: go-lxd-vm-dashboard        ← you provide (chart: {{ .Release.Name }})
     |
