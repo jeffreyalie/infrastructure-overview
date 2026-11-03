@@ -26,34 +26,60 @@ ReplicaSets, Pods, Endpoints, etc.
 Kubernetes objects:
 
 ```
-Kubernetes API server - etdc - Cluster (MicroK8s)
-└── Namespace: dev                          ← you provide (--namespace dev)
-    ├── Deployment: go-lxd-vm-dashboard     ← you provide (chart: {{ .Release.Name }})
-    │   └── ReplicaSet: go-lxd-vm-dashboard-7d9f8b6c5   ← auto (Deployment name + hash)
-    │       └── Pod: go-lxd-vm-dashboard-7d9f8b6c5-x2k4p ← auto (ReplicaSet name + random)
-    │                │
-    │                ├── Container(s)
-    │                ├── Volumes
-    │                ├── Pod IP
-    │                └── Metadata
-    |
-    ├── Service: go-lxd-vm-dashboard        ← you provide (chart: {{ .Release.Name }})
-    |
-    └── Ingress: go-lxd-vm-dashboard-ingress ← you provide (chart: {{ .Release.Name }}-ingress)
+Kubernetes API Server - etcd - Cluster (MicroK8s)
+│
+└── Namespace: dev                          ← You provide (--namespace dev)
     │
-    ├── ServiceMonitor: go-lxd-vm-dashboard
+    ├── Helm Release: go-lxd-vm-dashboard   ← You provide (after --install)
+    │   │
+    │   │   Helm manages the following resources:
+    │   │
+    │   ├── Deployment: go-lxd-vm-dashboard
+    │   │       ← You define (chart: {{ .Release.Name }})
+    │   │   │
+    │   │   └── ReplicaSet: go-lxd-vm-dashboard-7d9f8b6c5
+    │   │       ← Kubernetes automatically creates (Deployment + hash)
+    │   │       │
+    │   │       └── Pod: go-lxd-vm-dashboard-7d9f8b6c5-x2k4p
+    │   │           ← Kubernetes automatically creates (ReplicaSet + suffix)
+    │   │           │
+    │   │           ├── Container(s)        ← Defined in Pod template
+    │   │           ├── Volumes             ← Defined in Pod specification
+    │   │           ├── Pod IP              ← Assigned by Kubernetes networking
+    │   │           └── Metadata            ← Labels, annotations, etc.
+    │   │
+    │   ├── Service: go-lxd-vm-dashboard
+    │   │       ← You define (chart: {{ .Release.Name }})
+    │   │
+    │   ├── Ingress: go-lxd-vm-dashboard-ingress
+    │   │       ← You define (chart: {{ .Release.Name }}-ingress)
+    │   │
+    │   ├── ServiceMonitor: go-lxd-vm-dashboard
+    │   │       ← You define (Helm template / Prometheus Operator CRD)
+    │   │
+    │   ├── ConfigMap(s)
+    │   │       ← You define (Helm template)
+    │   │
+    │   ├── Secret(s)
+    │   │       ← You define or Kubernetes/Helm creates
+    │   │
+    │   ├── ServiceAccount
+    │   │       ← You define (Helm template)
+    │   │
+    │   ├── HorizontalPodAutoscaler
+    │   │       ← You define (Helm template)
+    │   │
+    │   ├── PersistentVolumeClaim
+    │   │       ← You define (Helm template)
+    │   │
+    │   └── NetworkPolicy
+    │           ← You define (Helm template)
     │
-    ├── ConfigMap(s)
-    │
-    ├── Secret(s)
-    │
-    ├── ServiceAccount
-    │
-    ├── HorizontalPodAutoscaler
-    │
-    ├── PersistentVolumeClaim
-    │
-    └── NetworkPolicy
+    └── Helm Release Secret(s)
+            ← Helm automatically creates
+            │
+            └── sh.helm.release.v1.go-lxd-vm-dashboard.v1
+                ← Stores release revision, chart, values and manifests
 ```
 
 ### Each object kind has its own kubectl get command, and you search by name or by label. The two commands you pasted are identical (both get svc), so here is the full set.
