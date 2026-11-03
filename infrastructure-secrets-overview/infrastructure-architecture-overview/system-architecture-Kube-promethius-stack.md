@@ -143,8 +143,8 @@ Monitoring objects
 ```
 stored in Kubernetes (etcd/dqlite) and watched by ```controllers/operators``` that run inside those Pods. The ```rometheus Operator Pod``` is what makes many of the monitoring CRDs such as **ServiceMonitor, PrometheusRule, Prometheus, and Alertmanager** actually do something
 
-```
-Above line diagram
+
+## Above line diagram
 
 ```
                                 [ USER / ADMIN ]
@@ -171,7 +171,7 @@ Above line diagram
            |                                                           v
            |                                                     (User Web Browser)
            |                                                     "lxd-dashboard.local"
-|          | 
+           | 
            |
            |
            |                           
@@ -185,9 +185,8 @@ Above line diagram
                             |
                             |-- (LXD SDK) ----> [ LXD SERVER ]
                             |-- (Vault SDK) ---> [ OPENBAO ]
-```
 
----
+```
 ## Kube-promethius-grafana stack components
 
 ```
