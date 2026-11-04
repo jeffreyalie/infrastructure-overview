@@ -127,8 +127,6 @@ bash
 # Enable AppRole auth
 bao auth enable approle
 ```
-
-
 ### Create a policy for the runner
 
 ```
@@ -149,7 +147,6 @@ path "homelab/data/microk8s" {
 EOF
 ```
 ### Create the AppRole
-
 ```
 bao write auth/approle/role/gitea-runner \
   token_policies="gitea-runner" \
