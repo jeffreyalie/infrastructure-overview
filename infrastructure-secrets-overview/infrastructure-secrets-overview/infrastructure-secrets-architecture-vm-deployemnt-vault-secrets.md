@@ -106,7 +106,7 @@ Teble of content:
 ```
 ## How to get Secrets
 
-**1. How to get VAULT_ROLE_ID, VAULT_SECRET_ID**
+**1. How to get VAULT_ROLE_ID, VAULT_SECRET_ID**<br>
 role-id is like user to read gitea-runner approll/policies and secrets. Command only reads the existing role-id for gitea-runner policy
 secret-is is password generated via command
 ```
