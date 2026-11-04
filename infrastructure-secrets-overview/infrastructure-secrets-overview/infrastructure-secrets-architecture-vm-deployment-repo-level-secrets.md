@@ -125,9 +125,9 @@ Terraform│ plan / apply              │Ansible-playbook
 ---
 ## How to get Secrets
 
-1.  How to Get LXD_CLIENT_CERT and LXD_CLIENT_KEY
+**1.  How to Get LXD_CLIENT_CERT and LXD_CLIENT_KEY**
 
-### Step 1 — Generate a Client Certificate
+Step 1 — Generate a Client Certificate
 
 Run this on your LXD host:
 
@@ -144,7 +144,7 @@ openssl req -x509 -newkey ec \
   -subj "/CN=gitea-runner"
 ```
 
-### Step 2 — Trust the Certificate in LXD
+Step 2 — Trust the Certificate in LXD
 
 ```bash
 # Add the cert as a trusted client
@@ -159,7 +159,7 @@ Verify it's trusted:
 lxc config trust list
 ```
 
-### Step 3 — Add Secrets to Gitea
+Step 3 — Add Secrets to Gitea
 
 | Secret Name | Value | How to Get |
 |-------------|-------|-----------|
@@ -170,9 +170,9 @@ lxc config trust list
 
 ---
 
-## How to Get ANSIBLE_SSH_PUBLIC_KEY
+**2. How to Get ANSIBLE_SSH_PUBLIC_KEY**
 
-### Step 1 — Generate Your SSH Key Pair
+Step 1 — Generate Your SSH Key Pair
 
 ```bash
 ssh-keygen -t ed25519 -C "ansible" -f ~/.ssh/ansible_id_ed25519
@@ -184,7 +184,7 @@ This creates two files:
 - `~/.ssh/ansible_id_ed25519` — **private key** (keep safe, never share)
 - `~/.ssh/ansible_id_ed25519.pub` — **public key** (this goes into Gitea)
 
-### Step 2 — Copy the Public and private Keys Content
+Step 2 — Copy the Public and private Keys Content
 
 ```bash
 cat ~/.ssh/ansible_id_ed25519.pub
@@ -205,7 +205,7 @@ cat ~/.ssh/ansible_id_ed25519
 
 ---
 
-## How to get Seaweed keys
+**3. How to get Seaweed keys**
 
 After / during installation of Seaweed we get four credentials variables:
 

@@ -79,7 +79,7 @@ Teble of content:
 * [Where secrets are used](#where-secrets-are-used)
 * [Total secrets used](#total-secrets-used)
 * [How to get secrets](#how-to-get-secrets)
-* [How to deploy in Openbao (Vault)](#pre-steps---add-variables-and-secrets-to-vault)
+* [How to deploy in Openbao (Vault)](#how-to-deploy-in-openbao-vault)
 
 ---
 ## Where Secrets Are Used
@@ -105,7 +105,7 @@ Teble of content:
 ```
 ## How to get Secrets
 
-2. How to get VAULT_ROLE_ID, VAULT_SECRET_ID
+**1. How to get VAULT_ROLE_ID, VAULT_SECRET_ID**
 ```
 # Get the Role ID (static, goes into Gitea org secret)
 bao read auth/approle/role/gitea-runner/role-id
@@ -113,7 +113,7 @@ bao read auth/approle/role/gitea-runner/role-id
 # Generate a Secret ID (also goes into Gitea org secret)
 bao write -f auth/approle/role/gitea-runner/secret-id
 ```
-3. How to Get LXD_CLIENT_CERT and LXD_CLIENT_KEY
+**2. How to Get LXD_CLIENT_CERT and LXD_CLIENT_KEY**
 
 Step 1 — Generate a Client Certificate
 
@@ -156,7 +156,7 @@ Step 3 — Add Secrets to Gitea
 
 ---
 
-4. How to Get ANSIBLE_SSH_PUBLIC_KEY
+**3. How to Get ANSIBLE_SSH_PUBLIC_KEY**
 
 Step 1 — Generate Your SSH Key Pair
 
@@ -188,33 +188,9 @@ cat ~/.ssh/ansible_id_ed25519
 # -----END OPENSSH PRIVATE KEY-----
 
 ```
-
-Copy that entire line.
-
-Step 3 — Open Your Gitea Repository
-
-```
-http://<your-gitea-host>/your-username/lxd-vm-terraform
-```
-
-Step 4 — Navigate to Secrets
-
-Settings → Secrets and Variables → Actions → New Secret
-
-Step 5 — Fill in the Form
-
-| Field | Value |
-|-------|-------|
-| Name | `ANSIBLE_SSH_PUBLIC_KEY` |
-| Value | Paste the full public key line |
-| Name | `ANSIBLE_SSH_PRIVATE_KEY` |
-| Value | Paste the full public key line |
-
-Click **Add Secret**.
-
 ---
 
-5. How to get Seaweed keys
+**4. How to get Seaweed keys**
 
 After / during installation of Seaweed we get four credentials variables:
 
@@ -234,7 +210,8 @@ Used in GHA
   S3_SECRET_KEY = TF_SECRET
 ```
 ---
-## Pre steps - Add variables and secrets to vault:
+## How to deploy in Openbao (Vault)
+
 Go to Bao server terminal:
 
 ### Initialize and unseal
