@@ -23,7 +23,7 @@ Controllers reconcile state
              ↓
 ReplicaSets, Pods, Endpoints, etc.
 ```
-Kubernetes objects:
+1. Kubernetes objects vreated via ```helm upgraade -- install```:
 
 ```
 Kubernetes API Server - etcd - Cluster (MicroK8s)
@@ -81,7 +81,27 @@ Kubernetes API Server - etcd - Cluster (MicroK8s)
             └── sh.helm.release.v1.go-lxd-vm-dashboard.v1
                 ← Stores release revision, chart, values and manifests
 ```
-
+2. ConfigMap created directly through kubectl
+```
+kubectl create configmap lxd-resources-dashboard \
+  --from-file=dashboard.json \
+  -n monitoring
+```
+Logical hierarchy:
+```
+Kubernetes Cluster (MicroK8s)
+│
+└── Namespace: monitoring
+    │
+    ├── ConfigMap: lxd-resources-dashboard
+    │       ← Directly managed by kubectl
+    │
+    ├── Deployment: lxd-monitoring
+    │
+    ├── Service: lxd-monitoring
+    │
+    └── Other Kubernetes resources
+```
 ### Each object kind has its own kubectl get command, and you search by name or by label. The two commands you pasted are identical (both get svc), so here is the full set.
 
 #### Search by object kind
