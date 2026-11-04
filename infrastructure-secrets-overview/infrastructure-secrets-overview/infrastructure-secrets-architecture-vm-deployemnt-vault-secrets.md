@@ -76,8 +76,9 @@ Gitea Org Secrets
 ---
 Teble of content:
 
-* [Where secrets are used](#where-secrets-are-used)
-* [Total secrets used](#total-secrets-used)
+- [Where secrets are used](#where-secrets-are-used)
+- [Total secrets used](#total-secrets-used)
+
 * [How to get secrets](#how-to-get-secrets)
 * [How to deploy in Openbao (Vault)](#how-to-deploy-in-openbao-vault)
 
