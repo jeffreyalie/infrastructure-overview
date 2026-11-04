@@ -193,6 +193,10 @@ cat ~/.ssh/ansible_id_ed25519
 **4. How to get Seaweed keys**
 
 After / during installation of Seaweed we get four credentials variables:
+```
+sudo grep TF_ /root/seaweedfs-keys.env
+sudo cat /etc/seaweedfs/admin.env
+```
 
 For webui access only (not used in GHA)
 ```
@@ -214,7 +218,7 @@ Used in GHA
 
 Go to Bao server terminal:
 
-### Initialize and unseal
+### Dtep 1 - Initialize and unseal
 
 ```
 bash
@@ -235,7 +239,7 @@ bao operator unseal
 bao login
 bao status
 ```
-
+```
 ### Get the Role ID (static, goes into Gitea org secret)
 ```
 bao read auth/approle/role/gitea-runner/role-id
@@ -245,10 +249,9 @@ bao read auth/approle/role/gitea-runner/role-id
 ```
 bao write -f auth/approle/role/gitea-runner/secret-id
 ```
-
 This will generate VAULT_ROLE_ID, VAULT_SECRET_ID that runner need to connect to openbau to get other secrets.
-
-## Step 1 - Setup Approl
+```
+## Step 2 - Setup Approl
 
 ### Enable KV v2 secrets engine:
 
@@ -292,7 +295,7 @@ bao write auth/approle/role/gitea-runner \
   secret_id_ttl=0   # 0 = never expires; tighten this in prod
 ```
 
-## Step 2:
+## Step 3:
 
 Write all your secrets into organised paths:
 First manually create cert files on Openbao server and manually copy paste from laptop
@@ -335,7 +338,7 @@ bao kv get homelab/Seaweed
 bao kv get homelab/ansible
 ```
 
-## Step 3  — Update Gitea Org Secrets
+## Step 4  — Update Gitea Org Secrets
 
 ### Replace your 9 secrets with just 2:
 
