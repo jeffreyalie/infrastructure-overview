@@ -72,9 +72,10 @@ Terraform│ plan / apply              │Ansible-playbook
 - [Where Secrets Are Used](#where-secrets-are-used)
 - [Secret Variables Reference](#secret-variables-reference)
 - [Secret Values](#secret-values)
-- [How to Get LXD_CLIENT_CERT and LXD_CLIENT_KEY](#how-to-get-lxd_client_cert-and-lxd_client_key)
-- [How to Get ANSIBLE_SSH_PUBLIC_KEY](#how-to-get-ansible_ssh_public_key)
-- [How to Get Seaweed S3_ACCESS_KEY](#how-to-get-seaweed-keys)
+
+* [How to get total secrets](#how-to-get-secrets)
+* [How to deploy in Openbao (Vault)](#how-to-deploy-them-in-repository-level-org-level)
+
 - [How Secrets Flow into Terraform](#how-secrets-flow-into-terraform)
 - [Important Points](#important-points)
 
@@ -122,8 +123,9 @@ Terraform│ plan / apply              │Ansible-playbook
 | `LXD_TRUST_PASSWORD` | Via LXD web UI | Set during LXD init ** only used if not usinng LXD certificates authentication** |
 
 ---
+## How to get Secrets
 
-## How to Get LXD_CLIENT_CERT and LXD_CLIENT_KEY
+1.  How to Get LXD_CLIENT_CERT and LXD_CLIENT_KEY
 
 ### Step 1 — Generate a Client Certificate
 
@@ -201,29 +203,6 @@ cat ~/.ssh/ansible_id_ed25519
 
 ```
 
-Copy that entire line.
-
-### Step 3 — Open Your Gitea Repository
-
-```
-http://<your-gitea-host>/your-username/lxd-vm-terraform
-```
-
-### Step 4 — Navigate to Secrets
-
-Settings → Secrets and Variables → Actions → New Secret
-
-### Step 5 — Fill in the Form
-
-| Field | Value |
-|-------|-------|
-| Name | `ANSIBLE_SSH_PUBLIC_KEY` |
-| Value | Paste the full public key line |
-| Name | `ANSIBLE_SSH_PRIVATE_KEY` |
-| Value | Paste the full public key line |
-
-Click **Add Secret**.
-
 ---
 
 ## How to get Seaweed keys
@@ -249,7 +228,25 @@ After / during installation of Seaweed we get four credentials variables:
 ```
 
 ---
+## How to deploy them in repository level (Org level)
 
+Step 1 — Navigate to Secrets
+
+Settings → Secrets and Variables → Actions → New Secret
+
+Step 2 — Fill in the Form
+Do this for all of above. This is just one example
+
+| Field | Value |
+|-------|-------|
+| Name | `ANSIBLE_SSH_PUBLIC_KEY` |
+| Value | Paste the full public key line |
+| Name | `ANSIBLE_SSH_PRIVATE_KEY` |
+| Value | Paste the full public key line |
+
+Click **Add Secret**.
+
+---
 ## How Secrets Flow into Terraform
 
 In the workflow file (`.gitea/workflows/terraform.yml`), the secret is referenced as:

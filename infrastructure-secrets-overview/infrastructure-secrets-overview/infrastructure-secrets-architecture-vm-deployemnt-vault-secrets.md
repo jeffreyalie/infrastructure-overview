@@ -73,7 +73,167 @@ Gitea Org Secrets
          └── homelab/data/microk8s   → kubeconfig          → helm deploy to MicroK8s
 
 ```
+---
+Teble of content:
 
+* [Where secrets are used](#where-secrets-are-used)
+* [Total secrets used](#total-secrets-used)
+* [How to get secrets](#how-to-get-secrets)
+* [How to deploy in Openbao (Vault)](#pre-steps---add-variables-and-secrets-to-vault)
+
+---
+## Where Secrets Are Used
+
+**For GHA automation** (`.gitea/workflows/*.yml`):
+- Add at org or repo level as Gitea secrets
+- Define actual values in OpenBao
+
+**For manual use:**
+- Export all as environment variables in your shell
+
+---
+### Total secrets used
+```
++------------------------------------------------+----------------------------------------+
+|               Old Secrets (9)                  |               New Secrets (2)          |
++------------------------------------------------+----------------------------------------+
+| LXD_ADDRESS, LXD_CLIENT_CERT, LXD_CLIENT_KEY,  |      VAULT_ROLE_ID, VAULT_SECRET_ID    |
+| LXD_TRUST_PASSWORD,                            |                                        |
+| S3_SECRET_KEY, S3_ENDPOINT,                    |                                        |
+| ANSIBLE_SSH_PRIVATE_KEY, ANSIBLE_SSH_PUBLIC_KEY|                                        |
++------------------------------------------------+----------------------------------------+
+```
+## How to get Secrets
+
+2. How to get VAULT_ROLE_ID, VAULT_SECRET_ID
+```
+# Get the Role ID (static, goes into Gitea org secret)
+bao read auth/approle/role/gitea-runner/role-id
+
+# Generate a Secret ID (also goes into Gitea org secret)
+bao write -f auth/approle/role/gitea-runner/secret-id
+```
+3. How to Get LXD_CLIENT_CERT and LXD_CLIENT_KEY
+
+Step 1 — Generate a Client Certificate
+
+Run this on your LXD host:
+```bash
+# Create a directory for the cert
+mkdir -p ~/lxd-certs && cd ~/lxd-certs
+
+# Generate client cert + key (valid 10 years)
+openssl req -x509 -newkey ec \
+  -pkeyopt ec_paramgen_curve:secp384r1 \
+  -sha384 -keyout gitea-runner.key \
+  -out gitea-runner.crt \
+  -days 3650 -nodes \
+  -subj "/CN=gitea-runner"
+```
+Step 2 — Trust the Certificate in LXD
+
+```bash
+# Add the cert as a trusted client
+lxc config trust add ~/lxd-certs/gitea-runner.crt --name gitea-runner
+```
+
+Or via **LXD Web UI**: Settings → Trusted clients → Add certificate → paste `gitea-runner.crt` content.
+
+Verify it's trusted:
+
+```bash
+lxc config trust list
+```
+
+Step 3 — Add Secrets to Gitea
+
+| Secret Name | Value | How to Get |
+|-------------|-------|-----------|
+| `LXD_CLIENT_CERT` | Content of `gitea-runner.crt` | `cat ~/lxd-certs/gitea-runner.crt` |
+| `LXD_CLIENT_KEY` | Content of `gitea-runner.key` | `cat ~/lxd-certs/gitea-runner.key` |
+| `LXD_ADDRESS` | Your host IP | `hostname -I \| awk '{print $1}'` |
+| `ANSIBLE_SSH_PUBLIC_KEY` | Your ansible pub key | See section below |
+
+---
+
+4. How to Get ANSIBLE_SSH_PUBLIC_KEY
+
+Step 1 — Generate Your SSH Key Pair
+
+```bash
+ssh-keygen -t ed25519 -C "ansible" -f ~/.ssh/ansible_id_ed25519
+# Press Enter twice for no passphrase (recommended for automation)
+```
+
+This creates two files:
+
+- `~/.ssh/ansible_id_ed25519` — **private key** (keep safe, never share)
+- `~/.ssh/ansible_id_ed25519.pub` — **public key** (this goes into Gitea)
+
+Step 2 — Copy the Public and private Keys Content
+
+```bash
+cat ~/.ssh/ansible_id_ed25519.pub
+# Output looks like:
+# ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI... ansible
+
+cat ~/.ssh/ansible_id_ed25519
+# Output looks like:
+# -----BEGIN OPENSSH PRIVATE KEY-----
+# b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+# QyNTUxOQAAACDl5gGhp+SGauJBBrFceeeRNwsO2fvt/HknBabL2DWK6QAAAJA/ww5MP8MO
+# TAAAAAtzc2gtZWQyNTUxOQAAACDl5gGhp+SGauJBBrFceeeRNwsO2fvt/HknBabL2DWK6Q
+# AAAEBVgtiDH22m4ZJt7cGehwffxqSJjnwAXnM0fhnyBrLHqOXmAaGn5IZq4kEGsVx555E3
+# Cw7Z++38eScFpsvYNYrpAAAAB2Fuc2libGUBAgMEBQY=
+# -----END OPENSSH PRIVATE KEY-----
+
+```
+
+Copy that entire line.
+
+Step 3 — Open Your Gitea Repository
+
+```
+http://<your-gitea-host>/your-username/lxd-vm-terraform
+```
+
+Step 4 — Navigate to Secrets
+
+Settings → Secrets and Variables → Actions → New Secret
+
+Step 5 — Fill in the Form
+
+| Field | Value |
+|-------|-------|
+| Name | `ANSIBLE_SSH_PUBLIC_KEY` |
+| Value | Paste the full public key line |
+| Name | `ANSIBLE_SSH_PRIVATE_KEY` |
+| Value | Paste the full public key line |
+
+Click **Add Secret**.
+
+---
+
+5. How to get Seaweed keys
+
+After / during installation of Seaweed we get four credentials variables:
+
+For webui access only (not used in GHA)
+```
+  WEED_ADMIN_USER=admin
+  WEED_ADMIN_PASSWORD=c5703879fcb973b727484ada
+```
+Used in GHA
+
+```
+  TF_ACCESS=bafd89b41f6b0db671dd
+  TF_SECRET=19d118af5ee3420fb47c1463d3aa34b82b992e28
+
+  Used in repo secret as:
+  S3_ACCESS_KEY = TF_ACCESS
+  S3_SECRET_KEY = TF_SECRET
+```
+---
 ## Pre steps - Add variables and secrets to vault:
 Go to Bao server terminal:
 
