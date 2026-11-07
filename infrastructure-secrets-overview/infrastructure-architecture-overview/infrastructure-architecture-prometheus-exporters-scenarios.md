@@ -58,6 +58,8 @@ node_exporter:  Prometheus ──HTTP──► Ubuntu server :9100/metrics
 ```
 The only ```node_exporter``` pods you’ll see in your cluster are the DaemonSet from kube-prometheus-stack. They monitor the MicroK8s node itself, not your other Ubuntu servers.
 
+
+
 ```
 ┌─────────────────────┐                  ┌──────────────────────────────┐
 │ Prometheus          │  HTTP GET        │ Ubuntu server 10.0.0.60      │
@@ -113,6 +115,8 @@ SNMP:           Prometheus ──HTTP──► snmp_exporter pod :9116/snmp?targ
                                          ▼
                                        device
 ```
+
+
 
 ```
 ┌──────────────┐ HTTP GET                    ┌──────────────────────────┐
