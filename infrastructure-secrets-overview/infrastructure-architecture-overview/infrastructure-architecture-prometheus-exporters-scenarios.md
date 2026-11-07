@@ -47,6 +47,26 @@ Three patterns for "something on the other end":
 
 ## 1. node_exporter: agent on the server
 
+node_exporter
+
+No pod is needed for an Ubuntu server. node_exporter is a small program you install on the server and run as a systemd service.
+It’s that program, not Ubuntu itself, that publishes the data at http://<server-ip>:9100/metrics. Note the port, 9100, and /metrics with an s.
+Prometheus scrapes it directly, with no middleman.
+
+SNMP
+
+The device only answers SNMP queries on UDP 161, in SNMP’s own format (values identified by OIDs, described by MIB files). It publishes no HTTP endpoint.
+The snmp_exporter pod queries the device, translates the OIDs into named Prometheus metrics (ifHCInOctets, and so on), and serves them over HTTP.
+The URL belongs to the exporter pod, not the device: http://snmp-exporter...:9116/snmp?target=<device-ip>&module=.... Prometheus never contacts the device directly.
+node_exporter:  Prometheus ──HTTP──► Ubuntu server :9100/metrics
+
+SNMP:           Prometheus ──HTTP──► snmp_exporter pod :9116/snmp?target=<device>
+                                         │ SNMP over UDP 161
+                                         ▼
+                                       device
+
+The only node_exporter pods you’ll see in your cluster are the DaemonSet from kube-prometheus-stack. They monitor the MicroK8s node itself, not your other Ubuntu servers.
+
 ```
 ┌─────────────────────┐                  ┌──────────────────────────────┐
 │ Prometheus          │  HTTP GET        │ Ubuntu server 10.0.0.60      │
