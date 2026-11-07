@@ -53,17 +53,8 @@ Three patterns for "something on the other end":
 * It’s that program, not Ubuntu itself, that publishes the data at ```http://<server-ip>:9100/metrics```. Note the ```port```, ```9100```, and ```/metrics```
 * Prometheus scrapes it directly, with no middleman.
 
-### SNMP
-
-* The device only answers SNMP queries on UDP 161, in SNMP’s own format (values identified by OIDs, described by MIB files). It publishes no HTTP endpoint.
-* The ```snmp_exporter``` pod queries the device, translates the OIDs into named Prometheus metrics (```ifHCInOctets```, and so on), and serves them over HTTP.
-* The URL belongs to the exporter pod, not the device: ```http://snmp-exporter...:9116/snmp?target=<device-ip>&module=....``` Prometheus never contacts the device directly.
-node_exporter:  Prometheus ──HTTP──► Ubuntu server :9100/metrics
 ```
-SNMP:           Prometheus ──HTTP──► snmp_exporter pod :9116/snmp?target=<device>
-                                         │ SNMP over UDP 161
-                                         ▼
-                                       device
+node_exporter:  Prometheus ──HTTP──► Ubuntu server :9100/metrics
 ```
 The only ```node_exporter``` pods you’ll see in your cluster are the DaemonSet from kube-prometheus-stack. They monitor the MicroK8s node itself, not your other Ubuntu servers.
 
@@ -110,6 +101,18 @@ spec:
 ---
 
 ## 2. snmp_exporter: proxy pod for devices
+
+### SNMP
+
+* The device only answers SNMP queries on UDP 161, in SNMP’s own format (values identified by OIDs, described by MIB files). It publishes no HTTP endpoint.
+* The ```snmp_exporter``` pod queries the device, translates the OIDs into named Prometheus metrics (```ifHCInOctets```, and so on), and serves them over HTTP.
+* The URL belongs to the exporter pod, not the device: ```http://snmp-exporter...:9116/snmp?target=<device-ip>&module=....``` Prometheus never contacts the device directly.
+```
+SNMP:           Prometheus ──HTTP──► snmp_exporter pod :9116/snmp?target=<device>
+                                         │ SNMP over UDP 161
+                                         ▼
+                                       device
+```
 
 ```
 ┌──────────────┐ HTTP GET                    ┌──────────────────────────┐
