@@ -21,7 +21,7 @@ echo $?      # 1, nothing listening
 * **0** means success  
 * **non-zero** means failure
 
-### **`[` is the same, but its “success” means the comparison was true**
+## `[` is the same, but its “success” means the comparison was true
 
 `[` does the comparison itself, then exits with a code based on the result:
 
@@ -59,11 +59,11 @@ bash
 
 ## && and \|\|
 
-* ### `&&`: run the next command only if the previous one **succeeded** (exit 0\)
+* `&&`: run the next command only if the previous one **succeeded** (exit 0\)
 
-* ### `||`: run the next command only if the previous one **failed** (non-zero)
+* `||`: run the next command only if the previous one **failed** (non-zero)
 
-### 
+
 
 ## Operators
 
