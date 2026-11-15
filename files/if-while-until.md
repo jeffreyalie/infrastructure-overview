@@ -5,7 +5,7 @@ Table of content
 * [Commands exit code](#every-command-gives-an-exit-code)
 * [about [...]](#-is-the-same-but-its-success-means-the-comparison-was-true)
 * [Operators and [...]](#operators-and---)
-* [$?](#-1)
+* [$?](#about-)
 * ['&& and ||'](#-and-)
 * [Operators](#operators)
 * [Wile / Until](#while---until-loops)
@@ -67,7 +67,7 @@ bash
 [ -f /etc/hosts ]   # file test
 ```
 
-## \$?
+## About $?
 
 `$?` holds the exit code of the last command. If nothing is listening, it prints `1`. If something is listening, it prints `0`.
 
