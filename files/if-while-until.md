@@ -7,6 +7,9 @@ Table of content
 * [Operators and [...]](#operators-and---)
 * [$?](#-1)
 * ['&& and ||'](#-and-)
+* [Operators](#operators)
+* [Wile / Until](#while---until-loops)
+* [If else](#if--else)
 
 
 ## Every command gives an exit code
