@@ -1,3 +1,14 @@
+# if else wile until
+
+Table of content
+
+* [Commands exit code](#every-command-gives-an-exit-code)
+* [about [...]](#-is-the-same-but-its-success-means-the-comparison-was-true)
+* [Operators and [...]](#operators-and---)
+* [$?](#-1)
+* ['&& and ||'](#-and-)
+
+
 ## Every command gives an exit code
 
 Whenever a command finishes, it returns a number (0 to 255\) to the shell. That includes `ping`, `nc`, `ls`, `grep`, `cp`, and `[`.
