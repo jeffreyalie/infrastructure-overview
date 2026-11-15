@@ -10,6 +10,7 @@ Table of content
 * [Operators](#operators)
 * [Wile / Until](#while---until-loops)
 * [If else](#if--else)
+* [sleep, break, continue, exit, return](#sleep-break-continue-exit-return)
 
 
 ## Every command gives an exit code
@@ -204,4 +205,13 @@ else
     echo "more than 5"
 fi
 ```
+## sleep, break, continue, exit, return
 
+| Command |	Effect | Script continues after? |
+| :---- | :---- | :----|
+| sleep 2 | wait 2 seconds | yes, the next line runs |
+| continue | skip the rest of the body, go to the next iteration | yes, stays in the loop |
+| break | leave the loop | yes, runs the code after done |
+| exit 1 |	stop the entire script with a failure code | no |
+| exit 0 |	stop the entire script with a success code | no |
+| return 1 |	leave a function with a failure code |	yes, back in the caller |
