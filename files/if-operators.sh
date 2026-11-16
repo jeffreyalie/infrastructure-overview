@@ -7,12 +7,11 @@
 
 
 if [ -f "j.sh" ]; then
-    :
+    echo "j.sh file found. Proceeding with initialization."
 else
     echo "Error: j.sh file not found"
     exit 1
 fi
-echo "j.sh file found. Proceeding with initialization."
 
 # if [ ! -f "j.sh" ]; then
 #     echo "Error: j.sh file not found"
