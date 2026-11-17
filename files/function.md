@@ -24,6 +24,7 @@ else
     echo "file not found"
 fi
 ```
+Input arguments
 ---
 ```bash
 file_exists() {
@@ -37,4 +38,13 @@ fi
 if file_exists j.sh; then
     echo "j.sh found"
 fi
+```
+```bash
+copy_file() {
+    local source="$1"
+    local target="$2"
+    cp "$source" "$target"
+}
+
+copy_file "$src" "$dest"
 ```
