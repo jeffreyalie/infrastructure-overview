@@ -4,8 +4,6 @@
 .PHONY: help add commit push all
 .DEFAULT_GOAL := help
 
-MSG ?= update
-
 # Default target
 help:
 	@echo "Available targets:"
@@ -22,8 +20,10 @@ add:
 
 commit:
 	@echo "Committing changes to git repository..."
-	git commit -m "$(MSG)"
-
+	fun1 ()	{
+		git commit -m "$(1)" || echo "No changes to commit."
+	}
+	fun1
 
 push:
 	@echo "Pushing changes to remote repository..."
