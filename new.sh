@@ -1,16 +1,8 @@
 #!/bin/sh
-#-------------------------------
-# Ask for environment
-#---------------------------
-# echo "Select environment:"
-# echo "add"
-# echo "commit"
-# echo "push"
-# echo "all"
 
-#-----------------------
-# Case scenario
-#---------------------------
+#-------------------------------
+# Script to run git commands
+#-------------------------------
 run() {
     local choice="$1"
     local commit_msg="$2"
