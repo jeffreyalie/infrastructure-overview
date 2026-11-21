@@ -26,7 +26,9 @@ case $choice in
         ;;
     commit)
         if [ -z "$commit_msg" ]; then
-            read -p "Enter commit message: " commit_msg
+            echo "Enter commit <message>"
+            exit 1
+        else
         git commit -m "$commit_msg" || echo "No changes to commit."
         MSG="Committed"
         fi
