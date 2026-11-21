@@ -24,16 +24,14 @@ case $choice in
         ;;
     push)
         git push origin main && git push github main
-        MSG= "pushed"
+        MSG="pushed"
         ;;
     all)
         git add .
-        func () {
-            git commit -m "$1" || echo "No changes to commit."
-        }
-        func
+        read -p "Enter commit message: " commit_msg
+        git commit -m "$commit_msg" || echo "No changes to commit."
         git push origin main && git push github main
-        MSG="all"
+        MSG="all done"
         ;;
     *)
         echo "Invalid choice. Exiting."
