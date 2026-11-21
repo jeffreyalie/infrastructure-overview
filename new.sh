@@ -21,27 +21,18 @@ run() {
     else
 case $choice in
     add)
-        git add . 
-        MSG="added"
+        git add . && MSG="added" || echo "error."
         ;;
     commit)
         if [ -z "$commit_msg" ]; then
             echo "Enter commit <message>"
             exit 1
         else
-        git commit -m "$commit_msg" || echo "No changes to commit."
-        MSG="Committed"
+        git commit -m "$commit_msg" || echo "No changes to commit." &&  MSG="Committed" || echo "error."
         fi
         ;;
     push)
-        git push origin main && git push github main
-        MSG="pushed"
-        ;;
-    all)
-        git add .
-        git commit -m "$commit_msg" || echo "No changes to commit."
-        git push origin main && git push github main
-        MSG="all done"
+        git push origin main && git push github main  && MSG="pushed" || echo "error."
         ;;
     *)
         echo "Invalid choice. Exiting."
