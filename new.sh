@@ -14,14 +14,22 @@
 run() {
     local choice="$1"
     local commit_msg="$2"
+    if [ -z "$choice" ]; then
+        echo "Usage"
+        echo "Enter choice (add, commit <message>, push, all)"
+        exit 1
+    else
 case $choice in
     add)
         git add . 
         MSG="added"
         ;;
     commit)
+        if [ -z "$commit_msg" ]; then
+            read -p "Enter commit message: " commit_msg
         git commit -m "$commit_msg" || echo "No changes to commit."
         MSG="Committed"
+        fi
         ;;
     push)
         git push origin main && git push github main
@@ -38,6 +46,7 @@ case $choice in
         exit 1
         ;;
 esac
+fi
 }
 run "$1" "$2"
 echo "$MSG"
