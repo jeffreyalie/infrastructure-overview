@@ -2,12 +2,23 @@
 
 This guide explains three ways to get `index.html` (or other application files and directories) into a Docker container:
 
+0. **Direct command** - run docker directly
 1. **Dockerfile `COPY`** — package files into the Docker image.
 2. **Docker Compose bind mounts (`volumes`)** — make host files/directories available inside the container.
 3. **`docker cp`** — manually copy files between the host and an existing container.
 
 ---
 
+## 0. Run direct via command
+
+```bash
+docker run -d \
+  --name nginx \
+  --restart unless-stopped \
+  -p 8080:80 \
+  nginx
+  ```
+  
 ## 1. Dockerfile `COPY` — Build files into the image
 
 **Best suited to:** repeatable builds and CI/CD deployments.
