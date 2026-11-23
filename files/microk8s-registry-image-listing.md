@@ -106,6 +106,15 @@ latest
 registry. Use the Registry API endpoints above to inspect the registry
 contents.
 
+## 5. Check your Kubernetes Deployments
+You can list all deployed container images:
+```bash
+kubectl get deployments -A \
+  -o custom-columns='NAMESPACE:.metadata.namespace,DEPLOYMENT:.metadata.name,IMAGES:.spec.template.spec.containers[*].image'
+```
+
+This helps identify which deployments reference your registry images.
+
 ## Notes
 
 -   Replace `10.206.213.243:32000` if your registry endpoint changes.

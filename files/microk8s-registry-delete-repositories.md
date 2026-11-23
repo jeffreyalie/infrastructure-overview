@@ -66,6 +66,16 @@ done
 echo "Finished."
 
 ```
+## Check your Kubernetes Deployments
+You can list all deployed container images:
+```bash
+kubectl get deployments -A \
+  -o custom-columns='NAMESPACE:.metadata.namespace,DEPLOYMENT:.metadata.name,IMAGES:.spec.template.spec.containers[*].image'
+```
+## Get the list also
+```bash
+curl -s http://10.206.213.243:32000/v2/kubernetes-app-nginx/tags/list | jq
+```
 
 ## How to use it
 | Setting | Behavior |
