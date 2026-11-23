@@ -1,3 +1,13 @@
+
+kubernetes-app - docker images, GHA deployment, Local deployment
+
+kubernetes-grafana - kubeneres resources -GHA deployment, Local deployment
+
+vm-deployment - terraform, ansible, GHA deployment, Local deployment
+
+
+
+
 local-workflows-ansible-roles-no-modules (full repo)
 local-workflows-ansible-roles-modules (full repo)
 
