@@ -112,6 +112,17 @@ You can list all deployed container images:
 kubectl get deployments -A \
   -o custom-columns='NAMESPACE:.metadata.namespace,DEPLOYMENT:.metadata.name,IMAGES:.spec.template.spec.containers[*].image'
 ```
+## 6. Check PODs 
+```bash
+kubectl get pods -A -o json | jq -r '
+.items[] |
+.metadata.namespace as $ns |
+.metadata.name as $pod |
+.status.containerStatuses[]? |
+[$ns, $pod, .image, .imageID] |
+@tsv
+'
+```
 
 This helps identify which deployments reference your registry images.
 
