@@ -126,17 +126,6 @@ kubectl get deployments -A -o json | jq -r '
       | if test("@") or test(":[^/]*$") then . else . + ":latest" end) as $img
   | "\($img)\t\($d.metadata.namespace)/\($d.metadata.name)"' | sort -u > /tmp/deploy_images.tsv
 
-# {
-#   echo -e "REPOSITORY\tTAG\tDEPLOYMENT\tPOD"
-#   for repo in $(curl -s "http://$REG/v2/_catalog?n=1000" | jq -r '.repositories[]'); do
-#     for tag in $(curl -s "http://$REG/v2/$repo/tags/list" | jq -r '.tags[]?'); do
-#       deps=$(awk -F'\t' -v k="$repo:$tag" '$1==k {print $2}' /tmp/deploy_images.tsv | paste -sd, -)
-#       pods=$(awk -F'\t' -v k="$repo:$tag" '$1==k {print $2}' /tmp/pod_images.tsv | paste -sd, -)
-#       echo -e "$repo\t$tag\t${deps:-none}\t${pods:-none}"
-#     done | sort
-#   done
-# } | column -t -s$'\t'
-
 {
   echo -e "DEPLOYMENT\tREPOSITORY\tTAG\tPOD"
   for repo in $(curl -s "http://$REG/v2/_catalog?n=1000" | jq -r '.repositories[]'); do
@@ -166,34 +155,34 @@ kubectl get deployments -A -o json | jq -r '
     done
   done
 } | column -t -s$'\t'
+```
 
 
 
+## check repository, tags and pods
+```bash
+#!/usr/bin/env bash
+# registry-pods.sh: repository, tag, pod
+NODE="${NODE:-10.206.213.243}"
+REG="$NODE:32000"
 
+# Pods using images from this registry: "repo:tag<TAB>pod" (init containers included)
+# The registry prefix (localhost:32000, node IP, etc.) is stripped; untagged -> :latest
+kubectl get pods -A -o json | jq -r '
+  .items[] | . as $p
+  | (.spec.initContainers[]?, .spec.containers[]?)
+  | select(.image | test(":32000/"))
+  | (.image | sub("^[^/]*:32000/"; "")
+      | if test("@") or test(":[^/]*$") then . else . + ":latest" end) as $img
+  | "\($img)\t\($p.metadata.name)"' | sort -u > /tmp/pod_images.tsv
 
-
-# #!/usr/bin/env bash
-# # registry-pods.sh: repository, tag, pod
-# NODE="${NODE:-10.206.213.243}"
-# REG="$NODE:32000"
-#
-# # Pods using images from this registry: "repo:tag<TAB>pod" (init containers included)
-# # The registry prefix (localhost:32000, node IP, etc.) is stripped; untagged -> :latest
-# kubectl get pods -A -o json | jq -r '
-#   .items[] | . as $p
-#   | (.spec.initContainers[]?, .spec.containers[]?)
-#   | select(.image | test(":32000/"))
-#   | (.image | sub("^[^/]*:32000/"; "")
-#       | if test("@") or test(":[^/]*$") then . else . + ":latest" end) as $img
-#   | "\($img)\t\($p.metadata.name)"' | sort -u > /tmp/pod_images.tsv
-#
-# {
-#   echo -e "REPOSITORY\tTAG\tPOD"
-#   for repo in $(curl -s "http://$REG/v2/_catalog?n=1000" | jq -r '.repositories[]'); do
-#     for tag in $(curl -s "http://$REG/v2/$repo/tags/list" | jq -r '.tags[]?'); do
-#       pods=$(awk -F'\t' -v k="$repo:$tag" '$1==k {print $2}' /tmp/pod_images.tsv | paste -sd, -)
-#       echo -e "$repo\t$tag\t${pods:-none}"
-#     done | sort
-#   done
-# } | column -t -s$'\t'
+{
+  echo -e "REPOSITORY\tTAG\tPOD"
+  for repo in $(curl -s "http://$REG/v2/_catalog?n=1000" | jq -r '.repositories[]'); do
+    for tag in $(curl -s "http://$REG/v2/$repo/tags/list" | jq -r '.tags[]?'); do
+      pods=$(awk -F'\t' -v k="$repo:$tag" '$1==k {print $2}' /tmp/pod_images.tsv | paste -sd, -)
+      echo -e "$repo\t$tag\t${pods:-none}"
+    done | sort
+  done
+} | column -t -s$'\t'
 ```
