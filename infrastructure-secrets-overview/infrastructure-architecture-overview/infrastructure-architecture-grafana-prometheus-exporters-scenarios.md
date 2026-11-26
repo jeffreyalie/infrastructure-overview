@@ -1,4 +1,4 @@
-# Prometheus Exporter Scenarios
+# Grafana - Prometheus Exporter Scenarios
 
 How Prometheus collects metrics from different kinds of targets: `node_exporter`, `snmp_exporter`, `mysqld_exporter`, `postgres_exporter`, LXD and the Go app.
 
