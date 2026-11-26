@@ -93,8 +93,11 @@ Repository: grafan-lxd-monitoring
 latest
 ------------------------
 ```
-
-## 4. Understand the difference
+## 4. Clean garbage
+```bash
+kubectl -n container-registry exec deploy/registry --   registry garbage-collect /etc/docker/registry/config.yml --delete-untagged
+```
+## 5. Understand the difference
 
   Command or endpoint                What it lists
   ---------------------------------- --------------------------------------------
