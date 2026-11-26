@@ -298,3 +298,24 @@ Credentials always go to the exporter, never to Prometheus:
 | `/1.0/metrics` | LXD (API version prefix) | No | Yes, `/1.0/metrics` |
 
 `snmp_exporter` also serves `/metrics`, but that only shows the exporter's own health. Forgetting `metricsPath: /snmp` leaves the target UP with no device data.
+
+**Standart formaT**
+
+Yes. Prometheus is a **pull** system with one fixed contract: the target must answer an HTTP GET with metrics in the Prometheus text format (or the OpenMetrics format, a close relative). ScrapeConfig and ServiceMonitor only decide **where to send that GET. Neither one translates anything**.
+
+What the format looks like
+```bash
+# HELP lxd_procs_total Number of processes
+# TYPE lxd_procs_total gauge
+lxd_procs_total{name="vm1",project="default"} 42
+```
+Each line is a metric name, optional labels, and a value. If the endpoint returns JSON, HTML, or anything else, the scrape fails and the target shows as DOWN.
+
+Who makes the data follow the format
+
+| Source | Who produces the format |
+| ------ | ----------------------- |
+| LXD /1.0/metrics | LXD itself |
+| node_exporter | The exporter |
+| snmp_exporter, mysqld_exporter | The exporter translates SNMP or SQL results |
+| Your Go app | client_golang and promhttp |
